@@ -1,15 +1,21 @@
 @import "tailwindcss";
 
 :root {
+  --accent: #0cce7d;
   --background: #ffffff;
   --background-secondary: #f7f7f7;
+  --backdround-tertiary: #eaeaea;
+  --background-gradient: linear-gradient(90deg, #0cce7d, #a80404);
   --foreground: #1b1b1b;
   --border: #e7e7e7;
 }
 
 @theme inline {
+  --color-accent: var(--accent);
   --color-background: var(--background);
   --color-background-secondary: var(--background-secondary);
+  --color-background-tertiary: var(--backdround-tertiary);
+  --color-background-gradient: var(--background-gradient);
   --color-foreground: var(--foreground);
   --color-border: var(--border);
   --font-sans: var(--font-geist-sans);

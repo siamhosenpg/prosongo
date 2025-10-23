@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationData } from "./navigationdata";
 
 import { FaCaretDown } from "react-icons/fa";
-import Searchboxnav from "./Searchboxnav";
+import Searchboxnav from "../../ui/Searchboxnav";
 
 const Nav = () => {
   return (

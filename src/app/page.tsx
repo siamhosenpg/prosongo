@@ -1,7 +1,7 @@
-import Feed from "@/components/ui/feed/Feed";
-import Nav from "@/components/ui/navigation/Nav";
-import Storyitems from "@/components/ui/storyitems/Storyitems";
-import UploadBox from "@/components/ui/uploadbox/UploadBox";
+import Feed from "@/components/layouts/feed/Feed";
+import Nav from "@/components/layouts/navigation/Nav";
+import Storyitems from "@/components/layouts/storyitems/Storyitems";
+import UploadBox from "@/components/layouts/uploadbox/UploadBox";
 import Image from "next/image";
 
 export default function Home() {

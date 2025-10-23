@@ -1,4 +1,4 @@
-import Postbox from "@/components/interactive/card/Postcard";
+import Postbox from "@/components/ui/card/Postcard";
 import React from "react";
 
 const Feed = () => {

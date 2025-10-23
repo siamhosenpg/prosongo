@@ -1,4 +1,4 @@
-import StoryCard from "@/components/interactive/storycard/StoryCard";
+import StoryCard from "@/components/ui/storycard/StoryCard";
 import React from "react";
 
 const Storyitems = () => {
