@@ -24,7 +24,7 @@ const Postbox = ({}) => {
             <img
               loading="lazy"
               className=" block w-full  h-full object-cover   "
-              src="" // Placeholder profile image
+              src="/images/profile.jpg" // Placeholder profile image
               alt=""
             />
           </div>
@@ -64,7 +64,7 @@ const Postbox = ({}) => {
         <img
           loading="lazy"
           className=" rounded-none sm:rounded-lg mt-2 w-full h-auto min-h-[200px] min-w-[100px] bg-gray-100 max-h-[700px]"
-          src="" // Media URL from post data
+          src="/images/profile.jpg" // Media URL from post data
         />
       </div>
 
@@ -125,7 +125,7 @@ const Postbox = ({}) => {
         </div>
       </div>
 
-      <div className=" px-4 sm:px-6">
+      <div className=" px-4 sm:px-6 hidden">
         {/* Input for adding a comment */}
         <div className="CommentsInput flex gap-3 mt-2 sm:mt-3 items-center  ">
           <img

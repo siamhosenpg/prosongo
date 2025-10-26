@@ -11,7 +11,7 @@ const UploadBox = ({}) => {
         <div className="image w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full overflow-hidden border-1 border-border">
           <img
             loading="lazy"
-            src=""
+            src="/images/profile.jpg"
             className="w-full h-full object-cover"
             alt=""
           />

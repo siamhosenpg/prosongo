@@ -35,7 +35,7 @@ const Nav = () => {
             <div className="image">
               <img
                 className="w-[34px] border border-border h-[34px] rounded-full bg-blue-50"
-                src="/post/5.jpg"
+                src="/images/profile.jpg"
                 alt=""
               />
             </div>
