@@ -56,7 +56,8 @@ const Postbox = ({}) => {
       {/* Post text content */}
       <div className="posttext text-sm font-medium text-secondary mt-4 px-4 sm:px-6">
         This is a sample post description. It can be of any length and may
-        include various details about the post.
+        include various details about the post. So we ar proud to share it with
+        you all.
       </div>
 
       {/* Post media (image) */}
