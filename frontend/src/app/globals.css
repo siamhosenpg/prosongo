@@ -2,12 +2,14 @@
 
 :root {
   --accent: #00914d;
+  --accent-secondary: #00d672;
+  --accent-transprant: #09330946;
   --text: #1b1b1b;
   --text-secondary: #3a3a3a;
   --text-therdiary: #6e6e6e;
   --background: #ffffff;
   --background-secondary: #f7f7f7;
-  --backdround-tertiary: #dddddd;
+  --background-tertiary: #dddddd;
   --background-gradient: linear-gradient(90deg, #0cce7d, #a80404);
   --foreground: #1b1b1b;
   --border: #e7e7e7;
@@ -15,25 +17,19 @@
 
 @theme inline {
   --color-accent: var(--accent);
+  --color-accent-transprant: var(--accent-transprant);
   --color-text: var(--text);
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-therdiary);
   --color-background: var(--background);
   --color-background-secondary: var(--background-secondary);
-  --color-background-tertiary: var(--backdround-tertiary);
+  --color-background-tertiary: var(--background-tertiary);
   --color-background-gradient: var(--background-gradient);
   --color-foreground: var(--foreground);
   --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
 
 body {
   background: var(--background-secondary);
@@ -132,4 +128,15 @@ a {
 /* optional: hover effect for better affordance */
 .ScrollSystem::-webkit-scrollbar-thumb:hover {
   background: #c0c0c0; /* slightly darker on hover */
+}
+
+.ScrollbarHide::-webkit-scrollbar {
+  display: none;
+}
+.ScrollbarHide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.ScrollbarHide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

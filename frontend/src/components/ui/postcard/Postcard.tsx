@@ -9,8 +9,11 @@ import { MdOutlinePublic } from "react-icons/md"; // Icon for public visibility
 import { MdOutlineLocationOn } from "react-icons/md"; // Icon for location
 import { FaRegComments } from "react-icons/fa"; // Icon for comments (not used here)
 import { RiShareForwardLine } from "react-icons/ri"; // Icon for share (not used here)
+import { FcLike } from "react-icons/fc"; // Icon for colored like (not used here)
 import Link from "next/link";
 import PostCardButtons from "./PostCardButtons";
+import DialogueBox from "../dialogueBox/DialogueBox";
+import ThreeDotIconbutton from "../buttons/ThreeDotIconbutton";
 
 const Postbox = ({}) => {
   // Accessing post data from PostContext
@@ -21,14 +24,17 @@ const Postbox = ({}) => {
     <li className="bg-background rounded-none sm:rounded-lg list-none  py-2 sm:py-3 pt-4 sm:pt-5 mb-2 sm:mb-4">
       <div className="flex items-center px-4 sm:px-6 justify-between ">
         <div className="left   flex items-center justify-start gap-2 overflow-hidden">
-          <div className="w-10 h-10 bg-gray-300 sm:w-12 sm:h-12 border-border border shrink-0  rounded-full overflow-hidden ">
+          <Link
+            href="/profile"
+            className="w-10 h-10 bg-gray-300 sm:w-12 sm:h-12 border-border border shrink-0  rounded-full overflow-hidden "
+          >
             <img
               loading="lazy"
               className=" block w-full  h-full object-cover   "
               src="/images/profile.jpg" // Placeholder profile image
               alt=""
             />
-          </div>
+          </Link>
           <div className="text">
             <div className="flex gap-2  items-center">
               <div className="font-semibold block text-primary whitespace-nowrap overflow-hidden text-ellipsis">
@@ -48,10 +54,7 @@ const Postbox = ({}) => {
             </span>
           </div>
         </div>
-        <button>
-          <BsThreeDotsVertical className="text-xl text-secondary" />
-          {/* Menu button */}
-        </button>
+        <ThreeDotIconbutton />
       </div>
 
       {/* Post text content */}
@@ -93,7 +96,10 @@ const Postbox = ({}) => {
       <div className="  ">
         <div className="px-4 sm:px-6 py-3 text-sm border-b border-border flex items-center justify-start gap-3">
           <div className=" flex items-center gap-1">
-            <AiFillLike className=" text-lg text-accent" />
+            <div className="flex items-center ]">
+              <FcLike className=" text-xl  bg-background p-[2px] rounded-full  relative z-40" />
+              <AiFillLike className=" text-xl text-accent bg-background p-[2px] rounded-full ml-[-3px] relative z-30" />
+            </div>
             <span className="block smalltext text-secondary">
               <span className="text-primary font-semibold"> 256</span> Reacts
             </span>
@@ -144,7 +150,7 @@ const Postbox = ({}) => {
               <div className="image w-8 h-8 shink">
                 <img
                   loading="lazy"
-                  src="" // Placeholder profile image
+                  src="/images/profile.jpg" // Placeholder profile image
                   className=" bg-blue-50 w-full h-full rounded-full"
                   alt=""
                 />
