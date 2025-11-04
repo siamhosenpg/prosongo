@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 import postSchema from "../models/postmodel.js";
 
-import UserSchema from "../models/usermodel.js";
-
-const User = mongoose.model("User", UserSchema);
 const Post = mongoose.model("Post", postSchema);
 
 // 🟢 Get all posts with user info
@@ -23,7 +20,7 @@ export const getPosts = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     const post = await Post.findOne({ postid: req.params.postid })
-      .populate("userid", "fname lname profileImage") // populate
+      .populate("userid", "fname lname profileImage ") // populate
       .exec();
 
     if (!post) return res.status(404).json({ message: "Post not found" });

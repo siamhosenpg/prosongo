@@ -3,9 +3,7 @@ import mongoose from "mongoose";
 const postSchema = new mongoose.Schema(
   {
     postid: {
-      type: mongoose.Schema.Types.ObjectId,
-      require: true,
-      ref: "Post",
+      type: Number,
     },
     userid: {
       type: mongoose.Schema.Types.ObjectId,

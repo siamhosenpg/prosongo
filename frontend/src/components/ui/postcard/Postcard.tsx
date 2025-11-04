@@ -23,7 +23,6 @@ interface PostboxProps {
 const Postbox: React.FC<PostboxProps> = ({ post }) => {
   // Accessing post data from PostContext
   // Accessing user data from UserContext
-  // Accessing user data from UserContext
 
   return (
     <li className="bg-background rounded-none sm:rounded-lg list-none  py-2 sm:py-3 pt-4 sm:pt-5 mb-2 sm:mb-4">
@@ -36,14 +35,14 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
             <img
               loading="lazy"
               className=" block w-full  h-full object-cover   "
-              src="/images/profile.jpg" // Placeholder profile image
+              src={post.userid.profileImage} // Placeholder profile image
               alt=""
             />
           </Link>
           <div className="text">
             <div className="flex gap-2  items-center">
               <div className="font-semibold block text-primary whitespace-nowrap overflow-hidden text-ellipsis">
-                Siam Hossen {post.postid}
+                {post.userid.fname} {post.userid.lname}
               </div>{" "}
               {/* Hardcoded user name */}
               <span className="text-sm flex items-center w-fit text-gray-600">
