@@ -15,6 +15,8 @@ import PostCardButtons from "./PostCardButtons";
 import DialogueBox from "../dialogueBox/DialogueBox";
 import ThreeDotIconbutton from "../buttons/ThreeDotIconbutton";
 import { PostTypes } from "@/types/postType";
+import PostcardMedia from "./PostcardMedia";
+import PostcardVideo from "./PostcardVideo";
 
 interface PostboxProps {
   post: PostTypes;
@@ -67,32 +69,10 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
         {post.content.caption}
       </p>
 
-      {/* Post media (image) */}
-      <Link
-        href="/post"
-        className=" media block w-full px-0 sm:px-6 h-auto overflow-hidden"
-      >
-        <img
-          loading="lazy"
-          className=" rounded-none sm:rounded-lg mt-2 w-full h-auto min-h-[200px] min-w-[100px] bg-gray-100 max-h-[700px]"
-          src="/images/profile.jpg" // Media URL from post data
-        />
-      </Link>
-      {/* Post media (video) */}
-      <Link
-        href="/post"
-        className="media hidden w-full px-0 sm:px-6 h-auto overflow-hidden"
-      >
-        <video
-          controls
-          preload="metadata"
-          autoPlay={true}
-          muted
-          playsInline
-          className=" rounded-none sm:rounded-lg mt-2 w-full h-auto min-h-[200px] min-w-[100px] bg-gray-100 max-h-[700px]"
-          src="/videos/vd.mp4" // Media URL from post data
-        />
-      </Link>
+      {/* Media Section */}
+      <div>
+        <PostcardVideo />
+      </div>
 
       {/* Engagement section (likes, comments, shares) */}
 

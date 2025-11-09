@@ -36,7 +36,7 @@ export const NavigationData: NavItem[] = [
     activeIcon: RiFileVideoFill,
   },
   {
-    name: "Explore",
+    name: "Discover",
     href: "/explore",
     icon: MdOutlineExplore,
     activeIcon: MdExplore,
