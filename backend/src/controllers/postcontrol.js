@@ -7,7 +7,7 @@ const Post = mongoose.model("Post", postSchema);
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("userid", "fname lname profileImage") // userid কে populate করছো, শুধু name এবং profileImage আনবে
+      .populate("userid", "name userid profileImage") // userid কে populate করছো, শুধু name এবং profileImage আনবে
       .exec();
 
     res.json(posts);
@@ -20,7 +20,7 @@ export const getPosts = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     const post = await Post.findOne({ postid: req.params.postid })
-      .populate("userid", "fname lname profileImage ") // populate
+      .populate("userid", "name userid profileImage ") // populate
       .exec();
 
     if (!post) return res.status(404).json({ message: "Post not found" });

@@ -59,13 +59,14 @@ const UserSchema = new Schema(
   {
     userid: { type: Number },
     username: { type: String, required: true, unique: true, trim: true },
-    fname: { type: String, required: true, trim: true },
-    lname: { type: String, required: true, trim: true },
+    name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
     profileImage: { type: String, default: "" },
     coverImage: { type: String, default: "" },
     bio: { type: String, trim: true, maxlength: 300 },
+    work: { type: String },
+    aboutText: { type: String },
     gender: {
       type: String,
       enum: ["male", "female", "other"],
@@ -75,11 +76,6 @@ const UserSchema = new Schema(
     location: { type: String, trim: true },
     website: { type: String, trim: true },
     phone: { type: String, trim: true },
-
-    followers: [{ type: Number }],
-    following: [{ type: Number }],
-    posts: [{ type: Number }],
-    savedPosts: [{ type: Number }],
     blockedUsers: [{ type: Number }],
 
     accountType: {

@@ -5,8 +5,6 @@ import {
   createUser,
   updateUser,
   deleteUser,
-  followUser,
-  unfollowUser,
 } from "../controllers/usercontrol.js";
 
 const router = express.Router();
@@ -16,7 +14,5 @@ router.get("/:userid", getUserById); // ✅ নির্দিষ্ট ইউ�
 router.post("/", createUser); // ✅ নতুন ইউজার তৈরি করবে
 router.put("/:userid", updateUser); // ✅ ইউজার তথ্য আপডেট করবে
 router.delete("/:userid", deleteUser); // ✅ ইউজার ডিলিট করবে
-router.post("/:userid/follow", followUser); // ✅ ইউজার ফলো করা
-router.post("/:userid/unfollow", unfollowUser); // ✅ ইউজার আনফলো করা
 
 export default router;

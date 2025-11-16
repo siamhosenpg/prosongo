@@ -13,16 +13,12 @@ const postSchema = new mongoose.Schema(
 
     content: {
       caption: { type: String, trim: true },
-      media: [
-        {
-          url: { type: String, required: true },
-          type: {
-            type: String,
-            enum: ["image", "video", "reel"],
-            default: "image",
-          },
-        },
-      ],
+      media: [{ type: String, required: true }],
+      type: {
+        type: String,
+        enum: ["image", "video", "reel"],
+        default: "image",
+      },
       location: { type: String },
       tags: [{ type: String }],
       mentions: [{ type: String }],

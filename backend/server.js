@@ -1,12 +1,15 @@
 // Import dependencies (ESM syntax)
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { PORT } from "./src/config/config.js";
+import { connectDB } from "./src/config/db.js";
+
 // Import routes (must include .js extension)
+import authRoutes from "./src/routes/authRoutes.js";
 import postsRoute from "./src/routes/postsroute.js";
 import usersRoute from "./src/routes/usersroute.js";
 
@@ -21,38 +24,33 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 4000;
 
-// MongoDB URL
-const mongodburl =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/pacezoon";
-
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// MongoDB connection
-mongoose
-  .connect(mongodburl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("✅ Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.error("❌ Error connecting to MongoDB:", err);
-  });
-
 // Use routes
 app.use("/posts", postsRoute);
 app.use("/users", usersRoute);
+app.use("/auth", authRoutes);
 
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`🚀 Server is running on http://localhost:${port}`);
+// example of an optional-auth route
+import { optionalAuth } from "./src/middleware/auth.js";
+app.get("/maybe", optionalAuth, (req, res) => {
+  if (req.user)
+    return res.json({ message: "Hello logged-in user", userId: req.user.id });
+  return res.json({ message: "Hello guest" });
 });
+
+// Start the server
+(async () => {
+  await connectDB();
+  app.listen(PORT, () =>
+    console.log(`Server running http://localhost:${port}`)
+  );
+})();

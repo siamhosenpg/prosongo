@@ -1,39 +1,11 @@
 import FollowButton from "@/components/ui/buttons/FollowButton";
 import React from "react";
 
-const userData = [
-  {
-    name: "Nazirana Nahar",
-    username: "nazirana99",
-    profileimage: "/profile/4.jpg",
-  },
-  {
-    name: "Masud Sowadogor",
-    username: "masudsowadogor",
-    profileimage: "/profile/3.jpg",
-  },
-  {
-    name: "Shium Hossen",
-    username: "shiumhossen99",
-    profileimage: "/profile/2.jpg",
-  },
-  {
-    name: "Arafat Hossen",
-    username: "arafathossen",
-    profileimage: "/profile/1.jpg",
-  },
-  {
-    name: "Rakibul Islam",
-    username: "Rakibul99",
-    profileimage: "/profile/5.jpg",
-  },
-  {
-    name: "Sakib Al Hasan",
-    username: "sakibhasan",
-    profileimage: "/profile/6.jpg",
-  },
-];
-const SuggestAccounts = () => {
+import { getAllUsers } from "@/lib/user/userData";
+import { UserType } from "@/types/userType";
+
+const SuggestAccounts = async () => {
+  const users: UserType[] = await getAllUsers();
   return (
     <div className="Suggested  p-3  bg-background rounded-lg">
       <div className="flex items-center text-primary p-3 justify-between border-b border-border">
@@ -41,8 +13,8 @@ const SuggestAccounts = () => {
         <button className="text-sm text-secondary">See all</button>
       </div>
       <ul className="mt-3">
-        {userData &&
-          userData.map((user, index) => {
+        {users &&
+          users.map((user, index) => {
             return (
               <div
                 key={index}
@@ -50,8 +22,8 @@ const SuggestAccounts = () => {
               >
                 <div className="flex items-center gap-2">
                   <img
-                    className="w-[40px] h-[40px] rounded-full"
-                    src="/images/profile.jpg"
+                    className=" object-cover w-[40px] h-[40px] rounded-full border border-border"
+                    src={user.profileImage}
                     alt=""
                   />
                   <div className="text">

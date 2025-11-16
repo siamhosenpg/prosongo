@@ -100,66 +100,25 @@ export const deleteUser = async (req, res) => {
 };
 
 /**
- * ✅ Follow a user
+ * ✅ Get a single user by username (NOT userid)
  */
-export const followUser = async (req, res) => {
+export const getUserByUsername = async (req, res) => {
   try {
-    const followerId = Number(req.body.followerId); // যে ফলো করবে
-    const followingId = Number(req.params.userid); // যাকে ফলো করা হবে
+    const { username } = req.params;
 
-    if (followerId === followingId)
-      return res.status(400).json({ message: "You can't follow yourself" });
-
-    const follower = await User.findOne({ userid: followerId });
-    const following = await User.findOne({ userid: followingId });
-
-    if (!follower || !following)
-      return res.status(404).json({ message: "User not found" });
-
-    // Already following check
-    if (following.followers.includes(followerId)) {
-      return res.status(400).json({ message: "Already following" });
+    if (!username) {
+      return res.status(400).json({ message: "Username is required" });
     }
 
-    following.followers.push(followerId);
-    follower.following.push(followingId);
+    // Find user by username
+    const user = await User.findOne({ username }).select("-password");
 
-    await following.save();
-    await follower.save();
-
-    res.status(200).json({ message: "User followed successfully" });
-  } catch (err) {
-    res.status(500).json({ message: "Follow failed", error: err.message });
-  }
-};
-
-/**
- * ✅ Unfollow user
- */
-export const unfollowUser = async (req, res) => {
-  try {
-    const followerId = Number(req.body.followerId);
-    const followingId = Number(req.params.userid);
-
-    const follower = await User.findOne({ userid: followerId });
-    const following = await User.findOne({ userid: followingId });
-
-    if (!follower || !following)
+    if (!user) {
       return res.status(404).json({ message: "User not found" });
-
-    // Check if not following
-    if (!following.followers.includes(followerId)) {
-      return res.status(400).json({ message: "Not following" });
     }
 
-    following.followers = following.followers.filter((id) => id !== followerId);
-    follower.following = follower.following.filter((id) => id !== followingId);
-
-    await following.save();
-    await follower.save();
-
-    res.status(200).json({ message: "User unfollowed successfully" });
+    res.status(200).json(user);
   } catch (err) {
-    res.status(500).json({ message: "Unfollow failed", error: err.message });
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };

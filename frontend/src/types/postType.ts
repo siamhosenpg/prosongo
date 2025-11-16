@@ -1,18 +1,14 @@
-interface Media {
-  url: string;
-  type: "image" | "video" | "audio" | string; // media type যদি পরে নতুন type আসে
-}
-
 interface Content {
   caption: string;
-  media: Media[];
+  media: string[];
+  type: "image" | "video" | "audio" | "text" | string; // media type যদি পরে নতুন type আসে
   location?: string;
   tags?: string[];
   mentions?: string[];
 }
 interface Profiledata {
-  fname: string;
-  lname: string;
+  name: string;
+  userid: number;
   profileImage: string;
 }
 

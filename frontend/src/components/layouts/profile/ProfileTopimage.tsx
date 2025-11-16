@@ -4,29 +4,19 @@ import { MdLocationPin } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 import { MdWork } from "react-icons/md";
 import { IoIosAddCircle } from "react-icons/io";
+import { UserType } from "@/types/userType";
 
-const user = {
-  name: "John Doe",
-  username: "johndoe",
-  profileimage: "/images/profile.jpg",
-  coverphoto: "/images/profile.jpg",
-  followers_list: Array(120).fill({}),
-  following_list: Array(80).fill({}),
-  post_id: Array(34).fill({}),
-  work: "Software Engineer at TechCorp",
-  location: "San Francisco, CA",
-  bio: "Passionate developer and tech enthusiast.",
-  abouttext:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.",
-};
+interface ProfileTopimageProps {
+  user: UserType;
+}
 
-const ProfileTopimage = () => {
+const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
   return (
     <div className="bg-background rounded-none lg:rounded-lg mb-4 overflow-hidden w-full pb-8">
       <div className="profiletopimage  overflow-hidden w-full">
         <img
           loading="lazy"
-          src={user?.coverphoto || "/images/profile.jpg"}
+          src={user?.coverImage || "/images/profile.jpg"}
           alt=""
           className="aspect-[7/2] object-cover bg-background-tertiary w-full"
         />
@@ -36,7 +26,7 @@ const ProfileTopimage = () => {
         <div className="pfimage w-[110px] lg:w-[140px] shrink-0 h-[110px] lg:h-[140px] rounded-full overflow-hidden p-[5px] bg-background ">
           <img
             loading="lazy"
-            src={user?.profileimage || "/post/5.jpg"}
+            src={user?.profileImage || "/post/5.jpg"}
             alt=""
             className="w-full object-cover h-full rounded-full border-border border"
           />
@@ -73,22 +63,15 @@ const ProfileTopimage = () => {
       <div className="px-6 lg:px-12 flex flex-col lg:flex-row items-center gap-3  ">
         <div className="w-full lg:w-[50%] text-secondary flex items-center justify-between lg:justify-start mt-3 lg:mt-0  text-sm gap-4 lg:gap-9 font-semibold">
           <div className="">
-            <span className="text-primary text-base font-bold">
-              {user.followers_list.length}
-            </span>{" "}
+            <span className="text-primary text-base font-bold">56</span>{" "}
             Followers
           </div>
           <div className="">
-            <span className="text-primary text-base font-bold">
-              {user.following_list.length}
-            </span>{" "}
+            <span className="text-primary text-base font-bold">68</span>{" "}
             Following
           </div>
           <div className="">
-            <span className="text-primary text-base font-bold">
-              {user.post_id.length}
-            </span>{" "}
-            Post
+            <span className="text-primary text-base font-bold">678</span> Post
           </div>
         </div>
         <div className="w-full lg:w-[50%]    flex flex-row lg:flex-col xl:flex-row items-center gap-3 justify-start lg:justify-end ">
@@ -116,7 +99,7 @@ const ProfileTopimage = () => {
         <h3 className=" text-base font-bold mt-6 text-loose ">
           {user?.bio || "Blazora User"}
         </h3>
-        <p className=" text-sm text-secondary mt-2">{user?.abouttext || ""}</p>
+        <p className=" text-sm text-secondary mt-2">{user?.aboutText || ""}</p>
       </div>
     </div>
   );

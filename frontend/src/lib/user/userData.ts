@@ -1,0 +1,29 @@
+import axiosInstance from "../axios";
+import { UserType } from "@/types/userType";
+/**
+ * 🔹 Fetch all users
+ */
+export const getAllUsers = async (): Promise<UserType[]> => {
+  try {
+    const response = await axiosInstance.get<UserType[]>("/users");
+    return response.data;
+  } catch (err: any) {
+    console.error("Error fetching users:", err.message);
+    return [];
+  }
+};
+
+/**
+ * 🔹 Fetch user by userid
+ */
+export const getUserByUserid = async (
+  userid: number
+): Promise<UserType | null> => {
+  try {
+    const response = await axiosInstance.get<UserType>(`/users/${userid}`);
+    return response.data;
+  } catch (err: any) {
+    console.error("Error fetching user:", err.message);
+    return null;
+  }
+};

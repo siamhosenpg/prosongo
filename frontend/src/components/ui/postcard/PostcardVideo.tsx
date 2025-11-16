@@ -2,7 +2,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-const PostcardVideo = () => {
+// 👉 Type for image data
+type VideoType = string;
+
+type Props = {
+  videodata: VideoType[];
+};
+
+const PostcardVideo: React.FC<Props> = ({ videodata }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -44,18 +51,24 @@ const PostcardVideo = () => {
 
   return (
     <div className="relative w-full">
-      <Link
-        href="/post"
-        className="block w-full px-0 sm:px-6 h-auto overflow-hidden"
-      >
-        <video
-          ref={videoRef}
-          preload="metadata"
-          playsInline
-          className="rounded-none sm:rounded-lg overflow-hidden mt-2 w-full h-auto min-h-[200px] bg-black max-h-[700px]"
-          src="/videos/vd.mp4"
-        />
-      </Link>
+      {videodata &&
+        videodata.map((video, i) => {
+          return (
+            <Link
+              key={i}
+              href="/post"
+              className="block w-full px-0 sm:px-6 h-auto overflow-hidden"
+            >
+              <video
+                ref={videoRef}
+                preload="metadata"
+                playsInline
+                className="rounded-none sm:rounded-lg overflow-hidden mt-2 w-full h-auto min-h-[200px] bg-black max-h-[700px]"
+                src={video}
+              />
+            </Link>
+          );
+        })}
 
       {/* Optional overlay for custom control (Play/Pause icon) */}
       <div className="absolute bottom-4 right-8 bg-black/50 text-white text-sm px-3 py-1 rounded-lg">

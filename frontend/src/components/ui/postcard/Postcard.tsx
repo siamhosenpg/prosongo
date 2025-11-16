@@ -26,12 +26,30 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
   // Accessing post data from PostContext
   // Accessing user data from UserContext
 
+  const renderPostMedia = () => {
+    switch (post.content.type) {
+      case "image":
+        return <PostcardMedia imagedata={post.content.media} />;
+
+      case "video":
+        return <PostcardVideo videodata={post.content.media} />;
+
+      case "audio":
+        return null;
+
+      case "text":
+        return null;
+
+      default:
+        return null;
+    }
+  };
   return (
     <li className="bg-background rounded-none sm:rounded-lg list-none  py-2 sm:py-3 pt-4 sm:pt-5 mb-2 sm:mb-4">
       <div className="flex items-center px-4 sm:px-6 justify-between ">
         <div className="left   flex items-center justify-start gap-2 overflow-hidden">
           <Link
-            href="/profile"
+            href={`/profile/${post.userid.userid}`}
             className="w-10 h-10 bg-gray-300 sm:w-12 sm:h-12 border-border border shrink-0  rounded-full overflow-hidden "
           >
             <img
@@ -44,7 +62,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
           <div className="text">
             <div className="flex gap-2  items-center">
               <div className="font-semibold block text-primary whitespace-nowrap overflow-hidden text-ellipsis">
-                {post.userid.fname} {post.userid.lname}
+                {post.userid.name}
               </div>{" "}
               {/* Hardcoded user name */}
               <span className="text-sm flex items-center w-fit text-gray-600">
@@ -70,9 +88,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
       </p>
 
       {/* Media Section */}
-      <div>
-        <PostcardVideo />
-      </div>
+      <div>{renderPostMedia()}</div>
 
       {/* Engagement section (likes, comments, shares) */}
 

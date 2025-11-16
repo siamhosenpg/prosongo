@@ -6,15 +6,31 @@ import ProfileSectionlist from "@/components/layouts/profile/ProfileSectionlist"
 import ProfileTopimage from "@/components/layouts/profile/ProfileTopimage";
 import ProfileVideos from "@/components/layouts/profile/ProfileVideos";
 import UploadBox from "@/components/layouts/uploadbox/UploadBox";
-import React from "react";
 
-const Profile = () => {
+import { getUserByUserid } from "@/lib/user/userData";
+
+interface ProfilePageProps {
+  params: {
+    userid: string;
+  };
+}
+
+const Profile = async ({ params }: ProfilePageProps) => {
+  const userid = Number(params.userid);
+
+  const user = await getUserByUserid(userid);
+
+  if (!user) {
+    return <div className="text-center mt-10">User not found</div>;
+  }
+
   return (
     <div className="bg-background-secondary">
       <div className="Pagearea">
-        <div className=" pt-0 md:pt-4 flex flex-col lg:flex-row gap-6 items-start justify-between overflow-visible">
-          <div className="  w-full lg:w-7/12 static lg:sticky space-y-4">
-            <ProfileTopimage />
+        <div className="pt-0 md:pt-4 flex flex-col lg:flex-row gap-6 items-start justify-between overflow-visible">
+          {/* LEFT SIDE */}
+          <div className="w-full lg:w-7/12 static lg:sticky space-y-4">
+            <ProfileTopimage user={user} />
             <ProfileSectionlist />
             <ProfileAbout />
             <ProfileFollower />
@@ -22,12 +38,13 @@ const Profile = () => {
             <ProfileVideos />
           </div>
 
-          <div className=" flex-1 w-full lg:w-5/12">
+          {/* RIGHT SIDE */}
+          <div className="flex-1 w-full lg:w-5/12">
             <UploadBox />
 
             <ul className="mt-4">
-              <div className="">
-                <Feed />;
+              <div>
+                <Feed />
               </div>
             </ul>
           </div>
