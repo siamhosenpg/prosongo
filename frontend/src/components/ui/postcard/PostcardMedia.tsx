@@ -10,9 +10,10 @@ type ImageType = string;
 
 type Props = {
   imagedata: ImageType[];
+  postid: Number;
 };
 
-const PostcardMedia: React.FC<Props> = ({ imagedata }) => {
+const PostcardMedia: React.FC<Props> = ({ imagedata, postid }) => {
   const [message, setMessage] = useState<string>("");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const longPressed = useRef<boolean>(false);
@@ -44,7 +45,7 @@ const PostcardMedia: React.FC<Props> = ({ imagedata }) => {
         imagedata.map((image: string, i: number) => (
           <Link
             key={i}
-            href="/post"
+            href={`/post/${postid}`}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onTouchStart={handleMouseDown}

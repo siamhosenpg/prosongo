@@ -9,6 +9,7 @@ interface Content {
 interface Profiledata {
   name: string;
   userid: number;
+  bio: string;
   profileImage: string;
 }
 

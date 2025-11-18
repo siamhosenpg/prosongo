@@ -24,10 +24,6 @@ const postSchema = new mongoose.Schema(
       mentions: [{ type: String }],
     },
 
-    likesid: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    commentsid: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-    shares: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-
     privacy: {
       type: String,
       enum: ["public", "friends", "private"],

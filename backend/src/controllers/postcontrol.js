@@ -20,7 +20,7 @@ export const getPosts = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     const post = await Post.findOne({ postid: req.params.postid })
-      .populate("userid", "name userid profileImage ") // populate
+      .populate("userid", "name userid bio profileImage ") // populate
       .exec();
 
     if (!post) return res.status(404).json({ message: "Post not found" });

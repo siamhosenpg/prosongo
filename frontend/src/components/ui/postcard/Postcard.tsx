@@ -31,7 +31,9 @@ const Postbox: React.FC<PostboxProps> = async ({ post }) => {
   const renderPostMedia = () => {
     switch (post.content.type) {
       case "image":
-        return <PostcardMedia imagedata={post.content.media} />;
+        return (
+          <PostcardMedia imagedata={post.content.media} postid={post.postid} />
+        );
 
       case "video":
         return <PostcardVideo videodata={post.content.media} />;
