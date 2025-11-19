@@ -3,10 +3,9 @@ import CommentsInput from "@/components/ui/comments/CommentsInput";
 import React from "react";
 import { HiDotsVertical } from "react-icons/hi";
 
-import CommentsCard from "@/components/ui/comments/CommentsCard";
-import CommentsLoading from "@/components/ui/comments/CommentsLoading";
 import { getSinglePost } from "@/lib/post/feedPosts";
 import Link from "next/link";
+import CommentsSection from "@/components/layouts/postprevew/CommentsSection";
 
 interface PostPageProps {
   params: {
@@ -76,22 +75,7 @@ const Post = async ({ params }: PostPageProps) => {
                 Comments
               </b>
 
-              <div className="Comments h-full overflow-y-auto ScrollSystem">
-                {/* Example Static Comments */}
-                <CommentsCard />
-                <CommentsCard />
-                <CommentsCard />
-                <CommentsCard />
-                <CommentsCard />
-                <CommentsCard />
-                <CommentsCard />
-                <CommentsCard />
-
-                {/* Loading Skeleton */}
-                <CommentsLoading />
-                <CommentsLoading />
-                <CommentsLoading />
-              </div>
+              <CommentsSection postdataid={post._id} />
             </div>
 
             {/* Input Box */}

@@ -14,6 +14,7 @@ import postsRoute from "./src/routes/postsroute.js";
 import usersRoute from "./src/routes/usersroute.js";
 import reactionRoutes from "./src/routes/reactionRoutes.js";
 import commentRoutes from "./src/routes/commentRoutes.js";
+import storyRoutes from "./src/routes/storyRoutes.js";
 
 // Load environment variables
 dotenv.config();
@@ -37,6 +38,7 @@ app.use("/users", usersRoute);
 app.use("/auth", authRoutes);
 app.use("/reactions", reactionRoutes);
 app.use("/comments", commentRoutes);
+app.use("/stories", storyRoutes);
 
 // Test Route
 app.get("/", (req, res) => {

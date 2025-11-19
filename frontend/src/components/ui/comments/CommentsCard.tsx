@@ -1,38 +1,75 @@
 import React from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { BsReply } from "react-icons/bs";
-import { AiOutlineFire } from "react-icons/ai"; // Icon for likes
-const CommentsCard = () => {
+import { AiOutlineFire } from "react-icons/ai";
+import { CommentType } from "@/types/commentType";
+
+interface CommentsCardProps {
+  comment: CommentType;
+}
+
+const CommentsCard: React.FC<CommentsCardProps> = ({ comment }) => {
   return (
-    <div className=" commentsitems flex items-start gap-2 mt-3 overflow-auto  pr-2 ">
-      {/* Commenter profile image */}
+    <div className="commentsitems flex items-start gap-2 mt-3 overflow-auto pr-2">
+      {/* Profile Image */}
       <div className="image w-10 h-10 rounded-full shrink-0 bg-background-secondary">
         <img
           loading="lazy"
-          src="/images/profile.jpg" // Placeholder profile image
-          className=" bg-blue-50 w-full h-full object-cover rounded-full"
-          alt=""
+          src={
+            comment.commentUserId && typeof comment.commentUserId !== "string"
+              ? comment.commentUserId.avatar ||
+                comment.commentUserId.profileImage ||
+                "/images/profile.jpg"
+              : "/images/profile.jpg"
+          }
+          className="w-full h-full object-cover rounded-full"
+          alt="profile"
         />
       </div>
-      {/* Comment text */}
-      <div className="texts max-w-[370px] text-loose bg-background-secondary px-2 py-2 rounded-xl rounded-tl-none">
+
+      {/* Comment Body */}
+      <div className="texts max-w-[370px] bg-background-secondary px-2 py-2 rounded-xl rounded-tl-none">
+        {/* Username + menu */}
         <div className="font-semibold text-sm flex items-center gap-2 justify-between">
-          <h4 className="pl-2">Siam Hossen</h4> {/* Hardcoded commenter name */}
-          <HiDotsHorizontal className="text-secondary" />
+          <h4 className="pl-2">
+            {typeof comment.commentUserId !== "string"
+              ? comment.commentUserId.name
+              : "Unknown User"}
+          </h4>
+          <HiDotsHorizontal className="text-secondary cursor-pointer" />
         </div>
+
+        {/* Comment Text */}
         <div className="flex items-start gap-2">
           <p className="block text-secondary rounded-xl text-sm mt-1 px-2">
-            You are so beautiful girl. {/* Comment text */}
+            {comment.text}
           </p>
         </div>
+
+        {/* Media (images/videos) */}
+        {comment.media?.url?.length > 0 && (
+          <div className="mt-2">
+            {comment.media.type === "image" &&
+              comment.media.url.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  className="rounded-lg max-h-60 object-cover max-w-[150px]"
+                  alt="comment media"
+                />
+              ))}
+          </div>
+        )}
       </div>
-      {/* Like and reply buttons for comments */}
+
+      {/* Like + Reply Buttons */}
       <div className="flex items-center mt-3 gap-3">
-        <button className=" flex text-secondary">
-          <AiOutlineFire className="text-lg" /> {/* Like button */}
+        <button className="flex text-secondary">
+          <AiOutlineFire className="text-lg" />
         </button>
-        <button className="text-sm text-secondary ">
-          <BsReply className="text-lg" /> {/* Reply button */}
+
+        <button className="text-sm text-secondary">
+          <BsReply className="text-lg" />
         </button>
       </div>
     </div>
