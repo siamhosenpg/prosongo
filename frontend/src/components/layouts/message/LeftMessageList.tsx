@@ -1,11 +1,12 @@
 import React from "react";
 
 import { IoSearch } from "react-icons/io5";
+import { HiDotsHorizontal } from "react-icons/hi";
 
 const LeftMessageList = () => {
   return (
-    <div className="h-full w-full bg-background rounded-lg overflow-hidden py-3 flex flex-col gap-6">
-      <div className="px-3 border-b border-border pb-3">
+    <div className="h-full w-full bg-background rounded-lg overflow-hidden py-3 flex flex-col">
+      <div className="px-3 h-auto border-b border-border pb-3">
         <form
           className="bg-background-secondary rounded-full w-full flex items-center justify-between p-1"
           action=""
@@ -20,38 +21,30 @@ const LeftMessageList = () => {
           </button>
         </form>
       </div>
-      <div className=" px-3">
+      <div className=" px-3 h-full overflow-y-auto py-4">
         <ul className="flex flex-col gap-1 ">
-          <li className="p-2 flex items-center gap-2 hover:bg-background-secondary rounded-lg">
-            <div className="w-12 h-12 shrink-0 rounded-full overflow-hidden">
-              <img
-                className="w-full h-full object-cover"
-                src="/images/profile.jpg"
-                alt=""
-              />
-            </div>
-            <div>
-              <h3 className="font-bold">Siam Hossen</h3>
-              <p className="line-clamp-1 text-sm ">
-                Kire kemon asis tui amake khojkhobor nei?
-              </p>
-            </div>
-          </li>
-          <li className="p-2 flex items-center gap-2 hover:bg-background-secondary rounded-lg">
-            <div className="w-12 h-12 shrink-0 rounded-full overflow-hidden">
-              <img
-                className="w-full h-full object-cover"
-                src="/images/profile.jpg"
-                alt=""
-              />
-            </div>
-            <div>
-              <h3 className="font-bold">Siam Hossen</h3>
-              <p className="line-clamp-1 ">
-                Kire kemon asis tui amake khojkhobor nei?
-              </p>
-            </div>
-          </li>
+          {[...Array(10)].map((_, i) => (
+            <li className="p-2 flex items-center gap-2 hover:bg-background-secondary rounded-lg cursor-pointer">
+              <div className="w-12 h-12 shrink-0 rounded-full overflow-hidden">
+                <img
+                  className="w-full h-full object-cover"
+                  src="/images/profile.jpg"
+                  alt=""
+                />
+              </div>
+              <div className="w-full">
+                <div className="font-bold flex items-center justify-between relative">
+                  <h3>Siam Hosen</h3>
+                  <button className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-background absolute right-0 z-30 cursor-pointer">
+                    <HiDotsHorizontal className=" text-lg" />
+                  </button>
+                </div>
+                <p className="line-clamp-1 text-sm  ">
+                  Kire kemon asis tui amake khojkhobor nei?
+                </p>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
