@@ -5,6 +5,7 @@ import {
   deleteStory,
   getStoriesByUser,
   getAllStories,
+  getStoryById,
 } from "../controllers/storyController.js";
 import { protect } from "../middleware/auth.js"; // JWT middleware
 
@@ -24,5 +25,7 @@ router.get("/user/:userId", protect, getStoriesByUser);
 
 // Get all stories (public stories or friends stories)
 router.get("/", getAllStories);
+
+router.get("/:id", getStoryById);
 
 export default router;

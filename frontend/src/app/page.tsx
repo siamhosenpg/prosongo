@@ -5,6 +5,7 @@ import Submeunssection from "@/components/layouts/navigation/leftnavigation/Subm
 import NewsShortBox from "@/components/layouts/navigation/rightnavigation/NewsShortBox";
 import SuggestAccounts from "@/components/layouts/navigation/rightnavigation/SuggestAccounts";
 import Storyitems from "@/components/layouts/storyitems/Storyitems";
+import Storys from "@/components/layouts/storyitems/Storys";
 import UploadBox from "@/components/layouts/uploadbox/UploadBox";
 
 export default function Home() {
@@ -22,7 +23,7 @@ export default function Home() {
 
         {/* Main Content */}
         <div className="flex-1 w-full lg:w-[44%] mt-2 md:mt-4  ">
-          <Storyitems />
+          <Storys />
           <UploadBox />
           <Feed />
         </div>

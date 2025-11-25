@@ -95,18 +95,13 @@ export const getStoriesByUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
 // -------------------
 // Get ALL Stories (Public Feed)
 // -------------------
 export const getAllStories = async (req, res) => {
   try {
-    // Expired story বাদ দিয়ে শুধু active story দেখাবে
-    const now = new Date();
-
-    const stories = await Story.find({
-      expiresAt: { $gt: now }, // Only non-expired stories
-    })
+    // Expire check বাদ → সব story show করবে
+    const stories = await Story.find()
       .populate("userId", "name userid profileImage") // show user info
       .sort({ createdAt: -1 }); // newest first
 
@@ -118,5 +113,22 @@ export const getAllStories = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getStoryById = async (req, res) => {
+  try {
+    const story = await Story.findById(req.params.id).populate(
+      "userId",
+      "name userid profileImage"
+    );
+
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    return res.status(200).json(story);
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong", error });
   }
 };

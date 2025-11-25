@@ -10,6 +10,8 @@
   --background: #ffffff;
   --background-secondary: #f7f7f7;
   --background-tertiary: #dddddd;
+  --background-transparent: #0000003b;
+
   --background-gradient: linear-gradient(90deg, #0cce7d, #a80404);
   --foreground: #1b1b1b;
   --border: #e7e7e7;
@@ -24,6 +26,7 @@
   --color-background: var(--background);
   --color-background-secondary: var(--background-secondary);
   --color-background-tertiary: var(--background-tertiary);
+  --color-background-transparent: var(--background-transparent);
   --color-background-gradient: var(--background-gradient);
   --color-foreground: var(--foreground);
   --color-border: var(--border);

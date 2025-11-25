@@ -1,10 +1,16 @@
 "use client";
 import StoryAdd from "@/components/ui/storycard/StoryAdd";
+import StoryArea from "@/components/ui/storycard/StoryArea";
 import StoryCard from "@/components/ui/storycard/StoryCard";
 import React, { useRef, useState, useEffect } from "react";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
+import { StoryType } from "@/types/storyType";
 
-const Storyitems = () => {
+interface StoryAreaProps {
+  stories: StoryType[];
+}
+
+const Storyitems: React.FC<StoryAreaProps> = ({ stories }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(true);
@@ -61,9 +67,7 @@ const Storyitems = () => {
         className="flex w-full items-center gap-2 mb-2 sm:mb-4 bg-background rounded-lg py-3 sm:py-4 px-6 overflow-x-scroll scroll-smooth ScrollbarHide"
       >
         <StoryAdd />
-        {Array.from({ length: 14 }).map((_, i) => (
-          <StoryCard key={i} />
-        ))}
+        <StoryArea stories={stories} />
       </div>
 
       {/* Right Button */}

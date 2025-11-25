@@ -3,11 +3,11 @@ import React from "react";
 
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 
-const StoryPageContent = () => {
+const StoryPageContent = ({ story }) => {
   return (
     <div className="flex items-center h-full">
       <div className=" shrink-0 w-fit h-full">
-        <StoryPrevewCard />
+        <StoryPrevewCard story={story} />
       </div>
       <div className=" flex flex-col gap-3 ml-22">
         <button className="w-12 h-12 flex items-center justify-center rounded-full bg-background border border-border ">
