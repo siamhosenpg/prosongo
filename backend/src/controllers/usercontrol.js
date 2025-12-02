@@ -65,26 +65,58 @@ export const createUser = async (req, res) => {
   }
 };
 
-/**
- * ✅ Update user (bcrypt only if password changed)
- */
+///** ✅ Update user
+// */
 export const updateUser = async (req, res) => {
   try {
-    const userid = Number(req.params.userid);
-    const updateData = { ...req.body };
+    const userid = Number(req.params.userid); // numeric userid
+    const loggedInUserId = req.user.id; // MongoDB _id (string)
 
-    // If password is updated, hash it
-    if (updateData.password) {
-      const salt = await bcrypt.genSalt(10);
-      updateData.password = await bcrypt.hash(updateData.password, salt);
+    // Step 1: First find user by numeric userid
+    const user = await User.findOne({ userid });
+    console.log("FOUND USER:", user);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    const updatedUser = await User.findOneAndUpdate({ userid }, updateData, {
+    // Step 2: Compare user._id with loggedIn user id
+    if (user._id.toString() !== loggedInUserId) {
+      return res.status(403).json({
+        message: "You can only edit your own profile",
+      });
+    }
+
+    // Allowed fields
+    const allowedFields = [
+      "name",
+      "username",
+      "bio",
+      "profileImage",
+      "coverImage",
+      "aboutText",
+      "gender",
+      "work",
+      "location",
+      "education",
+    ];
+
+    const updateData = {};
+
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) updateData[field] = req.body[field];
+    });
+
+    // Password handle
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      updateData.password = await bcrypt.hash(req.body.password, salt);
+    }
+
+    // Step 3: Update with MongoDB _id
+    const updatedUser = await User.findByIdAndUpdate(user._id, updateData, {
       new: true,
     }).select("-password");
-
-    if (!updatedUser)
-      return res.status(404).json({ message: "User not found" });
 
     res.status(200).json({
       message: "User updated successfully",

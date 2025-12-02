@@ -5,6 +5,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { MdWork } from "react-icons/md";
 import { IoIosAddCircle } from "react-icons/io";
 import { UserType } from "@/types/userType";
+import Link from "next/link";
 
 interface ProfileTopimageProps {
   user: UserType;
@@ -50,12 +51,15 @@ const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
                 Add Post
               </span>
             </button>
-            <button className="w-5/12 bg-red-100 rounded-md  px-4 py-2  font-semibold transition duration-200 ease-in-out text-sm text-red-600 flex items-center justify-center gap-2">
+            <Link
+              href={`/profile/edit`}
+              className="w-5/12 bg-red-100 rounded-md  px-4 py-2  font-semibold transition duration-200 ease-in-out text-sm text-red-600 flex items-center justify-center gap-2"
+            >
               <MdModeEdit className=" text-xl text-red-600" />
               <span className="overflow-hidden whitespace-nowrap text-ellipsis truncate">
                 Edit Profile
               </span>
-            </button>
+            </Link>
             <button className="w-1/12 flex items-center justify-center bg-background-secondary rounded-md   py-2  font-semibold transition duration-200 ease-in-out text-sm   gap-2">
               <HiDotsVertical className=" text-xl text-loose" />
             </button>
@@ -82,7 +86,7 @@ const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
               <div className="flex justify-start lg:justify-end w-full items-center gap-1 ">
                 <MdWork className="text-lg shrink-0" />
                 <span className=" block overflow-hidden whitespace-nowrap text-ellipsis truncate text-sm">
-                  {user.work}
+                  {user.work[0]}
                 </span>
               </div>
             ) : (

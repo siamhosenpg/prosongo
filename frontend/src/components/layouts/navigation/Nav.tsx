@@ -4,13 +4,13 @@ import React from "react";
 import { NavigationData } from "./navigationdata";
 import Searchboxnav from "../../ui/Searchboxnav";
 import Link from "next/link";
-// Icons
-import { FaCaretDown } from "react-icons/fa"; // Dropdown icon
-import { FaRegBell } from "react-icons/fa"; // Notification icon
+import { FaCaretDown, FaRegBell } from "react-icons/fa";
 import { useAuth } from "@/hook/useAuth";
 
 const Nav = () => {
   const { user, isLoading, logout } = useAuth();
+
+  const currentUser = user?.user; // safer
 
   return (
     <nav className="w-full border-b border-border fixed top-0 left-0 bg-background z-50 px-6">
@@ -21,7 +21,7 @@ const Nav = () => {
           <Searchboxnav />
         </div>
 
-        {/* Center Navigation Links */}
+        {/* Center Navigation */}
         <ul className="w-6/12 hidden lg:flex items-center justify-center px-2 py-1 gap-2">
           {NavigationData.map((item) => {
             const Icon = item.icon;
@@ -31,39 +31,40 @@ const Nav = () => {
                 key={item.name}
                 className="flex gap-2 items-center px-4 py-2 hover:bg-background-secondary rounded cursor-pointer"
               >
-                <div className="text-[22px] relative">
-                  {Icon && <Icon />}
-                  <div className="bg-green-600 hidden w-[11px] h-[11px] rounded-full border-background border-2 absolute top-0 right-0"></div>
-                </div>
+                <div className="text-[22px] relative">{Icon && <Icon />}</div>
                 <span className="font-semibold">{item.name}</span>
               </Link>
             );
           })}
         </ul>
 
-        {/* Right Section: Notifications + User/Profile */}
+        {/* Right Section */}
         <div className="w-fit shrink-0 lg:w-3/12 flex items-center justify-end gap-4 lg:gap-5">
-          <div className="flex items-center text-lg">
-            <FaRegBell />
-          </div>
+          <FaRegBell className="text-lg" />
 
-          <div className="flex items-center justify-end gap-2">
-            {isLoading ? (
-              <span>Loading...</span>
-            ) : user ? (
-              // ✅ Logged-in view
+          <div className="flex items-center gap-2">
+            {/* 🟡 STATE-1: Loading */}
+            {isLoading && (
+              <div className="text-sm text-muted-foreground">Loading...</div>
+            )}
+
+            {/* 🟢 STATE-2: Logged In */}
+            {!isLoading && currentUser && (
               <>
-                <Link href={`/profile/${user.user.userid}`} className="image">
+                <Link href={`/profile/${currentUser.userid}`} className="image">
                   <img
                     className="w-[34px] border border-border h-[34px] rounded-full bg-blue-50"
-                    src={user.user.profileImage}
-                    alt={user.user.name}
+                    src={currentUser.profileImage}
+                    alt={currentUser.name}
                   />
                 </Link>
+
                 <div className="hidden sm:block font-semibold text-loose">
-                  {user.user.name}
+                  {currentUser.name}
                 </div>
-                <FaCaretDown className="text-loose hidden sm:block" />
+
+                <FaCaretDown className="hidden sm:block text-loose" />
+
                 <button
                   onClick={() => logout.mutate()}
                   className="px-2 py-1 text-red-600 hover:text-red-800"
@@ -71,8 +72,10 @@ const Nav = () => {
                   Logout
                 </button>
               </>
-            ) : (
-              // ✅ Logged-out view
+            )}
+
+            {/* 🔴 STATE-3: Logged Out */}
+            {!isLoading && !currentUser && (
               <>
                 <Link
                   href="/login"

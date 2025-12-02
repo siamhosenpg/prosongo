@@ -16,7 +16,7 @@ const postSchema = new mongoose.Schema(
       media: [{ type: String, required: true }],
       type: {
         type: String,
-        enum: ["image", "video", "reel"],
+        enum: ["image", "video", "text"],
         default: "image",
       },
       location: { type: String },

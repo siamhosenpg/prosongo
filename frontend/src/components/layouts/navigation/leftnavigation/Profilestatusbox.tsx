@@ -7,6 +7,7 @@ import ProfileStatusBoxLoading from "./ProfileStatusBoxLoading";
 
 const ProfileStatusBox = () => {
   const { user, isLoading } = useAuth();
+  if (!user?.user) return <ProfileStatusBoxLoading />; // বা লোডিং দেখাতে পারো
   if (isLoading) {
     return <ProfileStatusBoxLoading />;
   }

@@ -63,6 +63,7 @@ export interface UserType {
   website?: string;
   phone?: string;
   work?: string;
+  educations?: string;
   aboutText?: string;
 
   blockedUsers: string[]; // array of Mongo ObjectId strings

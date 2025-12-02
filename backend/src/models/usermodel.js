@@ -72,7 +72,8 @@ const UserSchema = new Schema(
       maxlength: 300,
       default: "Capturing moments, coding ideas",
     },
-    work: { type: String, default: "Social Media user" },
+    work: { type: [String], default: "Social Media user" },
+    educations: { type: [String], trim: true, default: "educatin" },
     aboutText: {
       type: String,
       trim: true,
