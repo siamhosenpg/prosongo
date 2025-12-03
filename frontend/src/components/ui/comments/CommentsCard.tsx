@@ -1,14 +1,25 @@
+"use client";
+
 import React from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { BsReply } from "react-icons/bs";
 import { AiOutlineFire } from "react-icons/ai";
 import { CommentType } from "@/types/commentType";
+import { useDeleteComment } from "@/hook/useComments";
 
 interface CommentsCardProps {
   comment: CommentType;
 }
 
 const CommentsCard: React.FC<CommentsCardProps> = ({ comment }) => {
+  // ❌ ভুল → useGetComments(comment._id)
+  // ✔️ সঠিক
+  const deleteComment = useDeleteComment();
+
+  const handleDelete = (id: string) => {
+    deleteComment.mutate(id);
+  };
+
   return (
     <div className="commentsitems flex items-start gap-2 mt-3 overflow-auto pr-2">
       {/* Profile Image */}
@@ -29,7 +40,6 @@ const CommentsCard: React.FC<CommentsCardProps> = ({ comment }) => {
 
       {/* Comment Body */}
       <div className="texts max-w-[370px] bg-background-secondary px-2 py-2 rounded-xl rounded-tl-none">
-        {/* Username + menu */}
         <div className="font-semibold text-sm flex items-center gap-2 justify-between">
           <h4 className="pl-2">
             {typeof comment.commentUserId !== "string"
@@ -40,13 +50,11 @@ const CommentsCard: React.FC<CommentsCardProps> = ({ comment }) => {
         </div>
 
         {/* Comment Text */}
-        <div className="flex items-start gap-2">
-          <p className="block text-secondary rounded-xl text-sm mt-1 px-2">
-            {comment.text}
-          </p>
-        </div>
+        <p className="block text-secondary rounded-xl text-sm mt-1 px-2">
+          {comment.text}
+        </p>
 
-        {/* Media (images/videos) */}
+        {/* Media */}
         {comment.media?.url?.length > 0 && (
           <div className="mt-2">
             {comment.media.type === "image" &&
@@ -62,9 +70,12 @@ const CommentsCard: React.FC<CommentsCardProps> = ({ comment }) => {
         )}
       </div>
 
-      {/* Like + Reply Buttons */}
+      {/* Delete + Reply */}
       <div className="flex items-center mt-3 gap-3">
-        <button className="flex text-secondary">
+        <button
+          onClick={() => handleDelete(comment._id)}
+          className="flex text-secondary"
+        >
           <AiOutlineFire className="text-lg" />
         </button>
 

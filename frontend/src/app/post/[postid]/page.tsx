@@ -75,11 +75,11 @@ const Post = async ({ params }: PostPageProps) => {
                 Comments
               </b>
 
-              <CommentsSection postdataid={post._id} />
+              <CommentsSection postId={post._id} />
             </div>
 
             {/* Input Box */}
-            <CommentsInput />
+            <CommentsInput postId={post._id} />
           </div>
         </div>
       </div>
