@@ -4,13 +4,19 @@ import Reaction from "../models/reactionModel.js";
 export const createOrUpdateReaction = async (req, res) => {
   try {
     const { postId, reaction } = req.body;
-    const userId = req.user.id; // auth middleware থেকে আসবে
+    const userId = req.user.id; // 🔥 Always from auth middleware
 
-    // আগেই reaction দেওয়া আছে কিনা খুঁজছি
+    if (!postId || !reaction) {
+      return res
+        .status(400)
+        .json({ message: "postId & reaction are required" });
+    }
+
+    // আগের reaction আছে কিনা খুঁজো
     let existing = await Reaction.findOne({ userId, postId });
 
     if (existing) {
-      // যদি থাকে—তাহলে update
+      // Update previous reaction
       existing.reaction = reaction;
       await existing.save();
 
@@ -20,19 +26,19 @@ export const createOrUpdateReaction = async (req, res) => {
       });
     }
 
-    // নতুন reaction create
+    // New reaction create
     const newReaction = await Reaction.create({
       userId,
       postId,
       reaction,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Reaction added successfully",
       reaction: newReaction,
     });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Error creating/updating reaction",
       error: err.message,
     });
@@ -42,8 +48,12 @@ export const createOrUpdateReaction = async (req, res) => {
 // 🔴 Delete Reaction
 export const deleteReaction = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.id; // 🔥 Always logged in user
     const { postId } = req.params;
+
+    if (!postId) {
+      return res.status(400).json({ message: "postId is required" });
+    }
 
     const deleted = await Reaction.findOneAndDelete({ userId, postId });
 
@@ -53,11 +63,11 @@ export const deleteReaction = async (req, res) => {
         .json({ message: "No reaction found for this post" });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Reaction removed successfully",
     });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Error deleting reaction",
       error: err.message,
     });
@@ -69,17 +79,21 @@ export const getReactionsByPost = async (req, res) => {
   try {
     const { postId } = req.params;
 
+    if (!postId) {
+      return res.status(400).json({ message: "postId is required" });
+    }
+
     const reactions = await Reaction.find({ postId }).populate(
       "userId",
       "name username profileImage"
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       count: reactions.length,
       reactions,
     });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Error fetching reactions",
       error: err.message,
     });

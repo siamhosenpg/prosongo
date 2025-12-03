@@ -7,7 +7,7 @@ const Post = mongoose.model("Post", postSchema);
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("userid", "name userid profileImage") // userid কে populate করছো, শুধু name এবং profileImage আনবে
+      .populate("userid", "name userid profileImage") // populate user info
       .exec();
 
     res.json(posts);
@@ -20,7 +20,7 @@ export const getPosts = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     const post = await Post.findOne({ postid: req.params.postid })
-      .populate("userid", "name userid bio profileImage ") // populate
+      .populate("userid", "name userid bio profileImage")
       .exec();
 
     if (!post) return res.status(404).json({ message: "Post not found" });
@@ -34,78 +34,93 @@ export const getPostById = async (req, res) => {
 // 🟢 Get all posts by specific userid
 export const getPostsByUserId = async (req, res) => {
   try {
-    const userId = req.params.userid; // route: /posts/user/:userid
+    const userId = req.params.userid;
 
-    // Posts Query
     const posts = await Post.find({ userid: userId })
       .populate("userid", "name userid bio profileImage")
       .exec();
 
-    // If no posts → return empty array instead of error
-    if (!posts || posts.length === 0) {
-      return res.status(200).json({
-        posts: [],
-        message: "No posts found",
-      });
-    }
-
-    // Normal result
     return res.status(200).json({
-      posts,
-      count: posts.length,
+      posts: posts || [],
+      count: posts.length || 0,
+      message: posts.length === 0 ? "No posts found" : undefined,
     });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error" });
   }
 };
-
-// 🟢 Create new post
+// 🟢 Create new post (login user required)
 export const createPost = async (req, res) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: "Login required to create post" });
+    }
+
+    // ✅ Generate random postid (7 digit number)
+    const randomPostId = Math.floor(10000500 + Math.random() * 90600000); // 1000000 - 9999999
+
     const newPost = new Post({
-      postid: req.body.postid,
-      userid: req.body.userid,
+      postid: randomPostId,
+      userid: req.user.id, // Logged-in user id automatically
       content: req.body.content,
-      likesid: req.body.likesid || [],
-      commentsid: req.body.commentsid || [],
-      shares: req.body.shares || [],
       privacy: req.body.privacy || "public",
       createdAt: new Date(),
       updatedAt: new Date(),
     });
 
     const savedPost = await newPost.save();
+
+    // Populate user info in response
+    await savedPost.populate("userid", "name userid profileImage");
+
     res.status(201).json(savedPost);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
 
-// 🟢 Update post (edit)
+// 🟢 Update post (only owner can update)
 export const updatePost = async (req, res) => {
   try {
-    const updatedPost = await Post.findOneAndUpdate(
-      { postid: Number(req.params.postid) },
-      { ...req.body, updatedAt: new Date() },
-      { new: true }
-    );
-    if (!updatedPost)
-      return res.status(404).json({ message: "Post not found" });
+    const post = await Post.findOne({ postid: Number(req.params.postid) });
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    // ✅ Only allow owner to edit
+    if (req.user._id.toString() !== post.userid.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You can only edit your own posts" });
+    }
+
+    Object.assign(post, req.body, { updatedAt: new Date() });
+
+    const updatedPost = await post.save();
+
+    await updatedPost.populate("userid", "name userid profileImage");
+
     res.json(updatedPost);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
 
-// 🟢 Delete post
+// 🟢 Delete post (only owner can delete)
 export const deletePost = async (req, res) => {
   try {
-    const deletedPost = await Post.findOneAndDelete({
-      postid: Number(req.params.postid),
-    });
-    if (!deletedPost)
-      return res.status(404).json({ message: "Post not found" });
+    const post = await Post.findOne({ postid: Number(req.params.postid) });
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    if (req.user._id.toString() !== post.userid.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You can only delete your own posts" });
+    }
+
+    await post.remove();
+
     res.json({ message: "Post deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });

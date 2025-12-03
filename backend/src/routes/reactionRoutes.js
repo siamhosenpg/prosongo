@@ -11,10 +11,10 @@ import { protect } from "../middleware/auth.js";
 const router = express.Router();
 
 // 🟢 Add or Update Reaction
-router.post("/react", protect, createOrUpdateReaction);
+router.post("/", protect, createOrUpdateReaction);
 
 // 🔴 Delete Reaction
-router.delete("/react/:postId", protect, deleteReaction);
+router.delete("/:postId", protect, deleteReaction);
 
 // 🟣 Get Reactions of a Post
 router.get("/post/:postId", getReactionsByPost);

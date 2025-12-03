@@ -53,7 +53,7 @@ const Nav = () => {
               <>
                 <Link href={`/profile/${currentUser.userid}`} className="image">
                   <img
-                    className="w-[34px] border border-border h-[34px] rounded-full bg-blue-50"
+                    className="w-[34px] border border-border object-cover h-[34px] rounded-full bg-blue-50"
                     src={currentUser.profileImage}
                     alt={currentUser.name}
                   />

@@ -1,4 +1,3 @@
-// src/hooks/useAuth.ts
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -11,21 +10,27 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export const useAuth = (options?: { fetchUser?: boolean }) => {
+import { UserType } from "@/types/userType";
+
+interface UseAuthOptions {
+  fetchUser?: boolean;
+}
+
+export const useAuth = (options?: UseAuthOptions) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const fetchUser = options?.fetchUser ?? true;
+
   const [error, setError] = useState<string | null>(null);
 
   // ===================== Current User =====================
-  const { data: user, isLoading } = useQuery({
+  const { data: user, isLoading } = useQuery<UserType | null>({
     queryKey: ["currentUser"],
     queryFn: getCurrentUser,
     enabled: fetchUser,
     retry: false,
     onError: (err: any) => {
       if (err.response?.status === 401) {
-        // not logged in
         queryClient.setQueryData(["currentUser"], null);
       }
     },
@@ -36,7 +41,7 @@ export const useAuth = (options?: { fetchUser?: boolean }) => {
     mutationFn: loginUser,
     onSuccess: () => {
       queryClient.invalidateQueries(["currentUser"]);
-      router.push("/"); // redirect after login
+      router.push("/");
     },
     onError: (err: any) => {
       const msg = err.response?.data?.message || "Login failed";
@@ -49,7 +54,7 @@ export const useAuth = (options?: { fetchUser?: boolean }) => {
     mutationFn: registerUser,
     onSuccess: () => {
       queryClient.invalidateQueries(["currentUser"]);
-      router.push("/home"); // redirect after register
+      router.push("/home");
     },
     onError: (err: any) => {
       const msg = err.response?.data?.message || "Registration failed";
@@ -61,7 +66,11 @@ export const useAuth = (options?: { fetchUser?: boolean }) => {
   const logout = useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
+      // 🔥 Clear ALL react-query cache
+
       queryClient.setQueryData(["currentUser"], null);
+      // 🔥 Clear ALL react-query cache
+      queryClient.clear();
       router.push("/login");
     },
     onError: (err: any) => {

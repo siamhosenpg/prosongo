@@ -7,14 +7,17 @@ import {
   deletePost,
   getPostsByUserId,
 } from "../controllers/postcontrol.js";
+import { protect } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/", getPosts); // সব পোস্ট দেখাবে
-router.get("/:postid", getPostById); // নির্দিষ্ট পোস্ট
-router.post("/", createPost); // নতুন পোস্ট তৈরি
-router.put("/:postid", updatePost); // পোস্ট এডিট
-router.delete("/:postid", deletePost); // পোস্ট ডিলিট
+// ✅ Specific routes first
 router.get("/user/:userid", getPostsByUserId); // নির্দিষ্ট ইউজারের সব পোস্ট
+router.get("/:postid", getPostById); // নির্দিষ্ট পোস্ট
+router.get("/", getPosts); // সব পোস্ট দেখাবে
+
+router.post("/", protect, createPost); // নতুন পোস্ট তৈরি
+router.put("/:postid", protect, updatePost); // পোস্ট এডিট
+router.delete("/:postid", deletePost); // পোস্ট ডিলিট
 
 export default router;

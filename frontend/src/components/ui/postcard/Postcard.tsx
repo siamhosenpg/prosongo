@@ -54,20 +54,20 @@ const Postbox: React.FC<PostboxProps> = async ({ post }) => {
       <div className="flex items-center px-4 sm:px-6 justify-between ">
         <div className="left   flex items-center justify-start gap-2 overflow-hidden">
           <Link
-            href={`/profile/${post.userid.userid}`}
+            href={`/profile/${post.userid?.userid}`}
             className="w-10 h-10 bg-gray-300 sm:w-12 sm:h-12 border-border border shrink-0  rounded-full overflow-hidden "
           >
             <img
               loading="lazy"
               className=" block w-full  h-full object-cover   "
-              src={post.userid.profileImage} // Placeholder profile image
+              src={post.userid?.profileImage} // Placeholder profile image
               alt=""
             />
           </Link>
           <div className="text">
             <div className="flex gap-2  items-center">
               <div className="font-semibold block text-primary whitespace-nowrap overflow-hidden text-ellipsis">
-                {post.userid.name}
+                {post.userid?.name}
               </div>{" "}
               {/* Hardcoded user name */}
               <span className="text-sm flex items-center w-fit text-gray-600">
@@ -99,7 +99,7 @@ const Postbox: React.FC<PostboxProps> = async ({ post }) => {
 
       <div className="  ">
         <PostCardstatus postid={post._id} />
-        <PostCardButtons />
+        <PostCardButtons postId={post._id} />
       </div>
 
       <div className=" px-4 sm:px-6 hidden">

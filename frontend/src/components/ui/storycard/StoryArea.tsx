@@ -7,6 +7,7 @@ interface StoryAreaProps {
 }
 
 const StoryArea: React.FC<StoryAreaProps> = ({ stories }) => {
+  if (!stories || stories.length === 0) return null;
   return (
     <div className="flex w-full items-center gap-2">
       {stories.map((story) => (

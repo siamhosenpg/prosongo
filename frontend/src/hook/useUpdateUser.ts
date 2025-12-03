@@ -14,7 +14,6 @@ export function useUpdateUser() {
       // cache update
       queryClient.setQueryData(["currentUser"], user);
 
-      alert(message ?? "Profile updated successfully!");
       // ✅ Direct redirect to home page
       router.push("/");
     },

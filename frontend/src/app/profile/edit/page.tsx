@@ -11,6 +11,8 @@ const EditProfilePage = () => {
   const [form, setForm] = useState({
     name: "",
     username: "",
+    profileImage: "",
+    coverImage: "",
     bio: "",
     aboutText: "",
     gender: "",
@@ -25,6 +27,8 @@ const EditProfilePage = () => {
       setForm({
         name: user.user.name || "",
         username: user.user.username || "",
+        profileImage: user.user.profileImage || "",
+        coverImage: user.user.coverImage || "",
         bio: user.user.bio || "",
         aboutText: user.user.aboutText || "",
         gender: user.user.gender || "",
@@ -62,6 +66,8 @@ const EditProfilePage = () => {
           {[
             { label: "Full Name", name: "name", type: "text" },
             { label: "Username", name: "username", type: "text" },
+            { label: "Profile Image URL", name: "profileImage", type: "text" },
+            { label: "Cover Image URL", name: "coverImage", type: "text" },
             { label: "Gender", name: "gender", type: "text" },
             { label: "Work", name: "work", type: "text" },
             { label: "Location", name: "location", type: "text" },
@@ -112,7 +118,7 @@ const EditProfilePage = () => {
           </div>
 
           {/* PASSWORD */}
-          <div>
+          {/* <div>
             <label className="block mb-1 font-medium text-sm text-foreground/80">
               Password (optional)
             </label>
@@ -125,7 +131,7 @@ const EditProfilePage = () => {
               className="w-full px-4 py-3 bg-background-secondary border border-border rounded-xl 
                          focus:outline-none focus:ring-2 focus:ring-primary transition"
             />
-          </div>
+          </div> */}
 
           {/* SUBMIT BUTTON */}
           <button

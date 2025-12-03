@@ -45,12 +45,15 @@ const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
             </p>
           </div>
           <div className=" w-full  lg:w-7/12  flex justify-between items-center gap-2">
-            <button className="w-5/12 bg-blue-700 rounded-md  px-4 py-2  font-semibold transition duration-200 ease-in-out text-sm text-white flex items-center justify-center gap-2">
+            <Link
+              href={`/post/createpost`}
+              className="w-5/12 bg-blue-700 rounded-md  px-4 py-2  font-semibold transition duration-200 ease-in-out text-sm text-white flex items-center justify-center gap-2"
+            >
               <IoIosAddCircle className=" text-xl text-white" />
               <span className="overflow-hidden whitespace-nowrap text-ellipsis truncate ">
                 Add Post
               </span>
-            </button>
+            </Link>
             <Link
               href={`/profile/edit`}
               className="w-5/12 bg-red-100 rounded-md  px-4 py-2  font-semibold transition duration-200 ease-in-out text-sm text-red-600 flex items-center justify-center gap-2"

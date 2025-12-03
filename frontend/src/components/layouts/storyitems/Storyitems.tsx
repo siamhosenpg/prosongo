@@ -47,6 +47,7 @@ const Storyitems: React.FC<StoryAreaProps> = ({ stories }) => {
     return () => el.removeEventListener("scroll", updateButtons);
   }, []);
 
+  if (!stories || stories.length === 0) return null;
   return (
     <div className="relative flex items-center">
       {/* Left Button */}

@@ -4,6 +4,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa6";
 
 const StoryPrevewCard = ({ story }) => {
+  if (!story) return null;
   return (
     <div className="h-full aspect-9/16 bg-background-tertiary rounded-lg overflow-hidden relative">
       {/* Top progress Bar */}
@@ -19,11 +20,11 @@ const StoryPrevewCard = ({ story }) => {
           <div className="LeftPf flex items-center   text-white gap-2">
             <img
               className="w-9 h-9 rounded-full border border-border overflow-hidden object-cover"
-              src={story.userId.profileImage}
+              src={story.userId?.profileImage}
               alt=""
             />
             <span className=" font-semibold text-shadow-xs block">
-              {story.userId.name}
+              {story.userId?.name}
             </span>
           </div>
           <div className="flex items-center justify-end gap-3 text-white">

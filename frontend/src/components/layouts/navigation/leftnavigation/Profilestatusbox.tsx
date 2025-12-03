@@ -4,6 +4,7 @@ import { useAuth } from "@/hook/useAuth";
 
 import { HiCheckBadge } from "react-icons/hi2";
 import ProfileStatusBoxLoading from "./ProfileStatusBoxLoading";
+import Link from "next/link";
 
 const ProfileStatusBox = () => {
   const { user, isLoading } = useAuth();
@@ -14,13 +15,13 @@ const ProfileStatusBox = () => {
   return (
     <div className=" px-8 py-6 bg-background rounded-lg ">
       <div className="top flex gap-3 items-center ">
-        <div className="shrink-0">
+        <Link href={`/profile/${user?.user.userid}`} className="shrink-0">
           <img
-            className="w-[50px] border border-border   h-[50px] rounded-full "
+            className="w-[50px] border border-border object-cover   h-[50px] rounded-full "
             src={user?.user.profileImage}
             alt=""
           />
-        </div>
+        </Link>
         <div className="texts">
           <b className="flex gap-1.5 items-center text-lg text-primary">
             {user.user.name} <HiCheckBadge className="text-accent" />{" "}
