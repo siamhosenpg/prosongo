@@ -14,7 +14,7 @@ interface Props {
 
 const PostCardButtons: React.FC<Props> = ({ postId }) => {
   const { user } = useAuth();
-  const { data, reactMutation, deleteMutation } = useReactions(postId);
+  const { data, createMutation, deleteMutation } = useReactions(postId);
 
   const [bookmarked, setBookmarked] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -22,27 +22,32 @@ const PostCardButtons: React.FC<Props> = ({ postId }) => {
 
   if (!user) return <p className="text-sm text-gray-500">Login to react</p>;
 
-  // check user previous reaction
-  const userReaction = data?.reactions.find(
-    (r) => r.userId.id === user._id
+  // ✅ Check if user has already liked
+  const userReaction = data?.reactions?.find(
+    (r) => r?.userId?._id === user.user._id || r?.userId?.id === user.user._id
   )?.reaction;
 
-  const handleLike = () => {
-    setError(null); // reset error before action
+  const isMutating = createMutation.isLoading || deleteMutation.isLoading;
+
+  const handleToggleLike = () => {
+    setError(null);
+
     if (userReaction === "like") {
+      // Remove like
       deleteMutation.mutate(postId, {
         onError: (err: any) => {
           console.error("Delete reaction error:", err);
-          setError(err.response?.data?.message || "Failed to remove reaction");
+          setError(err?.response?.data?.message || "Failed to remove like");
         },
       });
     } else {
-      reactMutation.mutate(
+      // Add like
+      createMutation.mutate(
         { postId, reaction: "like" },
         {
           onError: (err: any) => {
-            console.error("React error:", err);
-            setError(err.response?.data?.message || "Failed to add reaction");
+            console.error("Create reaction error:", err);
+            setError(err?.response?.data?.message || "Failed to add like");
           },
         }
       );
@@ -53,43 +58,38 @@ const PostCardButtons: React.FC<Props> = ({ postId }) => {
     <div className="px-4 sm:px-6 flex flex-col gap-1">
       <div className="flex items-center justify-between mt-4 pb-3">
         <div className="left flex items-center justify-start gap-10">
-          {/* Like */}
-          <div
-            onClick={handleLike}
-            className={`flex gap-1 items-center cursor-pointer ${
-              userReaction === "Love" ? "text-accent" : "text-primary"
+          {/* Like / Remove Like */}
+          <button
+            onClick={handleToggleLike}
+            disabled={isMutating}
+            className={`flex gap-1 items-center transition-opacity ${
+              isMutating ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            <span className="block font-semibold text-primary">
-              {userReaction === "like" ? (
-                <AiFillLike className="text-xl text-accent" />
-              ) : (
-                <AiOutlineLike className="text-xl text-primary" />
-              )}
-            </span>
-            <div
-              className={`text-sm  font-semibold ${
+            {userReaction === "like" ? (
+              <AiFillLike className="text-xl text-accent" />
+            ) : (
+              <AiOutlineLike className="text-xl text-primary" />
+            )}
+            <span
+              className={`text-sm font-semibold ${
                 userReaction === "like" ? "text-accent" : "text-primary"
               }`}
             >
               {userReaction === "like" ? "Liked" : "Like"}
-            </div>
-          </div>
+            </span>
+          </button>
 
           {/* Comments */}
           <div className="flex gap-1 items-center cursor-pointer">
-            <span className="font-semibold text-primary">
-              <FaRegComments className="text-xl" />
-            </span>
-            <div className="text-sm text-primary font-semibold">Comments</div>
+            <FaRegComments className="text-xl text-primary" />
+            <span className="text-sm text-primary font-semibold">Comments</span>
           </div>
 
           {/* Shares */}
           <div className="flex gap-1 items-center cursor-pointer">
-            <span className="font-semibold text-primary">
-              <RiShareForwardLine className="text-xl" />
-            </span>
-            <div className="text-sm text-primary font-semibold">Share</div>
+            <RiShareForwardLine className="text-xl text-primary" />
+            <span className="text-sm text-primary font-semibold">Share</span>
           </div>
         </div>
 

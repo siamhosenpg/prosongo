@@ -1,7 +1,9 @@
 // lib/api/reactionApi.ts
 import axiosInstance from "@/lib/axios";
 
-export const createOrUpdateReaction = async ({
+// ==================== CREATE REACTION ====================
+
+export const createReaction = async ({
   postId,
   reaction,
 }: {
@@ -9,12 +11,31 @@ export const createOrUpdateReaction = async ({
   reaction: string;
 }) => {
   const res = await axiosInstance.post(
-    "/reactions",
+    "/reactions/create",
     { postId, reaction },
     { withCredentials: true }
   );
   return res.data;
 };
+
+// ==================== UPDATE REACTION ====================
+
+export const updateReaction = async ({
+  postId,
+  reaction,
+}: {
+  postId: string;
+  reaction: string;
+}) => {
+  const res = await axiosInstance.put(
+    "/reactions/update",
+    { postId, reaction },
+    { withCredentials: true }
+  );
+  return res.data;
+};
+
+// ==================== DELETE REACTION ====================
 
 export const deleteReaction = async (postId: string) => {
   const res = await axiosInstance.delete(`/reactions/${postId}`, {
@@ -23,13 +44,16 @@ export const deleteReaction = async (postId: string) => {
   return res.data;
 };
 
+// ==================== GET REACTIONS OF A POST ====================
+
 export const getReactionsByPost = async (postId: string) => {
   const res = await axiosInstance.get(`/reactions/post/${postId}`);
   return res.data;
 };
 
-// 🟡 NEW → Get Reaction Count
+// ==================== GET REACTION COUNT ====================
+
 export const getReactionCount = async (postId: string) => {
   const res = await axiosInstance.get(`/reactions/count/${postId}`);
-  return res.data.count; // শুধু count numeric return করলেই ভালো
+  return res.data.count; // শুধু count return
 };

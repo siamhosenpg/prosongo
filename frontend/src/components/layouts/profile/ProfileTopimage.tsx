@@ -6,6 +6,7 @@ import { MdWork } from "react-icons/md";
 import { IoIosAddCircle } from "react-icons/io";
 import { UserType } from "@/types/userType";
 import Link from "next/link";
+import ProfileTopCountStatus from "./ProfileTopCountStatus";
 
 interface ProfileTopimageProps {
   user: UserType;
@@ -47,10 +48,10 @@ const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
           <div className=" w-full  lg:w-7/12  flex justify-between items-center gap-2">
             <Link
               href={`/post/createpost`}
-              className="w-5/12 bg-blue-700 rounded-md  px-4 py-2  font-semibold transition duration-200 ease-in-out text-sm text-white flex items-center justify-center gap-2"
+              className="w-5/12 bg-accent rounded-md  px-4 py-2  font-semibold transition duration-200 ease-in-out text-sm text-white flex items-center justify-center gap-2"
             >
               <IoIosAddCircle className=" text-xl text-white" />
-              <span className="overflow-hidden whitespace-nowrap text-ellipsis truncate ">
+              <span className="overflow-hidden text-white whitespace-nowrap text-ellipsis truncate ">
                 Add Post
               </span>
             </Link>
@@ -70,19 +71,7 @@ const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
         </div>
       </div>
       <div className="px-6 lg:px-12 flex flex-col   gap-3  ">
-        <div className="w-full lg:w-[50%] text-secondary flex items-center justify-between lg:justify-start mt-3 lg:mt-0  text-sm gap-4 lg:gap-9 font-semibold">
-          <div className="">
-            <span className="text-primary text-base font-bold">56</span>{" "}
-            Followers
-          </div>
-          <div className="">
-            <span className="text-primary text-base font-bold">68</span>{" "}
-            Following
-          </div>
-          <div className="">
-            <span className="text-primary text-base font-bold">678</span> Post
-          </div>
-        </div>
+        <ProfileTopCountStatus userId={user._id} />
         <div className="w-full    flex flex-row lg:flex-col xl:flex-row items-center gap-3 justify-start  ">
           <div className="  text-secondary   font-semibold">
             {user.work ? (

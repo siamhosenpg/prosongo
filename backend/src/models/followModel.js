@@ -1,23 +1,23 @@
+// models/Follow.js
 import mongoose from "mongoose";
 
-const FollowSchema = new mongoose.Schema({
-  follower: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-    index: true,
+const followSchema = new mongoose.Schema(
+  {
+    followerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    followingId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  followee: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-    index: true,
-  },
-  createdAt: { type: Date, default: Date.now, index: true },
-});
+  { timestamps: true }
+);
 
-// Prevent duplicate follows
-FollowSchema.index({ follower: 1, followee: 1 }, { unique: true });
+followSchema.index({ followerId: 1, followingId: 1 }, { unique: true });
+// একই ফলো দুইবার হবে না
 
-const Follow = mongoose.model("Follow", FollowSchema);
-export default Follow;
+export default mongoose.model("Follow", followSchema);

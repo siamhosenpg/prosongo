@@ -1,6 +1,7 @@
 import express from "express";
 import {
-  createOrUpdateReaction,
+  createReaction,
+  updateReaction,
   deleteReaction,
   getReactionsByPost,
   getReactionCount,
@@ -11,8 +12,11 @@ import { protect } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// 🟢 Add or Update Reaction
-router.post("/", protect, createOrUpdateReaction);
+// 🟢 Create Reaction
+router.post("/create", protect, createReaction);
+
+// 🟡 Update Reaction
+router.put("/update", protect, updateReaction);
 
 // 🔴 Delete Reaction
 router.delete("/:postId", protect, deleteReaction);

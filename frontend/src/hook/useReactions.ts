@@ -1,7 +1,8 @@
 // hooks/useReactions.ts
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  createOrUpdateReaction,
+  createReaction,
+  updateReaction,
   deleteReaction,
   getReactionsByPost,
   getReactionCount,
@@ -10,30 +11,51 @@ import {
 export const useReactions = (postId: string) => {
   const queryClient = useQueryClient();
 
-  // ✅ get all reactions (object style)
+  // 🔹 Get all reactions of this post
   const { data, isLoading } = useQuery({
     queryKey: ["reactions", postId],
     queryFn: () => getReactionsByPost(postId),
   });
 
-  // ✅ create or update reaction
-  const reactMutation = useMutation({
-    mutationFn: createOrUpdateReaction,
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["reactions", postId] }),
+  // 🔹 Create Reaction
+  const createMutation = useMutation({
+    mutationFn: createReaction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reactions", postId] });
+      queryClient.invalidateQueries({ queryKey: ["reactionCount", postId] });
+    },
   });
 
-  // ✅ delete reaction
+  // 🔹 Update Reaction
+  const updateMutation = useMutation({
+    mutationFn: updateReaction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reactions", postId] });
+      queryClient.invalidateQueries({ queryKey: ["reactionCount", postId] });
+    },
+  });
+
+  // 🔹 Delete Reaction
   const deleteMutation = useMutation({
     mutationFn: deleteReaction,
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["reactions", postId] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reactions", postId] });
+      queryClient.invalidateQueries({ queryKey: ["reactionCount", postId] });
+    },
   });
 
+  // 🔹 Count Query
   const reactionCountQuery = useQuery({
     queryKey: ["reactionCount", postId],
     queryFn: () => getReactionCount(postId),
   });
 
-  return { data, isLoading, reactionCountQuery, reactMutation, deleteMutation };
+  return {
+    data,
+    isLoading,
+    reactionCountQuery,
+    createMutation,
+    updateMutation,
+    deleteMutation,
+  };
 };

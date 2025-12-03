@@ -1,16 +1,26 @@
+// routes/followRoutes.js
 import express from "express";
-import * as followController from "../controllers/followController.js";
-import auth from "../middleware/auth.js";
+import { protect } from "../middleware/auth.js";
+import {
+  followUser,
+  unfollowUser,
+  getFollowers,
+  getFollowing,
+  getFollowersCount,
+  getFollowingCount,
+} from "../controllers/followControl.js";
 
 const router = express.Router();
 
-// Routes
-router.post("/follow", auth, followController.followUser);
-router.post("/unfollow", auth, followController.unfollowUser);
+// 🔹 Follow / Unfollow
+router.post("/follow/:userId", protect, followUser);
+router.delete("/unfollow/:userId", protect, unfollowUser);
 
-router.get("/followers/:userId", followController.getFollowers);
-router.get("/following/:userId", followController.getFollowing);
-
-router.get("/isFollowing/:targetId", auth, followController.isFollowing);
+// 🔹 Get followers / following
+router.get("/followers/:userId", getFollowers); // public
+router.get("/following/:userId", getFollowing); // public
+// 🔹 Get followers / following count
+router.get("/followers/count/:userId", getFollowersCount); // public
+router.get("/following/count/:userId", getFollowingCount); // public
 
 export default router;

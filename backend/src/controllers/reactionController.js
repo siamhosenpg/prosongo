@@ -1,10 +1,9 @@
 import Reaction from "../models/reactionModel.js";
-
-// 🟢 Create or Update Reaction
-export const createOrUpdateReaction = async (req, res) => {
+// 🟢 Create Reaction
+export const createReaction = async (req, res) => {
   try {
     const { postId, reaction } = req.body;
-    const userId = req.user.id; // 🔥 Always from auth middleware
+    const userId = req.user.id;
 
     if (!postId || !reaction) {
       return res
@@ -12,21 +11,14 @@ export const createOrUpdateReaction = async (req, res) => {
         .json({ message: "postId & reaction are required" });
     }
 
-    // আগের reaction আছে কিনা খুঁজো
-    let existing = await Reaction.findOne({ userId, postId });
-
+    // আগেই reaction আছে কিনা চেক করো
+    const existing = await Reaction.findOne({ userId, postId });
     if (existing) {
-      // Update previous reaction
-      existing.reaction = reaction;
-      await existing.save();
-
-      return res.status(200).json({
-        message: "Reaction updated successfully",
-        reaction: existing,
+      return res.status(400).json({
+        message: "Reaction already exists. Use update API instead.",
       });
     }
 
-    // New reaction create
     const newReaction = await Reaction.create({
       userId,
       postId,
@@ -39,7 +31,43 @@ export const createOrUpdateReaction = async (req, res) => {
     });
   } catch (err) {
     return res.status(500).json({
-      message: "Error creating/updating reaction",
+      message: "Error creating reaction",
+      error: err.message,
+    });
+  }
+};
+
+// 🟡 Update Reaction
+export const updateReaction = async (req, res) => {
+  try {
+    const { postId, reaction } = req.body;
+    const userId = req.user.id;
+
+    if (!postId || !reaction) {
+      return res
+        .status(400)
+        .json({ message: "postId & reaction are required" });
+    }
+
+    // আগে reaction থাকা লাগবে
+    const existing = await Reaction.findOne({ userId, postId });
+
+    if (!existing) {
+      return res.status(404).json({
+        message: "Reaction not found. Create reaction first.",
+      });
+    }
+
+    existing.reaction = reaction;
+    await existing.save();
+
+    return res.status(200).json({
+      message: "Reaction updated successfully",
+      reaction: existing,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Error updating reaction",
       error: err.message,
     });
   }

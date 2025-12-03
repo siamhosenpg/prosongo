@@ -44,7 +44,7 @@ const SuggestAccounts = async () => {
                     </span>
                   </div>
                 </div>
-                <FollowButton />
+                <FollowButton targetUserId={user._id} />
               </div>
             );
           })}
