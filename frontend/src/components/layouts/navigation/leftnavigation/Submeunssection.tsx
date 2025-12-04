@@ -47,7 +47,7 @@ const Submeunssection = () => {
             key={index}
             className="flex gap-4 mt-1 mb-1 items-center px-5 py-2 hover:bg-background-secondary duration-150 rounded-lg"
           >
-            <img className="w-[24px] " src={list.image} alt="" />
+            <img className="w-6 " src={list.image} alt="" />
             <div className="text-[15px] font-semibold text-primary">
               {list.name}
             </div>

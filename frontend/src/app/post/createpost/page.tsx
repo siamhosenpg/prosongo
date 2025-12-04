@@ -20,6 +20,19 @@ interface PostData {
   privacy: "public" | "private" | "friends";
 }
 
+type CreatePostResponse = {
+  message: string;
+  post: any; // চাইলে PostTypes দিতে পারো
+};
+
+type CreatePostError = {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+};
+
 // API
 const createPostApi = async (data: PostData): Promise<any> => {
   const res = await axiosInstance.post("/posts", data, {
@@ -46,10 +59,10 @@ const CreatePostPage = () => {
     "public"
   );
 
-  const mutation = useMutation<any, any, PostData>({
+  const mutation = useMutation<CreatePostResponse, CreatePostError, PostData>({
     mutationFn: createPostApi,
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
       setCaption("");
       setImageUrl("");
       setVideoUrl("");
@@ -225,12 +238,12 @@ const CreatePostPage = () => {
 
             <button
               type="submit"
-              disabled={mutation.isLoading}
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 
+              disabled={mutation.isPending}
+              className="px-8 py-3 bg-linear-to-r from-blue-600 to-blue-700 
               text-white rounded-xl shadow-xl hover:scale-105 active:scale-95 
               transition-all"
             >
-              {mutation.isLoading ? "Posting..." : "Share"}
+              {mutation.isPending ? "Posting..." : "Share"}
             </button>
           </div>
         </form>

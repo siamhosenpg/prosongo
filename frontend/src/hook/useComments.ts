@@ -50,7 +50,7 @@ export const useUpdateComment = () => {
       });
       return res.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["comments"],
       });

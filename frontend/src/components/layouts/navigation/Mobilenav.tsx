@@ -1,6 +1,5 @@
 import React from "react";
 import { NavigationData } from "./navigationdata";
-import Searchboxnav from "../../ui/Searchboxnav";
 import Link from "next/link";
 const Mobilenav = () => {
   return (
@@ -9,7 +8,7 @@ const Mobilenav = () => {
         <ul className=" w-full grid grid-cols-5 items-center justify-center px-2 py-1  gap-2">
           {NavigationData.map((item) => {
             const Icon = item.icon;
-            const ActiveIcon = item.activeIcon;
+
             return (
               <Link
                 href={item.href}

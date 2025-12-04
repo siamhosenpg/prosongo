@@ -1,6 +1,5 @@
 import axiosInstance from "../axios";
 import { ReactionResponse } from "@/types/reactionTypes";
-import { ReactionItem } from "@/types/reactionTypes";
 
 export async function getReactionsByPost(
   postId: string

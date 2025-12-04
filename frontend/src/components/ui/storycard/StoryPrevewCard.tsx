@@ -3,14 +3,18 @@ import React from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa6";
 
-const StoryPrevewCard = ({ story }) => {
+interface StoryPrevewCardProps {
+  story: object | any;
+}
+
+const StoryPrevewCard: React.FC<StoryPrevewCardProps> = ({ story }) => {
   if (!story) return null;
   return (
     <div className="h-full aspect-9/16 bg-background-tertiary rounded-lg overflow-hidden relative">
       {/* Top progress Bar */}
-      <div className="absolute z-40 py-4 bg-gradient-to-b from-[#000000a2] to-[#00000000] w-full">
+      <div className="absolute z-40 py-4 bg-linear-to-b from-[#000000a2] to-[#00000000] w-full">
         <div className="topbar  flex gap-1 w-full  px-4 ">
-          <div className="bg-background-transparent w-full h-[1px] rounded-lg">
+          <div className="bg-background-transparent w-full h-px rounded-lg">
             <div className=" progress w-5/12 h-full bg-background-tertiary"></div>
           </div>
         </div>
@@ -46,7 +50,7 @@ const StoryPrevewCard = ({ story }) => {
       </div>
 
       {/* Sent message Box */}
-      <div className=" absolute z-30 bottom-0 bg-gradient-to-b from-[#00000000] to-[#000000a2]  py-6 text-white text-shadow-xs flex items-center justify-between w-full px-4 gap-3">
+      <div className=" absolute z-30 bottom-0 bg-linear-to-b from-[#00000000] to-[#000000a2]  py-6 text-white text-shadow-xs flex items-center justify-between w-full px-4 gap-3">
         <form className=" w-full flex items-center justify-between rounded-full border-white border p-1">
           <input
             type="text"

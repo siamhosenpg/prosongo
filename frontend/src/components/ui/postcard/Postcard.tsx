@@ -1,18 +1,11 @@
 import React from "react";
 // Importing UserContext to access user data
-import { BsThreeDotsVertical } from "react-icons/bs"; // Icon for menu options
 import { AiOutlineLike } from "react-icons/ai"; // Icon for like button
-import { AiFillLike } from "react-icons/ai"; // Icon for filled like
-import { MdBookmarkBorder } from "react-icons/md"; // Icon for bookmark
 import { LuSendHorizontal } from "react-icons/lu"; // Icon for send button
-import { MdOutlinePublic } from "react-icons/md"; // Icon for public visibility
 import { MdOutlineLocationOn } from "react-icons/md"; // Icon for location
-import { FaRegComments } from "react-icons/fa"; // Icon for comments (not used here)
-import { RiShareForwardLine } from "react-icons/ri"; // Icon for share (not used here)
-import { FcLike } from "react-icons/fc"; // Icon for colored like (not used here)
+
 import Link from "next/link";
 import PostCardButtons from "./PostCardButtons";
-import DialogueBox from "../dialogueBox/DialogueBox";
 import ThreeDotIconbutton from "../buttons/ThreeDotIconbutton";
 import { PostTypes } from "@/types/postType";
 import PostcardMedia from "./PostcardMedia";

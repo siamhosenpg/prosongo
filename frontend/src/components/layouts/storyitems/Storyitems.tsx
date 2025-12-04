@@ -1,7 +1,6 @@
 "use client";
 import StoryAdd from "@/components/ui/storycard/StoryAdd";
 import StoryArea from "@/components/ui/storycard/StoryArea";
-import StoryCard from "@/components/ui/storycard/StoryCard";
 import React, { useRef, useState, useEffect } from "react";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
 import { StoryType } from "@/types/storyType";
@@ -52,7 +51,7 @@ const Storyitems: React.FC<StoryAreaProps> = ({ stories }) => {
     <div className="relative flex items-center">
       {/* Left Button */}
       {showLeft && (
-        <div className="absolute left-2 z-40 mt-[-16px]">
+        <div className="absolute left-2 z-40 -mt-4">
           <button
             onClick={scrollLeftHandler}
             className="h-10 w-10 flex items-center justify-center bg-background rounded-full shadow-xl cursor-pointer"
@@ -73,7 +72,7 @@ const Storyitems: React.FC<StoryAreaProps> = ({ stories }) => {
 
       {/* Right Button */}
       {showRight && (
-        <div className="absolute right-2 z-40 mt-[-16px]">
+        <div className="absolute right-2 z-40 -mt-4">
           <button
             onClick={scrollRightHandler}
             className="h-10 w-10 flex items-center justify-center bg-background rounded-full shadow-xl cursor-pointer"

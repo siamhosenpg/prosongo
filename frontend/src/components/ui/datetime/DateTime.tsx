@@ -1,13 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  format,
-  isToday,
-  isYesterday,
-  isThisWeek,
-  differenceInDays,
-} from "date-fns";
+import { format, isToday, isYesterday, differenceInDays } from "date-fns";
 
 interface DateTimeProps {
   date: string | Date;

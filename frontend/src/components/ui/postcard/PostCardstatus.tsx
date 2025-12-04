@@ -5,7 +5,6 @@ import { AiFillLike } from "react-icons/ai";
 
 import { useCommentCount } from "@/hook/useComments";
 import { useReactions } from "@/hook/useReactions";
-import { count } from "console";
 
 interface PostCardStatusProps {
   postId: string; // <- TypeScript fix

@@ -39,7 +39,7 @@ const Post = async ({ params, searchParams }: PageProps) => {
 
         {/* Right: Details */}
         <div className="w-full md:w-4/12 hidden lg:block">
-          <div className="p-4 h-[calc(100vh_-_110px)] bg-background rounded-lg flex flex-col justify-between">
+          <div className="p-4 h-[calc(100vh-110px)] bg-background rounded-lg flex flex-col justify-between">
             {/* User Info */}
             <div className="shrink-0 ">
               <div className="Profile flex items-center justify-between bg-background-secondary gap-2 px-3 py-2 rounded-lg">

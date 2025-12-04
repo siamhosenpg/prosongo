@@ -1,4 +1,3 @@
-import Feed from "@/components/layouts/feed/Feed";
 import ProfileFeed from "@/components/layouts/feed/ProfileFeed";
 import ProfileAbout from "@/components/layouts/profile/ProfileAbout";
 import ProfileFollower from "@/components/layouts/profile/ProfileFollower";

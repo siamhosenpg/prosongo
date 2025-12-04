@@ -10,11 +10,11 @@ const ShortcutActivity = () => {
       {/* Activity  */}
       <div className="flex items-top gap-2 hover:bg-background px-2 rounded-md py-2 mt-2">
         <img
-          className="w-[40px] h-[40px] rounded-full"
+          className="w-10 h-10 rounded-full"
           src="/images/profile.jpg"
           alt=""
         />
-        <div className="text-sm font-semibold w-[calc(100%_-_50px)] text-primary">
+        <div className="text-sm font-semibold w-[calc(100%-50px)] text-primary">
           Nazirana Nahar{" "}
           <span className="text-sm  text-secondary font-medium ml-1">
             Start flowing you
@@ -25,11 +25,11 @@ const ShortcutActivity = () => {
       {/* Activity  */}
       <div className="flex items-top gap-2 hover:bg-background px-2 rounded-md py-2 mt-1">
         <img
-          className="w-[40px] h-[40px] rounded-full"
+          className="w-10 h-10 rounded-full"
           src="/images/profile.jpg"
           alt=""
         />
-        <div className="text-sm font-semibold w-[calc(100%_-_50px)] text-primary">
+        <div className="text-sm font-semibold w-[calc(100%-50px)] text-primary">
           Masud Sowadogor{" "}
           <span className="text-sm  text-secondary font-medium ml-1">
             Comments on your photo "Beautiful this moments!"
@@ -40,11 +40,11 @@ const ShortcutActivity = () => {
       {/* Activity  */}
       <div className="flex items-top gap-2 hover:bg-background px-2 rounded-md py-2 mt-1">
         <img
-          className="w-[40px] h-[40px] rounded-full"
+          className="w-10 h-10 rounded-full"
           src="/images/profile.jpg"
           alt=""
         />
-        <div className="text-sm font-semibold w-[calc(100%_-_50px)] text-primary">
+        <div className="text-sm font-semibold w-[calc(100%-50px)] text-primary">
           Nazirana Nahar{" "}
           <span className="text-sm   font-medium ml-1 text-secondary">
             Post a photo "Amaging wather"

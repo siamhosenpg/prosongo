@@ -1,11 +1,8 @@
 import React from "react";
-
 import { MdLocationPin } from "react-icons/md";
-
 import { MdWork } from "react-icons/md";
-
 import { UserType } from "@/types/userType";
-import Link from "next/link";
+
 import ProfileTopCountStatus from "./ProfileTopCountStatus";
 import ProfileTopButtons from "./ProfileTopButtons";
 

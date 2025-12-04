@@ -29,7 +29,7 @@ export default function LoginPage() {
 
   return (
     <GuestRoute>
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 p-4">
         <div className="w-full max-w-sm bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl p-8 rounded-2xl">
           <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
             Welcome Back
@@ -66,15 +66,15 @@ export default function LoginPage() {
 
           <button
             onClick={handleLogin}
-            disabled={login.isLoading}
+            disabled={login.isPending}
             className={`w-full py-3 rounded-xl text-white font-medium shadow-lg transition-all 
               ${
-                login.isLoading
+                login.isPending
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-700 active:scale-[0.98]"
               }`}
           >
-            {login.isLoading ? "Logging in..." : "Login"}
+            {login.isPending ? "Logging in..." : "Login"}
           </button>
 
           <p className="text-center text-gray-500 text-sm mt-6">

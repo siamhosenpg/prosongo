@@ -31,7 +31,7 @@ const MessageText = () => {
       <div className="w-full flex flex-col items-start mt-4">
         <p className="max-w-[70%] px-4 py-3 mt-1  bg-background-secondary  font-medium w-fit rounded-xl">
           সেকালের হরকরা নামক ইংরেজি পত্রিকায় দেখিতাম, কোনো একজন মিলিটারি সাহেব
-          'পেরেড বৃত্তান্ত', 'ব্যান্ডের' বাদ্যচর্চা প্রভৃতি নানা কথা পালামৌ হইতে
+          পেরেড বৃত্তান্ত, ব্যান্ডের বাদ্যচর্চা প্রভৃতি নানা কথা পালামৌ হইতে
           লিখিতেন।
         </p>
         <div className="text-[12px] max-w-[70%] mt-1 font-medium px-2">
@@ -43,7 +43,7 @@ const MessageText = () => {
         <p className=" max-w-[70%] px-4 py-3 mt-1 bg-accent text-white font-medium w-fit rounded-xl">
           বহুকাল হইলো আমি একবার পালামৌ প্রদেশে গিয়াছিলাম, প্রত্যাগমন করিলে পর
           সেই অঞ্চলের বৃত্তান্ত লিখিবার নিমিত্ত দুই-এক জন বন্ধুবান্ধব আমাকে
-          পুনঃপুন অনুরোধ করিতেন, আমি তখন তাঁহাদের উপহাস করিতাম।
+          পুনঃপুন অনুরোধ করিতেন আমি তখন তাঁহাদের উপহাস করিতাম।
         </p>
         <p className=" max-w-[70%] px-4 py-3 mt-1 bg-accent text-white font-medium w-fit rounded-xl">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos enim

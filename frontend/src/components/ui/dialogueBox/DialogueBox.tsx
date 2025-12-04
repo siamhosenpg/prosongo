@@ -1,4 +1,3 @@
-import { link } from "fs";
 import React from "react";
 
 import { RiHeartAdd2Line } from "react-icons/ri"; // Icon for Interested button

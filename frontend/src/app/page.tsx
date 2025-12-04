@@ -4,7 +4,6 @@ import ShortcutActivity from "@/components/layouts/navigation/leftnavigation/Sho
 import Submeunssection from "@/components/layouts/navigation/leftnavigation/Submeunssection";
 import NewsShortBox from "@/components/layouts/navigation/rightnavigation/NewsShortBox";
 import SuggestAccounts from "@/components/layouts/navigation/rightnavigation/SuggestAccounts";
-import Storyitems from "@/components/layouts/storyitems/Storyitems";
 import Storys from "@/components/layouts/storyitems/Storys";
 import UploadBox from "@/components/layouts/uploadbox/UploadBox";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
@@ -15,7 +14,7 @@ export default function Home() {
       <main className="bg-background-secondary">
         <div className="flex Pagearea  min-h-screen gap-6 xl:gap-6 2xl:gap-6 ">
           {/* Left Sidebar */}
-          <nav className=" w-[40%] xl:w-[27%] hidden lg:block  sticky top-[90px]  h-[calc(100vh_-_90px)] rounded-t-lg  ">
+          <nav className=" w-[40%] xl:w-[27%] hidden lg:block  sticky top-[90px]  h-[calc(100vh-90px)] rounded-t-lg  ">
             <div className="w-full  overflow-y-hidden hover:overflow-y-scroll h-full  ScrollSystem  ">
               <ProfileStatusBox />
               <Submeunssection />
@@ -31,7 +30,7 @@ export default function Home() {
           </div>
 
           {/* Right Sidebar */}
-          <nav className="w-[27%]  hidden xl:block    sticky  top-[90px]  h-[calc(100vh_-_90px)] rounded-t-lg  ">
+          <nav className="w-[27%]  hidden xl:block    sticky  top-[90px]  h-[calc(100vh-90px)] rounded-t-lg  ">
             <div className="  overflow-y-hidden hover:overflow-y-scroll ScrollSystem w-full h-full  ">
               <SuggestAccounts />
               <NewsShortBox />

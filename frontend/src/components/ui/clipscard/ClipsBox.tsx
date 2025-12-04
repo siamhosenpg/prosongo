@@ -6,7 +6,11 @@ import { FaRegComments } from "react-icons/fa"; // Icon for comments (not used h
 import { RiShareForwardLine } from "react-icons/ri"; // Icon for share (not used here)
 import { LuBookmark } from "react-icons/lu"; // Icon for bookmark
 import { HiDotsHorizontal } from "react-icons/hi"; // Icon for more options
-const ClipsBox = ({ src }) => {
+
+interface ClipsBoxProps {
+  src: string;
+}
+const ClipsBox: React.FC<ClipsBoxProps> = ({ src }) => {
   return (
     <section className="snap-center  flex items-center justify-center h-full px-0 md:px-4">
       {/* Reel inner box keeps exact 9:16 ratio visually centered */}
@@ -20,7 +24,7 @@ const ClipsBox = ({ src }) => {
           muted
           loop
           autoPlay
-          className="rounded-xl  bg-black max-h-[90vh] object-contain  w-[calc(90vh_*_9_/_16)] h-[90vh]"
+          className="rounded-xl  bg-black max-h-[90vh] object-contain  w-[calc(90vh*9/16)] h-[90vh]"
         />
 
         {/* Overlay: right-side action buttons */}
@@ -65,7 +69,7 @@ const ClipsBox = ({ src }) => {
             <span className="text-sm font-semibold text-white mr-2 text-shadow-md">
               Siam Hossen
             </span>
-            <button className=" text-sm font-bold border-border border-[1px] text-white py-[2px] px-2 rounded-md">
+            <button className=" text-sm font-bold border-border border text-white py-0.5 px-2 rounded-md">
               Follow
             </button>
           </div>

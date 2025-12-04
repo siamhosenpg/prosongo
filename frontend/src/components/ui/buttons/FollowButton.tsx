@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { useFollowUser, useFollowing } from "@/hook/useFollow";
 import { useAuth } from "@/hook/useAuth";
@@ -15,13 +16,16 @@ const FollowButton: React.FC<FollowButtonProps> = ({
   const { user, isLoading: authLoading } = useAuth();
   const currentUser = user?.user?._id;
 
-  // 🔥 নিজেকে follow করা যাবে না → button hide হবে
-  if (!currentUser || currentUser === targetUserId) return null;
-
-  // 🔹 Always call hook, even if data not ready
-  const { data: followingData, isLoading: followingLoading } =
-    useFollowing(currentUser);
+  // 🔥 Hooks must always run — no conditions before hooks!
+  const { data: followingData, isLoading: followingLoading } = useFollowing(
+    currentUser || ""
+  );
   const followMutation = useFollowUser();
+
+  // 🔥 নিজের account-এ follow button hide
+  if (!currentUser || currentUser === targetUserId) {
+    return null;
+  }
 
   // Loading state
   if (authLoading || followingLoading) {
@@ -38,13 +42,13 @@ const FollowButton: React.FC<FollowButtonProps> = ({
     );
   }
 
-  // 🔹 Check if current user is following target user
+  // 🔥 Check if already following
   const isFollowing = followingData?.some(
     (f) => f.followingId?._id === targetUserId
   );
 
   const handleFollow = () => {
-    if (isFollowing || followMutation.isPending) return; // Prevent duplicate
+    if (isFollowing || followMutation.isPending) return;
     followMutation.mutate(targetUserId);
   };
 

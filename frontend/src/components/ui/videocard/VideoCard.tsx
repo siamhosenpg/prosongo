@@ -13,7 +13,7 @@ const VideoCard = () => {
           className=" object-cover rounded-none sm:rounded-lg  w-full aspect-video min-w-[100px] bg-gray-100 "
           src="/images/thumb.jpg" // Media URL from post data
         />
-        <div className=" bottom-4 right-6 absolute z-10 bg-gray-900 text-white rounded-md px-2 py-[2px] text-[12px] font-semibold  ">
+        <div className=" bottom-4 right-6 absolute z-10 bg-gray-900 text-white rounded-md px-2 py-0.5 text-[12px] font-semibold  ">
           57:34
         </div>
       </div>

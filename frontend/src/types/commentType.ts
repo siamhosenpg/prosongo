@@ -7,7 +7,7 @@ export interface CommentUser {
   _id: string;
   name: string;
   email: string;
-  userid: Number;
+  userid: number;
   avatar?: string;
   profileImage: string;
 }

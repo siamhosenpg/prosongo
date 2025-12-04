@@ -7,7 +7,7 @@ type ImageType = string;
 
 type Props = {
   imagedata: ImageType[];
-  postid: Number;
+  postid: number;
 };
 
 const PostcardMedia: React.FC<Props> = ({ imagedata, postid }) => {

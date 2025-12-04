@@ -12,9 +12,7 @@ interface CommentsSectionProps {
 }
 
 const CommentsSection: React.FC<CommentsSectionProps> = ({ postId }) => {
-  const [page, setPage] = useState(1);
-
-  const { data: comments = [], isLoading } = useGetComments(postId, page);
+  const { data: comments = [], isLoading } = useGetComments(postId);
 
   if (isLoading)
     return (

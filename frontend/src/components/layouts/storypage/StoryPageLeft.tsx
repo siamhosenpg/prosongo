@@ -35,7 +35,7 @@ const StoryPageLeft = () => {
           key={user.id}
           className="flex items-center gap-2 px-3 py-3 hover:bg-background-secondary rounded-lg"
         >
-          <div className="w-12 sm:w-14 h-12 sm:h-14 bg-gradient-to-r from-[#06af3e] via-[#01b88a] to-[#8bd401] rounded-full overflow-hidden p-[3px]">
+          <div className="w-12 sm:w-14 h-12 sm:h-14 bg-linear-to-r from-[#06af3e] via-[#01b88a] to-[#8bd401] rounded-full overflow-hidden p-[3px]">
             <div className="p-[3px] bg-background rounded-full">
               <img
                 loading="lazy"

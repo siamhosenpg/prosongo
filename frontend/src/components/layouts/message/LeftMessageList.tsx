@@ -23,8 +23,11 @@ const LeftMessageList = () => {
       </div>
       <div className=" px-3 h-full overflow-y-auto py-4">
         <ul className="flex flex-col gap-1 ">
-          {[...Array(10)].map((_, i) => (
-            <li className="p-2 flex items-center gap-2 hover:bg-background-secondary rounded-lg cursor-pointer">
+          {[...Array(10)].map((a, i) => (
+            <li
+              key={i}
+              className="p-2 flex items-center gap-2 hover:bg-background-secondary rounded-lg cursor-pointer"
+            >
               <div className="w-12 h-12 shrink-0 rounded-full overflow-hidden">
                 <img
                   className="w-full h-full object-cover"
