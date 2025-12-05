@@ -1,7 +1,6 @@
 import express from "express";
 import {
   createStory,
-  editStory,
   deleteStory,
   getStoriesByUser,
   getAllStories,
@@ -14,18 +13,16 @@ const router = express.Router();
 // Create a new story
 router.post("/", protect, createStory);
 
-// Edit a story
-router.patch("/:storyId", protect, editStory);
-
 // Delete a story
 router.delete("/:storyId", protect, deleteStory);
 
 // Get all stories of a user
-router.get("/user/:userId", protect, getStoriesByUser);
+router.get("/user/:userId", getStoriesByUser);
 
 // Get all stories (public stories or friends stories)
 router.get("/", getAllStories);
 
+// Get story by ID
 router.get("/:id", getStoryById);
 
 export default router;

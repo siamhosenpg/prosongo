@@ -2,8 +2,13 @@ import StoryPrevewCard from "@/components/ui/storycard/StoryPrevewCard";
 import React from "react";
 
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import { StoryType } from "@/types/storyType";
 
-const StoryPageContent = ({ story }) => {
+interface StoryPageContentProps {
+  story: StoryType;
+}
+
+const StoryPageContent: React.FC<StoryPageContentProps> = ({ story }) => {
   return (
     <div className="flex items-center h-full">
       <div className=" shrink-0 w-fit h-full">

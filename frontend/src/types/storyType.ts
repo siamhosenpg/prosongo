@@ -1,4 +1,5 @@
 interface User {
+  userid: number;
   name: string;
   profileImage: string;
 }

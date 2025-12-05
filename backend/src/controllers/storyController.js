@@ -6,7 +6,7 @@ import Story from "../models/storyModel.js";
 export const createStory = async (req, res) => {
   try {
     const { media, textOverlay, expiresAt } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.id; // ✔ authenticated user ID
 
     if (!media?.url || !media?.type) {
       return res
@@ -35,32 +35,6 @@ export const createStory = async (req, res) => {
 };
 
 // -------------------
-// Edit Story
-// -------------------
-export const editStory = async (req, res) => {
-  try {
-    const { storyId } = req.params;
-    const { media, textOverlay, expiresAt } = req.body;
-
-    const story = await Story.findById(storyId);
-    if (!story) return res.status(404).json({ message: "Story not found" });
-
-    if (story.userId.toString() !== req.user.id)
-      return res.status(403).json({ message: "Not authorized" });
-
-    if (media) story.media = media;
-    if (textOverlay) story.textOverlay = textOverlay;
-    if (expiresAt) story.expiresAt = expiresAt;
-
-    await story.save();
-    res.json({ success: true, story });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-// -------------------
 // Delete Story
 // -------------------
 export const deleteStory = async (req, res) => {
@@ -68,13 +42,17 @@ export const deleteStory = async (req, res) => {
     const { storyId } = req.params;
 
     const story = await Story.findById(storyId);
-    if (!story) return res.status(404).json({ message: "Story not found" });
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
 
-    if (story.userId.toString() !== req.user.id)
+    // ✔ Only owner can delete
+    if (story.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Not authorized" });
+    }
 
-    await story.remove();
-    res.json({ success: true, message: "Story deleted" });
+    await story.deleteOne(); // ✔ recommended instead of remove()
+    res.json({ success: true, message: "Story deleted successfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -95,15 +73,15 @@ export const getStoriesByUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 // -------------------
 // Get ALL Stories (Public Feed)
 // -------------------
 export const getAllStories = async (req, res) => {
   try {
-    // Expire check বাদ → সব story show করবে
     const stories = await Story.find()
-      .populate("userId", "name userid profileImage") // show user info
-      .sort({ createdAt: -1 }); // newest first
+      .populate("userId", "name userid profileImage")
+      .sort({ createdAt: -1 });
 
     res.json({
       success: true,
@@ -116,6 +94,9 @@ export const getAllStories = async (req, res) => {
   }
 };
 
+// -------------------
+// Get Story By ID
+// -------------------
 export const getStoryById = async (req, res) => {
   try {
     const story = await Story.findById(req.params.id).populate(

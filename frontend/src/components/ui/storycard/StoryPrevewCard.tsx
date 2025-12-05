@@ -2,12 +2,13 @@ import React from "react";
 
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa6";
+import { StoryType } from "@/types/storyType";
 
-interface StoryPrevewCardProps {
-  story: object | any;
+interface StoryPageContentProps {
+  story: StoryType;
 }
 
-const StoryPrevewCard: React.FC<StoryPrevewCardProps> = ({ story }) => {
+const StoryPrevewCard: React.FC<StoryPageContentProps> = ({ story }) => {
   if (!story) return null;
   return (
     <div className="h-full aspect-9/16 bg-background-tertiary rounded-lg overflow-hidden relative">
