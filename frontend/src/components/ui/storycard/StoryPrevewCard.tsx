@@ -3,6 +3,7 @@ import React from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa6";
 import { StoryType } from "@/types/storyType";
+import StoryTime from "../datetime/StoryTime";
 
 interface StoryPageContentProps {
   story: StoryType;
@@ -28,9 +29,12 @@ const StoryPrevewCard: React.FC<StoryPageContentProps> = ({ story }) => {
               src={story.userId?.profileImage}
               alt=""
             />
-            <span className=" font-semibold text-shadow-xs block">
-              {story.userId?.name}
-            </span>
+            <div className=" font-semibold text-shadow-xs block">
+              <span className="block">{story.userId?.name}</span>
+              <span className="smalltext block">
+                <StoryTime date={story.createdAt} />
+              </span>
+            </div>
           </div>
           <div className="flex items-center justify-end gap-3 text-white">
             <button className=" p-1">

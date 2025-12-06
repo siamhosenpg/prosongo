@@ -7,6 +7,7 @@ interface Content {
   mentions?: string[];
 }
 interface Profiledata {
+  _id: string;
   name: string;
   userid: number;
   bio: string;

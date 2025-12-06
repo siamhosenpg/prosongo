@@ -81,7 +81,7 @@ const Postbox: React.FC<PostboxProps> = async ({ post }) => {
             </span>
           </div>
         </div>
-        <ThreeDotIconbutton />
+        <ThreeDotIconbutton post={post} />
       </div>
 
       {/* Post text content */}

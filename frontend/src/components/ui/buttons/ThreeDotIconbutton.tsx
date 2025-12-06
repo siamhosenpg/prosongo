@@ -1,9 +1,14 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import DialogueBox from "../dialogueBox/DialogueBox";
+import PostActionList from "../actionbox/PostActionList";
+import { PostTypes } from "@/types/postType";
 
-const ThreeDotIconButton = () => {
+interface postpropsdata {
+  post: PostTypes;
+}
+
+const ThreeDotIconButton: React.FC<postpropsdata> = ({ post }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +37,7 @@ const ThreeDotIconButton = () => {
 
       {isOpen && (
         <div className="absolute right-0  z-40">
-          <DialogueBox />
+          <PostActionList post={post} />
         </div>
       )}
     </div>

@@ -29,7 +29,7 @@ export const deleteStory = async (
 export const getStoriesByUser = async (
   userId: string
 ): Promise<{ success: boolean; stories: StoryType[] }> => {
-  const res = await axiosInstance.get(`/story/user/${userId}`);
+  const res = await axiosInstance.get(`/stories/user/${userId}`);
   return res.data;
 };
 
