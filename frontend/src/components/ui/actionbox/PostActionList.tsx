@@ -19,6 +19,8 @@ import { useAuth } from "@/hook/useAuth";
 import { useFollowing } from "@/hook/useFollow";
 import { PostTypes } from "@/types/postType";
 import ActionDeletePost from "./actionactivity/ActionDeletePost";
+import ActionUnfollow from "./actionactivity/ActionUnfollow";
+import ActionFollow from "./actionactivity/ActionFollow";
 
 interface PostActionListProps {
   post: PostTypes;
@@ -104,6 +106,24 @@ const PostActionList: React.FC<PostActionListProps> = ({ post }) => {
           // delete হলে custom component ব্যবহার করো
           if (item.title === "Delete Post") {
             return <ActionDeletePost key={index} post={post} />;
+          }
+          if (item.title === "Unfollow User") {
+            return (
+              <ActionUnfollow
+                key={index}
+                userId={post.userid._id}
+                Name={post.userid.name}
+              />
+            );
+          }
+          if (item.title === "Follow User") {
+            return (
+              <ActionFollow
+                key={index}
+                userId={post.userid._id}
+                Name={post.userid.name}
+              />
+            );
           }
           return (
             <div
