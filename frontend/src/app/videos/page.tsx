@@ -1,30 +1,35 @@
-import VideoCard from "@/components/ui/videocard/VideoCard";
+import ClipsBox from "@/components/ui/clipscard/ClipsBox";
 import React from "react";
 
-const page = () => {
+// ReelsPage.jsx
+// Single-file React component using Tailwind CSS.
+// Usage: drop this component into a React app that has Tailwind configured.
+// Replace the `videos` array URLs with your 9:16 vertical videos (or serve them from /public/videos/...)
+
+export default function ReelsPage() {
+  const videos = [
+    "/videos/video3.mp4",
+    "/videos/video1.mp4",
+    "/videos/video3.mp4",
+    "/videos/video1.mp4",
+    "/videos/video.mp4",
+
+    // add more paths or remote urls
+  ];
+
   return (
-    <div>
-      <div className="Pagearea">
-        <div className="pt-2 md:pt-6">
-          <h1 className="text-2xl font-bold">Videos</h1>
-          <p>
-            Welcome to the Videos page. Here you can find a collection of our
-            latest videos.
-          </p>
-          <div className="grid grid-cols-3 gap-6 mb-6">
-            <VideoCard />
-            <VideoCard />
-            <VideoCard />
-            <VideoCard />
-            <VideoCard />
-            <VideoCard />
-            <VideoCard />
-            <VideoCard />
-          </div>
-        </div>
-      </div>
+    <div className=" ">
+      {/* Scrollable reels container: snap scrolling so each reel centers */}
+      <main
+        className="h-[calc(100vh-120px)] lg:h-[calc(100vh-72px)] overflow-y-scroll snap-y snap-mandatory scroll-smooth "
+        style={{ scrollSnapType: "y mandatory" }}
+      >
+        {videos.map((src, idx) => (
+          <ClipsBox key={idx} src={src} />
+        ))}
+
+        {/* small spacer so last reel can center nicely above footer */}
+      </main>
     </div>
   );
-};
-
-export default page;
+}

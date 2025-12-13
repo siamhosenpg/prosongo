@@ -13,7 +13,7 @@ interface ProfileTopimageProps {
 const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
   return (
     <div className="bg-background rounded-none lg:rounded-lg mb-4 overflow-hidden w-full pb-8">
-      <div className="profiletopimage relative p-6 overflow-hidden w-full">
+      <div className="profiletopimage relative p-2 lg:p-6 overflow-hidden w-full">
         <div className="rounded-lg overflow-hidden">
           <img
             loading="lazy"

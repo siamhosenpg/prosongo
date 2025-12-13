@@ -4,7 +4,7 @@ import Link from "next/link";
 const Mobilenav = () => {
   return (
     <div className=" w-full fixed lg:hidden bottom-0 z-50 bg-background border-t border-border">
-      <div className="NavMobile   h-14 flex  items-center">
+      <div className="NavMobile   h-15 flex  items-center">
         <ul className=" w-full grid grid-cols-5 items-center justify-center px-2 py-1  gap-2">
           {NavigationData.map((item) => {
             const Icon = item.icon;

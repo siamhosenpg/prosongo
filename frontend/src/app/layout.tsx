@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_Bengali } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 import ShowNavigation from "@/components/layouts/navigation/ShowNavigation";
@@ -7,11 +7,6 @@ import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-});
-const noto_sans_bangla = Noto_Sans_Bengali({
-  variable: "--Noto_Sans_Bengali",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
 });

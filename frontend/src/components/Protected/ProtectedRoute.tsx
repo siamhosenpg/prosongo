@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import { useAuth } from "@/hook/useAuth";
 import { useRouter } from "next/navigation";
 
-import { motion } from "framer-motion";
-
 type Props = {
   children: React.ReactNode;
 };
@@ -22,11 +20,7 @@ export const ProtectedRoute = ({ children }: Props) => {
   if (isLoading || !user) {
     return (
       <div className="fixed top-[62px] w-full h-1.2 overflow-hidden z-50">
-        <motion.div
-          className="h-full w-[200%] bg-gradient-to-r from-green-500 via-red-500 to-blue-500"
-          animate={{ x: ["0%", "-50%", "0%"] }}
-          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-        />
+        <div className="h-full w-[200%] bg-linear-to-r from-green-500 via-red-500 to-blue-500" />
       </div>
     ); // data আসার আগে spinner/loader দেখাবে
   }

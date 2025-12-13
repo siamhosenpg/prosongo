@@ -59,12 +59,12 @@ const FollowButton: React.FC<FollowButtonProps> = ({
       className={`block text-sm font-semibold border rounded-md transition-all 
         ${
           variant === "lg"
-            ? "py-1.5 px-8 bg-accent text-white"
+            ? "py-1.5 px-8 bg-accent text-white "
             : "py-[3px] px-3"
         }
         ${
           isFollowing
-            ? "opacity-50 border-text-tertiary  text-text-tertiary cursor-default"
+            ? "opacity-50 border-text-tertiary  text-text-tertiary cursor-default "
             : "border-accent text-accent hover:opacity-80"
         }
       `}

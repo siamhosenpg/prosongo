@@ -64,33 +64,10 @@ const Nav = () => {
                 </div>
 
                 <FaCaretDown className="hidden sm:block text-loose" />
-
-                <button
-                  onClick={() => logout.mutate()}
-                  className="px-2 py-1 text-red-600 hover:text-red-800"
-                >
-                  Logout
-                </button>
               </>
             )}
 
             {/* 🔴 STATE-3: Logged Out */}
-            {!isLoading && !currentUser && (
-              <>
-                <Link
-                  href="/login"
-                  className="px-2 py-1 rounded hover:bg-background-secondary"
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/register"
-                  className="px-2 py-1 rounded hover:bg-background-secondary"
-                >
-                  Register
-                </Link>
-              </>
-            )}
           </div>
         </div>
       </div>

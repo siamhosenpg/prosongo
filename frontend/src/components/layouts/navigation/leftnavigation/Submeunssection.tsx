@@ -1,6 +1,8 @@
+"use client";
 import DarkMoodToggle from "@/components/ui/buttons/DarkMoodToggle";
 import Link from "next/link";
 import React from "react";
+import { useAuth } from "@/hook/useAuth";
 
 const Leftnavigationlist = [
   {
@@ -30,15 +32,11 @@ const Leftnavigationlist = [
     links: "/help",
     image: "/images/icon/help-desk.png",
   },
-
-  {
-    name: "Log Out",
-    links: "/logout",
-    image: "/images/icon/logout.png",
-  },
 ];
 
 const Submeunssection = () => {
+  const { user, isLoading, logout } = useAuth();
+  const currentUser = user?.user; // safer
   return (
     <div className=" mt-3 p-3 bg-background rounded-lg">
       <DarkMoodToggle />
@@ -56,6 +54,16 @@ const Submeunssection = () => {
           </Link>
         );
       })}
+      <div
+        onClick={() => logout.mutate()}
+        className="flex cursor-pointer gap-4 mt-1 mb-1 items-center px-5 py-2 hover:bg-background-secondary duration-150 rounded-lg"
+      >
+        <img className="w-6 " src="/images/icon/logout.png" alt="" />
+        <div className="text-[15px] font-semibold text-primary">
+          Logout |{" "}
+          <span className=" text-text-secondary">{currentUser?.name}</span>
+        </div>
+      </div>
     </div>
   );
 };

@@ -24,7 +24,7 @@ const ClipsBox: React.FC<ClipsBoxProps> = ({ src }) => {
           muted
           loop
           autoPlay
-          className="rounded-xl  bg-black max-h-[90vh] object-contain  w-[calc(90vh*9/16)] h-[90vh]"
+          className=" rounded-none lg:rounded-xl  bg-black max-h-[90vh] object-contain w-full lg:w-[calc(90vh*9/16)] h-[calc(100vh-120px)] lg:h-[90vh]"
         />
 
         {/* Overlay: right-side action buttons */}

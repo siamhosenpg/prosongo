@@ -4,7 +4,7 @@ import { UserType } from "@/types/userType";
 
 // Update current user's profile
 export const updateUserProfile = async (data: UserType) => {
-  const res = await axiosInstance.put(`/users/${data.userid}`, data);
+  const res = await axiosInstance.put(`/users/user/${data.userid}`, data);
   return res.data;
 };
 

@@ -6,8 +6,8 @@ import { MdOutlineExplore } from "react-icons/md"; // Explore icon
 import { MdExplore } from "react-icons/md"; // Explore icon filled
 import { TbMessageCircle } from "react-icons/tb"; // Message icon
 import { TbMessageCircleFilled } from "react-icons/tb"; // Message icon filled
-import { RiFileVideoLine } from "react-icons/ri";
-import { RiFileVideoFill } from "react-icons/ri";
+import { RiMapPinUserLine } from "react-icons/ri";
+import { RiMapPinUserFill } from "react-icons/ri";
 
 interface NavItem {
   name: string;
@@ -25,10 +25,10 @@ export const NavigationData: NavItem[] = [
     activeIcon: RiVideoAiFill,
   },
   {
-    name: "Clips",
-    href: "/clips",
-    icon: RiFileVideoLine,
-    activeIcon: RiFileVideoFill,
+    name: "Peoples",
+    href: "/peoples",
+    icon: RiMapPinUserLine,
+    activeIcon: RiMapPinUserFill,
   },
   {
     name: "Discover",

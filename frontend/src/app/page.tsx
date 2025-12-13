@@ -11,7 +11,7 @@ import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 export default function Home() {
   return (
     <ProtectedRoute>
-      <main className="bg-background-secondary">
+      <main className="bg-background-secondary ">
         <div className="flex Pagearea  min-h-screen gap-6 xl:gap-6 2xl:gap-6 ">
           {/* Left Sidebar */}
           <nav className=" w-[40%] xl:w-[27%] hidden lg:block  sticky top-[90px]  h-[calc(100vh-90px)] rounded-t-lg  ">
