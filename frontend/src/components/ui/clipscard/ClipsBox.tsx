@@ -10,11 +10,18 @@ import { HiDotsHorizontal } from "react-icons/hi"; // Icon for more options
 interface ClipsBoxProps {
   src: string;
 }
-const ClipsBox: React.FC<ClipsBoxProps> = ({ src }) => {
+interface ClipsBoxProps {
+  src: string;
+  isPortrait: boolean;
+}
+
+const ClipsBox: React.FC<ClipsBoxProps> = ({ src, isPortrait }) => {
+  const bgClass = isPortrait ? "object-cover" : "object-contain";
+
   return (
-    <section className="snap-center  flex items-center justify-center h-full px-0 md:px-4">
+    <section className="snap-center  flex items-center justify-center w-full h-full px-0 md:px-4">
       {/* Reel inner box keeps exact 9:16 ratio visually centered */}
-      <div className="relative flex items-center justify-center">
+      <div className="relative flex items-center justify-center w-full sm:w-fit">
         {/* Video element: we make video height = 90vh so it sits nicely in screen.
                   Width is calculated to preserve 9/16 ratio: width = 90vh * 9/16.
                   Adjust as needed. */}
@@ -24,7 +31,7 @@ const ClipsBox: React.FC<ClipsBoxProps> = ({ src }) => {
           muted
           loop
           autoPlay
-          className=" rounded-none lg:rounded-xl  bg-black max-h-[90vh] object-contain w-full lg:w-[calc(90vh*9/16)] h-[calc(100vh-120px)] lg:h-[90vh]"
+          className={` rounded-none lg:rounded-xl bg-black max-h-[90vh] object-contain w-full lg:w-[calc(90vh*9/16)] h-[calc(100vh-120px)] lg:h-[90vh]   ${bgClass}`}
         />
 
         {/* Overlay: right-side action buttons */}
@@ -59,7 +66,7 @@ const ClipsBox: React.FC<ClipsBoxProps> = ({ src }) => {
         </div>
 
         {/* Bottom-left caption area */}
-        <div className="absolute left-4 bottom-6 max-w-[85%] z-20">
+        <div className="absolute left-4 bottom-6 max-w-[78%] sm:max-w-[85%] z-20">
           <div className="flex items-center gap-2 ">
             <img
               className=" block shrink-0 w-8 h-8 object-cover rounded-full bg-background-secondary overflow-hidden shadow-xl"
@@ -73,7 +80,7 @@ const ClipsBox: React.FC<ClipsBoxProps> = ({ src }) => {
               Follow
             </button>
           </div>
-          <p className="text-sm leading-5 text-white line-clamp-2 mt-2 text-shadow-md">
+          <p className="smalltext leading-5 text-white line-clamp-2 mt-2 text-shadow-xs shadow-black ">
             A short caption for this reel. The best football match for ever —
             #tag @mention
           </p>

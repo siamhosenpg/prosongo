@@ -53,7 +53,7 @@ const NavRightSide = () => {
       {/* 👤 User Info */}
       <div className="flex items-center gap-2">
         {isLoading && (
-          <div className="text-sm text-muted-foreground">Loading...</div>
+          <div className="w-10 h-10 rounded-full bg-background-secondary"></div>
         )}
 
         {!isLoading && currentUser && (

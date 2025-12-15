@@ -45,7 +45,7 @@ const Profile = async ({ params }: ProfilePageProps) => {
               <UploadBox />
 
               <ul className="mt-4">
-                <div>
+                <div className="pb-18">
                   <ProfileFeed userid={user?._id} />
                 </div>
               </ul>

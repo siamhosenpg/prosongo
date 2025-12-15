@@ -7,20 +7,29 @@ import { RiLiveFill } from "react-icons/ri";
 import CreatePostCard from "../createpost/CreatePostCard";
 
 import { useState } from "react";
+import { useAuth } from "@/hook/useAuth";
+import Link from "next/link";
 
 const UploadBox = ({}) => {
+  const { user, isLoading } = useAuth();
   const [open, setOpen] = useState(false);
   return (
     <div className="w-full bg-background rounded-none sm:rounded-lg px-4 sm:px-6 py-3 sm:py-4 flex flex-col items-center justify-center mb-2 sm:mb-4">
       <div className="flex items-center justify-between w-full gap-4 mb-2 sm:mb-4 border-b border-border pb-2 sm:pb-4">
-        <div className="image w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full overflow-hidden border border-border">
+        {isLoading && (
+          <div className="w-10 h-10 rounded-full bg-background-secondary"></div>
+        )}
+        <Link
+          href={`/profile/${user?.user.userid}`}
+          className="image w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full overflow-hidden border border-border"
+        >
           <img
             loading="lazy"
-            src="/images/profile.jpg"
+            src={user?.user.profileImage}
             className="w-full h-full object-cover"
             alt=""
           />
-        </div>
+        </Link>
         <form onClick={() => setOpen(true)} action="" className="w-full">
           <input
             className="px-4 py-2 font-semibold sm:py-3 text-sm bg-background-secondary text-loose rounded-full w-full outline-none"

@@ -9,7 +9,12 @@ const Feed = () => {
   const { feedPost } = usePost(); // hook থেকে feedPost নিলাম
   const { data, isLoading, error } = feedPost();
 
-  if (isLoading) return <PostcardLoading />;
+  if (isLoading)
+    return (
+      <div>
+        <PostcardLoading /> <PostcardLoading />
+      </div>
+    );
 
   if (error) return <p className="text-red-500">Failed to load feed posts</p>;
 
