@@ -24,7 +24,7 @@ const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
         </div>
       </div>
 
-      <div className="profiletopimagedescrition relative  flex flex-col lg:flex-row items-start lg:items-center justify-start gap-4 px-6 lg:px-10  py-2 mt-[-60px]  rounded-lg">
+      <div className="profiletopimagedescrition relative z-30  flex flex-col lg:flex-row items-start lg:items-center justify-start gap-4 px-6 lg:px-10  py-2 mt-[-60px]  rounded-lg">
         <div className="pfimage w-[110px] lg:w-[140px] shrink-0 h-[110px] lg:h-[140px] rounded-full overflow-hidden p-[5px] bg-background ">
           <img
             loading="lazy"

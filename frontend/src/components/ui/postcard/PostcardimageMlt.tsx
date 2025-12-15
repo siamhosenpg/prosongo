@@ -86,7 +86,7 @@ const PostcardimageMlt: React.FC<Props> = ({ imagedata, postid }) => {
       )}
       {/* If more than 2 images */}
       {imagedata.length > 2 && (
-        <div className="overflow-hidden px-4 sm:px-6" ref={emblaRef}>
+        <div className="overflow-hidden  px-4 sm:px-6" ref={emblaRef}>
           <div className="flex gap-2 sm:gap-4">
             {imagedata.map((image, i) => (
               <Link

@@ -2,12 +2,15 @@
 import Link from "next/link";
 import React from "react";
 
+import { useState } from "react";
+
 import { IoIosAddCircle } from "react-icons/io";
 import { MdModeEdit } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 
 import { useAuth } from "@/hook/useAuth";
 import FollowButton from "@/components/ui/buttons/FollowButton";
+import CreatePostCard from "../createpost/CreatePostCard";
 
 interface ProfileTopButtonsProps {
   userId: string; // incoming profile owner userId
@@ -15,7 +18,7 @@ interface ProfileTopButtonsProps {
 
 const ProfileTopButtons: React.FC<ProfileTopButtonsProps> = ({ userId }) => {
   const { user, isLoading } = useAuth();
-
+  const [open, setOpen] = useState(false);
   // Safe auth user ID
   const authUserId: string | undefined = user?.user?._id;
 
@@ -28,8 +31,8 @@ const ProfileTopButtons: React.FC<ProfileTopButtonsProps> = ({ userId }) => {
     <div className="w-full lg:w-7/12 flex justify-between items-center gap-2">
       {isMyProfile ? (
         <>
-          <Link
-            href="/post/createpost"
+          <button
+            onClick={() => setOpen(true)}
             className="w-5/12 bg-accent rounded-md px-4 py-2 font-semibold 
                        transition duration-200 ease-in-out text-sm text-white 
                        flex items-center justify-center gap-2"
@@ -38,7 +41,9 @@ const ProfileTopButtons: React.FC<ProfileTopButtonsProps> = ({ userId }) => {
             <span className="overflow-hidden whitespace-nowrap text-white text-ellipsis truncate">
               Add Post
             </span>
-          </Link>
+          </button>
+          {open && <CreatePostCard onClose={() => setOpen(false)} />}
+          {/* Conditional Render */}
 
           <Link
             href="/profile/edit"

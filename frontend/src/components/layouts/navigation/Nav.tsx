@@ -1,44 +1,14 @@
 "use client";
 
 import React from "react";
-import { useEffect, useRef, useState } from "react";
+
 import { NavigationData } from "./navigationdata";
 import Searchboxnav from "../../ui/Searchboxnav";
 import Link from "next/link";
-import { FaCaretDown, FaRegBell } from "react-icons/fa";
-import { useAuth } from "@/hook/useAuth";
-import NotificationBox from "../notification/NotificationBox";
+
+import NavRightSide from "./NavRightSide";
 
 const Nav = () => {
-  const { user, isLoading } = useAuth();
-
-  const currentUser = user?.user; // safer
-
-  const [open, setOpen] = useState(false);
-  const boxRef = useRef<HTMLDivElement>(null);
-
-  // 🔁 Toggle on bell click
-  const toggleNotification = () => {
-    setOpen((prev) => !prev);
-  };
-
-  // ❌ Close when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (boxRef.current && !boxRef.current.contains(event.target as Node)) {
-        setOpen(false);
-      }
-    };
-
-    if (open) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [open]);
-
   return (
     <nav className="w-full border-b border-border fixed top-0 left-0 bg-background z-50 px-6">
       <div className="Pagearea flex gap-4 justify-between items-center h-15 lg:h-17">
@@ -66,45 +36,7 @@ const Nav = () => {
         </ul>
 
         {/* Right Section */}
-        <div className="w-fit shrink-0 lg:w-3/12 flex items-center justify-end gap-4 lg:gap-5">
-          <button
-            onClick={toggleNotification}
-            className="w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-background-secondary rounded-full"
-          >
-            <FaRegBell className="text-lg" />
-          </button>
-
-          {/* 🔔 Notification Box */}
-          {open && <NotificationBox />}
-
-          <div className="flex items-center gap-2">
-            {/* 🟡 STATE-1: Loading */}
-            {isLoading && (
-              <div className="text-sm text-muted-foreground">Loading...</div>
-            )}
-
-            {/* 🟢 STATE-2: Logged In */}
-            {!isLoading && currentUser && (
-              <>
-                <Link href={`/profile/${currentUser.userid}`} className="image">
-                  <img
-                    className="w-[34px] border border-border object-cover h-[34px] rounded-full bg-blue-50"
-                    src={currentUser.profileImage}
-                    alt={currentUser.name}
-                  />
-                </Link>
-
-                <div className="hidden sm:block font-semibold text-loose">
-                  {currentUser.name}
-                </div>
-
-                <FaCaretDown className="hidden sm:block text-loose" />
-              </>
-            )}
-
-            {/* 🔴 STATE-3: Logged Out */}
-          </div>
-        </div>
+        <NavRightSide />
       </div>
     </nav>
   );

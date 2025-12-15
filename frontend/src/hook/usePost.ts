@@ -16,19 +16,16 @@ export const usePost = () => {
   const { user } = useAuth();
   const currentUserId = user?.user?._id;
 
-  if (!currentUserId) {
-    console.warn("User not logged in. Post actions disabled.");
-  }
-
   // ----------------------------
-  // 🟢 Create Post
+  // 🟢 Create Post (UPDATED)
   // ----------------------------
   const createPostMutation = useMutation({
-    mutationFn: async (postData: any) => {
+    mutationFn: async ({ data }: { data: any }) => {
       if (!currentUserId) throw new Error("Unauthorized: Login required");
-      return await createPost({
-        ...postData,
-        userid: currentUserId, // logged-in user ID attach
+
+      return createPost({
+        ...data,
+        userid: currentUserId,
       });
     },
     onSuccess: () => {
@@ -40,23 +37,10 @@ export const usePost = () => {
   // 🟡 Update Post
   // ----------------------------
   const updatePostMutation = useMutation({
-    mutationFn: async ({
-      postId,
-      updatedData,
-      postUserId,
-    }: {
-      postId: string;
-      updatedData: any;
-      postUserId: string;
-    }) => {
-      if (!currentUserId) throw new Error("Unauthorized: Login required");
+    mutationFn: async ({ postId, updatedData, postUserId }: any) => {
+      if (currentUserId !== postUserId) throw new Error("Unauthorized");
 
-      // 🔐 Only post owner can update
-      if (currentUserId !== postUserId) {
-        throw new Error("Unauthorized: You can't update another user's post");
-      }
-
-      return await updatePost(postId, updatedData);
+      return updatePost(postId, updatedData);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -67,54 +51,60 @@ export const usePost = () => {
   // 🔴 Delete Post
   // ----------------------------
   const deletePostMutation = useMutation({
-    mutationFn: async ({
-      postid,
-      postUserId,
-    }: {
-      postid: string;
-      postUserId: string;
-    }) => {
-      if (!currentUserId) throw new Error("Unauthorized: Login required");
+    mutationFn: async ({ postid, postUserId }: any) => {
+      if (currentUserId !== postUserId) throw new Error("Unauthorized");
 
-      // 🔐 Only owner can delete post
-      if (currentUserId !== postUserId) {
-        throw new Error("Unauthorized: You can't delete another user's post");
-      }
-
-      return await deletePost(postid);
+      return deletePost(postid);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
   });
 
-  const profilePost = (userid: string | undefined) => {
-    return useQuery({
-      queryKey: ["posts", userid],
-      queryFn: () => getPostsByUserId(userid as string),
-      enabled: !!userid, // userid না থাকলে query run হবে না
-    });
-  };
-
-  // 🟣 Get post by postId
   // ----------------------------
-  const singlePost = (postId: number | undefined) => {
-    return useQuery({
+  // 🔵 Queries
+  // ----------------------------
+  const profilePost = (userid?: string) =>
+    useQuery({
+      queryKey: ["posts", userid],
+      queryFn: () => getPostsByUserId(userid!),
+      enabled: !!userid,
+    });
+
+  const singlePost = (postId?: number) =>
+    useQuery({
       queryKey: ["posts", postId],
-      queryFn: () => getSinglePost(postId as number),
+      queryFn: () => getSinglePost(postId!),
       enabled: !!postId,
     });
-  };
 
-  const feedPost = () => {
-    return useQuery({
+  const feedPost = () =>
+    useQuery({
       queryKey: ["posts"],
       queryFn: getFeedPosts,
     });
-  };
 
   return {
-    createPost: createPostMutation.mutate,
+    // 🔥 expose mutate with callback support
+    createPost: (
+      data: any,
+      options?: {
+        onSuccess?: () => void;
+        onError?: (err: any) => void;
+      }
+    ) =>
+      createPostMutation.mutate(
+        { data },
+        {
+          onSuccess: () => {
+            options?.onSuccess?.();
+          },
+          onError: (err) => {
+            options?.onError?.(err);
+          },
+        }
+      ),
+
     createPostLoading: createPostMutation.isPending,
 
     updatePost: updatePostMutation.mutate,
