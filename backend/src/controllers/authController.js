@@ -5,8 +5,8 @@ import { generateToken } from "../utils/generateToken.js";
 // Cookie options
 const cookieOptions = {
   httpOnly: true,
-  secure: false, // localhost
-  sameSite: "lax",
+  secure: true, // localhost
+  sameSite: "none",
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 
@@ -130,8 +130,8 @@ export async function logout(req, res) {
     // Clear the token cookie
     res.cookie("token", "", {
       httpOnly: true,
-      secure: false, // localhost
-      sameSite: "lax",
+      secure: true, // localhost
+      sameSite: "none",
       expires: new Date(0), // Expire immediately
     });
 
