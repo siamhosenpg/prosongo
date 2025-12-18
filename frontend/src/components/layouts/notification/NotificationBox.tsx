@@ -27,7 +27,7 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
 
         {data?.map((noti) => (
           <Link
-            href={`/profile/${noti.actorId.userid}`}
+            href={`/profile/${noti.actorId.username}`}
             key={noti._id}
             onClick={() => {
               if (!noti.read) {

@@ -26,12 +26,12 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
     switch (post.content.type) {
       case "image":
         return (
-          <PostcardMedia imagedata={post.content.media} postid={post.postid} />
+          <PostcardMedia imagedata={post.content.media} postid={post._id} />
         );
 
       case "video":
         return (
-          <PostcardVideo videodata={post.content.media} postid={post.postid} />
+          <PostcardVideo videodata={post.content.media} postid={post._id} />
         );
 
       case "audio":
@@ -53,7 +53,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
       <div className="flex items-center px-4 sm:px-6 justify-between ">
         <div className="left   flex items-center justify-start gap-2 overflow-hidden">
           <Link
-            href={`/profile/${post.userid?.userid}`}
+            href={`/profile/${post.userid?.username}`}
             className="w-10 h-10 bg-gray-300 sm:w-12 sm:h-12 border-border border shrink-0  rounded-full overflow-hidden "
           >
             <img
@@ -101,11 +101,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
 
       <div className="  ">
         <PostCardstatus Commentsposition={false} postId={post._id} />
-        <PostCardButtons
-          com={false}
-          postId={post._id}
-          postNumber={post.postid}
-        />
+        <PostCardButtons com={false} postId={post._id} postNumber={post._id} />
       </div>
 
       <div className=" px-4 sm:px-6 hidden">

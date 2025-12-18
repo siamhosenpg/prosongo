@@ -13,17 +13,17 @@ export const getAllUsers = async (): Promise<UserType[]> => {
   }
 };
 
-/**
- * 🔹 Fetch user by userid
- */
-export const getUserByUserid = async (
-  userid: number
+export const getUserByUsername = async (
+  username: string
 ): Promise<UserType | null> => {
   try {
-    const response = await axiosInstance.get<UserType>(`/users/user/${userid}`);
+    const response = await axiosInstance.get<UserType>(
+      `/users/user/${encodeURIComponent(username)}`
+    );
+
     return response.data;
   } catch (err: any) {
-    console.error("Error fetching user:", err.message);
+    console.error("Error fetching user by username:", err.message);
     return null;
   }
 };

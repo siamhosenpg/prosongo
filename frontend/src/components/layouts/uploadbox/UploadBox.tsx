@@ -22,7 +22,7 @@ const UploadBox = ({}) => {
           <div className="w-10 h-10 rounded-full bg-background-secondary"></div>
         )}
         <Link
-          href={`/profile/${user?.user?.userid}`}
+          href={`/profile/${user?.user?.username}`}
           className="image w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full overflow-hidden border border-border"
         >
           <img

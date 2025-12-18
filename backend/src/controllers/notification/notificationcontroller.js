@@ -33,8 +33,8 @@ export const getMyNotifications = async (req, res) => {
     const notifications = await Notification.find({
       userId: req.user.id,
     })
-      .populate("actorId", "name profileImage userid ")
-      .populate("userId", "name profileImage userid ")
+      .populate("actorId", "name username profileImage userid ")
+      .populate("userId", "name username profileImage userid ")
       .sort({ createdAt: -1 })
       .limit(30);
 

@@ -13,7 +13,7 @@ import PostCardSavebutton from "./PostCardSavebutton";
 
 interface Props {
   postId: string;
-  postNumber: number;
+  postNumber: string;
   com: boolean;
 }
 

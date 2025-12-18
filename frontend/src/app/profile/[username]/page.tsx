@@ -8,21 +8,20 @@ import ProfileVideos from "@/components/layouts/profile/ProfileVideos";
 import UploadBox from "@/components/layouts/uploadbox/UploadBox";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 
-import { getUserByUserid } from "@/lib/user/userData";
+import { getUserByUsername } from "@/lib/user/userData";
 
-interface ProfilePageProps {
-  params: {
-    userid: string;
-  };
+interface PageProps {
+  params: Promise<{
+    username: string;
+  }>;
 }
+const Profile = async ({ params }: PageProps) => {
+  const { username } = await params;
 
-const Profile = async ({ params }: ProfilePageProps) => {
-  const userid = Number(params.userid);
-
-  const user = await getUserByUserid(userid);
+  const user = await getUserByUsername(username);
 
   if (!user) {
-    return <div className="text-center mt-10">User not found</div>;
+    return <div className="text-center mt-10">User not found </div>;
   }
 
   return (

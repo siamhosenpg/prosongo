@@ -12,7 +12,7 @@ interface userPorpsdata {
 const PeoplesCard = ({ user }: userPorpsdata) => {
   return (
     <Link
-      href={`/profile/${user.userid}`}
+      href={`/profile/${user.username}`}
       key={user._id}
       className=" bg-background px-6 py-4 rounded-lg "
     >
@@ -30,7 +30,7 @@ const PeoplesCard = ({ user }: userPorpsdata) => {
             <h4 className="font-bold text-sm lg:text-base ">{user.bio}</h4>
           </div>
         </div>
-        <div className="w-fit shrink-0 hidden lg:block">
+        <div className="w-fit shrink-0 hidden lg:block relative z-20">
           <FollowButton targetUserId={user._id} variant="lg" />
         </div>
       </div>

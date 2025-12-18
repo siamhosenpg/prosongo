@@ -8,13 +8,14 @@ import { getStoryById } from "@/lib/storys/storyData";
 import React from "react";
 
 interface StoryProps {
-  params: {
+  params: Promise<{
     storiesid: string;
-  };
+  }>;
 }
 
 const StoryPage = async ({ params }: StoryProps) => {
-  const story = await getStoryById(params.storiesid);
+  const { storiesid } = await params;
+  const story = await getStoryById(storiesid);
   // Fetch the story data
 
   return (

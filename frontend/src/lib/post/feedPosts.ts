@@ -26,9 +26,9 @@ export const getFeedPosts = async (): Promise<PostTypes[]> => {
 };
 
 // 🟢 Get single post
-export const getSinglePost = async (postid: number): Promise<PostTypes> => {
+export const getSinglePost = async (id: string): Promise<PostTypes> => {
   try {
-    const response = await axiosInstance.get<PostTypes>(`/posts/${postid}`);
+    const response = await axiosInstance.get<PostTypes>(`/posts/post/${id}`);
     return response.data;
   } catch (error: any) {
     handleApiError(error);

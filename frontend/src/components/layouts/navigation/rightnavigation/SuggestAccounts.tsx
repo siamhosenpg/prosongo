@@ -52,7 +52,7 @@ const SuggestAccounts = () => {
               >
                 <div className="flex items-center gap-2">
                   <Link
-                    href={`/profile/${user.userid}`}
+                    href={`/profile/${user.username}`}
                     className=" flex items-center justify-center w-10 h-10 rounded-full border border-border overflow-hidden"
                   >
                     <img

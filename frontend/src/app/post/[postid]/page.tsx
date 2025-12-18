@@ -10,26 +10,20 @@ import PostCardButtons from "@/components/ui/postcard/PostCardButtons";
 import DateTime from "@/components/ui/datetime/DateTime";
 import ThreeDotIconButton from "@/components/ui/buttons/ThreeDotIconbutton";
 import PrevewVideoSection from "@/components/layouts/postprevew/PostPrevewVideo";
-
 interface PageProps {
-  params: {
-    postid: string; // dynamic route always string
-  };
-  searchParams: {
-    index?: string; // optional query param
-    [key: string]: string | undefined;
-  };
+  params: Promise<{ postId: string }>; // Promise না দেওয়া
+  searchParams: { [key: string]: string | undefined };
 }
 
 const Post = async ({ params, searchParams }: PageProps) => {
   // Convert ID safely
-  const postid = Number(params.postid);
+  const { postId } = await params;
 
   // Convert index safely (fallback = 0)
-  const index = Number(searchParams.index ?? 0);
+  const index = Number(searchParams.index) ? Number(searchParams.index) : 0;
 
   // API Call
-  const post = await getSinglePost(postid);
+  const post = await getSinglePost(postId);
 
   if (!post) {
     return <div className="text-center mt-10">Post not found</div>;
@@ -55,7 +49,7 @@ const Post = async ({ params, searchParams }: PageProps) => {
               <div className="Profile flex items-center justify-between bg-background-secondary gap-2 px-3 py-2 rounded-lg">
                 <div className="flex items-center gap-2">
                   <Link
-                    href={`/profile/${post.userid.userid}`}
+                    href={`/profile/${post.userid.username}`}
                     className="shrink-0 w-12 h-12 rounded-full border-border border flex items-center justify-center overflow-hidden"
                   >
                     <img
@@ -90,7 +84,7 @@ const Post = async ({ params, searchParams }: PageProps) => {
                 <PostCardButtons
                   com={true}
                   postId={post._id}
-                  postNumber={postid}
+                  postNumber={post._id}
                 />
               </div>
             </div>

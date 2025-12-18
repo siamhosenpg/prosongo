@@ -1,10 +1,11 @@
+import mongoose from "mongoose";
 import Post from "../models/postmodel.js";
 
 // 🟢 Get all posts with user info
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("userid", "name userid profileImage") // populate user info
+      .populate("userid", "name username profileImage") // populate user info
       .sort({ createdAt: -1 }) // 🔥 newest posts first
       .exec();
 
@@ -18,7 +19,7 @@ export const getPosts = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     const post = await Post.findOne({ postid: req.params.postid })
-      .populate("userid", "name userid bio profileImage")
+      .populate("userid", "name  username bio profileImage")
       .exec();
 
     if (!post) return res.status(404).json({ message: "Post not found" });
@@ -35,7 +36,7 @@ export const getPostsByUserId = async (req, res) => {
     const userId = req.params.userid;
 
     const posts = await Post.find({ userid: userId })
-      .populate("userid", "name userid bio profileImage")
+      .populate("userid", "name username bio profileImage")
       .exec();
 
     return res.status(200).json({
@@ -70,7 +71,7 @@ export const createPost = async (req, res) => {
     const savedPost = await newPost.save();
 
     // Populate user info in response
-    await savedPost.populate("userid", "name userid profileImage");
+    await savedPost.populate("userid", "name username profileImage");
 
     res.status(201).json(savedPost);
   } catch (err) {
@@ -95,7 +96,7 @@ export const updatePost = async (req, res) => {
     Object.assign(post, req.body, { updatedAt: new Date() });
 
     const updatedPost = await post.save();
-    await updatedPost.populate("userid", "name userid profileImage");
+    await updatedPost.populate("userid", "name username profileImage");
 
     res.json(updatedPost);
   } catch (err) {
@@ -122,5 +123,30 @@ export const deletePost = async (req, res) => {
     res.json({ message: "Post deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+// 🟢 Get single post by MongoDB _id with user info
+export const getPostByMongoId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // ✅ Validate MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid post id" });
+    }
+
+    const post = await Post.findById(id)
+      .populate("userid", "name username bio profileImage")
+      .exec();
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    res.json(post);
+  } catch (err) {
+    console.error("Get post by _id error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };

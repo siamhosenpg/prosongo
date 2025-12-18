@@ -8,7 +8,7 @@ type VideoType = string;
 
 type Props = {
   videodata: VideoType[];
-  postid: number;
+  postid: string;
 };
 
 const PostcardVideo: React.FC<Props> = ({ videodata, postid }) => {

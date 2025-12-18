@@ -10,6 +10,7 @@ interface Profiledata {
   _id: string;
   name: string;
   userid: number;
+  username: string;
   bio: string;
   profileImage: string;
 }

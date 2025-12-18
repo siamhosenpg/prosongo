@@ -22,7 +22,7 @@ const ProfileStatusBox = () => {
   return (
     <div className="px-8 py-6 bg-background rounded-lg">
       <div className="top flex gap-3 items-center">
-        <Link href={`/profile/${user.user.userid}`} className="shrink-0">
+        <Link href={`/profile/${user.user.username}`} className="shrink-0">
           <img
             className="w-[50px] border border-border object-cover h-[50px] rounded-full"
             src={user.user.profileImage}
