@@ -12,7 +12,7 @@ const Discover = () => {
   if (isError) return <p>Error loading posts</p>;
 
   return (
-    <div className="Pagearea pt-2 lg:pt-4">
+    <div className="Pagearea pt-2 lg:pt-4 pb-18">
       {isLoading && <DiscoverSkeleton />}
 
       <div className=" px-2 lg:px-0 columns-2 md:columns-3 xl:columns-4 2xl:columns-4 gap-2 lg:gap-4">
@@ -42,7 +42,7 @@ const Discover = () => {
                 </Link>
               )}
               {post.content.type === "video" && (
-                <Link href={`/post/${post.postid}`}>
+                <Link href={`/post/${post._id}`}>
                   <video autoPlay muted loop src={post.content.media[0]} />
                 </Link>
               )}

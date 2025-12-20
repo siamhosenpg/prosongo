@@ -3,11 +3,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImCross } from "react-icons/im";
-import { FaVideo } from "react-icons/fa";
+import { MdOutlineEditLocation } from "react-icons/md";
 
 import { useAuth } from "@/hook/useAuth";
 import { usePost } from "@/hook/usePost";
-import { UserType } from "@/types/userType";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 import ModalPortal from "../ModalPortal";
 
@@ -22,10 +21,7 @@ interface CreateVideoBoxProps {
 }
 
 const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
-  const { user, isLoading } = useAuth() as {
-    user: UserType | null;
-    isLoading: boolean;
-  };
+  const { user, isLoading } = useAuth();
 
   const router = useRouter();
   const { createPost, createPostLoading } = usePost();
@@ -146,103 +142,126 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="-mt-12 w-full lg:w-2/6 rounded-2xl rounded-b-none lg:rounded-b-2xl border border-white/30 bg-background p-6 shadow-2xl"
+              className="-mt-12 w-full lg:w-2/6 rounded-2xl rounded-b-none lg:rounded-b-2xl border border-white/30 bg-background pt-3 pb-6 shadow-2xl"
             >
               {/* Header */}
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-4 flex items-center justify-between border-b border-border px-6 py-2">
                 <h2 className="text-base font-bold flex items-center gap-2">
-                  <FaVideo />
                   Upload a Video
                 </h2>
                 <button
                   onClick={onClose}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-background-secondary"
+                  className="flex cursor-pointer h-10 w-10 items-center justify-center rounded-full bg-background-secondary"
                 >
                   <ImCross />
                 </button>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col gap-6 px-6"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-12 h-12 rounded-full shrink-0 overflow-hidden ">
+                    <img
+                      className="w-full h-full object-cover bg-background-secondary "
+                      src={user.user.profileImage}
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <div className=" flex items-center justify-center gap-3">
+                      <h3 className="font-bold">{user.user.name}</h3>
+                      {/* Location */}
+                      <div className="flex items-center justify-center gap-2  ">
+                        <MdOutlineEditLocation className="text-xl" />
+                        <input
+                          type="text"
+                          placeholder="Add location (optional)"
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                          className="rounded-lg  bg-white/70 text-gray-900"
+                        />
+                      </div>
+                    </div>
+                    <select
+                      value={privacy}
+                      onChange={(e) =>
+                        setPrivacy(
+                          e.target.value as "public" | "private" | "friends"
+                        )
+                      }
+                      className="w-fit rounded-lg border border-border bg-white/70 p-1 smalltext mt-1  cursor-pointer"
+                    >
+                      <option value="public">🌍 Public</option>
+                      <option value="friends">👥 Friends</option>
+                      <option value="private">🔒 Private</option>
+                    </select>
+                  </div>
+                </div>
                 {/* Caption */}
                 <textarea
                   rows={4}
-                  placeholder={`Say something about your video, ${user.name}`}
+                  placeholder={`Say something about your video, ${user.user.name}?`}
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
-                  className="rounded-lg border border-border bg-white/70 p-4 text-gray-900 focus:ring-2 focus:ring-blue-400"
+                  className=" resize-none "
                 />
-
-                {/* Modern Video Upload */}
-                <label
-                  htmlFor="video-upload"
-                  className="flex cursor-pointer flex-col items-center justify-center
-                  gap-2 rounded-xl border-2 border-dashed border-border
-                  bg-white/60 p-6 text-center transition-all
-                  hover:bg-white/80 hover:border-accent"
-                >
-                  <FaVideo className="text-xl text-accent" />
-                  <p className="text-sm font-medium text-gray-700">
-                    Click to upload video
-                  </p>
-                  <p className="text-xs text-gray-500">MP4, MOV, MKV</p>
-                </label>
-
-                <input
-                  id="video-upload"
-                  type="file"
-                  accept="video/*"
-                  onChange={handleVideoSelect}
-                  className="hidden"
-                />
-
                 {/* Video Preview */}
                 {videoFile && (
                   <div className="relative">
                     <button
                       type="button"
                       onClick={handleRemoveVideo}
-                      className="absolute right-2 top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white hover:bg-red-600"
+                      className="absolute right-2 top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-black/40 text-white hover:bg-red-600"
                     >
                       <ImCross size={12} />
                     </button>
                     <video
+                      autoPlay
+                      muted
+                      loop
                       src={URL.createObjectURL(videoFile)}
-                      controls
-                      className="w-full max-h-[300px] rounded-xl border border-border"
+                      className="w-full max-h-[300px] bg-background-secondary rounded-xl border border-border"
                     />
                   </div>
                 )}
 
-                {/* Location */}
-                <input
-                  type="text"
-                  placeholder="📍 Add location (optional)"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="rounded-lg border border-border bg-white/70 p-3 text-gray-900"
-                />
-
                 {/* Bottom */}
                 <div className="flex items-center justify-between">
-                  <select
-                    value={privacy}
-                    onChange={(e) =>
-                      setPrivacy(
-                        e.target.value as "public" | "private" | "friends"
-                      )
-                    }
-                    className="w-[45%] rounded-lg border border-border bg-white/70 p-3 text-gray-900"
+                  {/* Modern Video Upload */}
+                  <label
+                    htmlFor="video-upload"
+                    className="flex cursor-pointer  items-center 
+                  gap-2 
+                  "
                   >
-                    <option value="public">🌍 Public</option>
-                    <option value="friends">👥 Friends</option>
-                    <option value="private">🔒 Private</option>
-                  </select>
+                    <img
+                      className="w-14 "
+                      src="/images/icon/videography.png"
+                      alt=""
+                    />
+                    <div>
+                      {" "}
+                      <p className="text-sm font-medium text-gray-700">
+                        Click to upload video
+                      </p>
+                      <p className="text-xs text-gray-500">MP4, MOV, MKV</p>
+                    </div>
+                  </label>
 
+                  <input
+                    id="video-upload"
+                    type="file"
+                    accept="video/*"
+                    onChange={handleVideoSelect}
+                    className="hidden"
+                  />
                   <button
                     type="submit"
                     disabled={createPostLoading}
-                    className="rounded-lg bg-accent px-8 py-3 text-white transition-all hover:scale-105 active:scale-95"
+                    className="rounded-lg bg-accent px-6 py-2 text-white transition-all  cursor-pointer active:scale-95"
                   >
                     {createPostLoading ? "Posting..." : "Upload"}
                   </button>

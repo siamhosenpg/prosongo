@@ -50,7 +50,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
       key={post._id}
       className="bg-background rounded-none sm:rounded-lg list-none  py-2 sm:py-3 pt-4 sm:pt-5 mb-2 sm:mb-4"
     >
-      <div className="flex items-center px-4 pb-3 sm:px-6 justify-between border-b border-border ">
+      <div className="flex items-center px-4 pb-3 lg:pb-0 sm:px-6 justify-between border-b border-border lg:border-none ">
         <div className="left   flex items-center justify-start gap-2 overflow-hidden">
           <Link
             href={`/profile/${post.userid?.username}`}

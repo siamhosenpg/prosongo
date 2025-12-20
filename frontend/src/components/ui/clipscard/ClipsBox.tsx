@@ -156,7 +156,7 @@ const ClipsBox: React.FC<ClipsBoxProps> = ({ post, isPortrait, isLoading }) => {
             </span>
           )}
 
-          <p className="mt-1 smalltext text-white text-shadow-2xs line-clamp-2">
+          <p className="mt-1 text-[13px] font-semibold text-white text-shadow-2xs line-clamp-2">
             {post.content.caption}
           </p>
         </div>

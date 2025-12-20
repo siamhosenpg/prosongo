@@ -3,11 +3,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImCross } from "react-icons/im";
-import { FaPlus } from "react-icons/fa";
+import { MdOutlineEditLocation } from "react-icons/md";
 
 import { useAuth } from "@/hook/useAuth";
 import { usePost } from "@/hook/usePost";
-import { UserType } from "@/types/userType";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 import ModalPortal from "../ModalPortal";
 
@@ -26,10 +25,7 @@ interface CreatePostCardProps {
 }
 
 const CreatePostCard = ({ onClose }: CreatePostCardProps) => {
-  const { user, isLoading } = useAuth() as {
-    user: UserType | null;
-    isLoading: boolean;
-  };
+  const { user, isLoading } = useAuth();
 
   const router = useRouter();
   const { createPost, createPostLoading } = usePost();
@@ -149,58 +145,72 @@ const CreatePostCard = ({ onClose }: CreatePostCardProps) => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="-mt-12 w-full lg:w-2/6 rounded-2xl rounded-b-none lg:rounded-b-2xl border border-white/30 bg-background p-6 shadow-2xl"
+              className="-mt-12 w-full lg:w-2/6 rounded-2xl rounded-b-none lg:rounded-b-2xl border border-white/30 bg-background pt-3 pb-6 shadow-2xl"
             >
               {/* Header */}
-              <div className="mb-4 flex items-center justify-between">
+              <div className="mb-4 flex items-center justify-between border-b border-border px-6 py-2">
                 <h2 className="text-base font-bold gap-2 flex items-center">
-                  <FaPlus />
                   Create a Post
                 </h2>
                 <button
                   onClick={onClose}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-background-secondary"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-background-secondary cursor-pointer"
                 >
                   <ImCross />
                 </button>
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col gap-6 px-6"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-12 h-12 rounded-full shrink-0 overflow-hidden ">
+                    <img
+                      className="w-full h-full object-cover bg-background-secondary "
+                      src={user.user.profileImage}
+                      alt=""
+                    />
+                  </div>
+                  <div>
+                    <div className=" flex items-center justify-center gap-3">
+                      <h3 className="font-bold">{user.user.name}</h3>
+                      {/* Location */}
+                      <div className="flex items-center justify-center gap-2  ">
+                        <MdOutlineEditLocation className="text-xl" />
+                        <input
+                          type="text"
+                          placeholder="Add location (optional)"
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                          className="rounded-lg  bg-white/70 text-gray-900"
+                        />
+                      </div>
+                    </div>
+                    <select
+                      value={privacy}
+                      onChange={(e) =>
+                        setPrivacy(
+                          e.target.value as "public" | "private" | "friends"
+                        )
+                      }
+                      className="w-fit rounded-lg border border-border bg-white/70 p-1 smalltext mt-1  cursor-pointer"
+                    >
+                      <option value="public">🌍 Public</option>
+                      <option value="friends">👥 Friends</option>
+                      <option value="private">🔒 Private</option>
+                    </select>
+                  </div>
+                </div>
                 {/* Caption */}
                 <textarea
                   rows={5}
-                  placeholder={`What's on your mind, ${user.name}?`}
+                  placeholder={`What's on your mind, ${user.user.name}?`}
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
-                  className="rounded-lg border border-border bg-white/70 p-4 text-gray-900 focus:ring-2 focus:ring-blue-400"
+                  className=" resize-none "
                 />
-
-                {/* Location */}
-                <input
-                  type="text"
-                  placeholder="📍 Add location (optional)"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="rounded-lg border border-border bg-white/70 p-3 text-gray-900"
-                />
-
-                {/* Modern Image Upload */}
-                <label
-                  htmlFor="image-upload"
-                  className="flex cursor-pointer flex-col items-center justify-center
-                  gap-2 rounded-xl border-2 border-dashed border-border
-                  bg-white/60 p-6 text-center transition-all
-                  hover:bg-white/80 hover:border-accent"
-                >
-                  <FaPlus className="text-xl text-accent" />
-                  <p className="text-sm font-medium text-gray-700">
-                    Click to upload images
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    PNG, JPG, JPEG (multiple allowed)
-                  </p>
-                </label>
 
                 <input
                   id="image-upload"
@@ -213,16 +223,16 @@ const CreatePostCard = ({ onClose }: CreatePostCardProps) => {
 
                 {/* Image Preview */}
                 {images.length > 0 && (
-                  <div className="flex gap-3 overflow-x-auto rounded-xl border border-white/40 bg-white/50 p-2">
+                  <div className="flex gap-3 overflow-x-auto ScrollSystem rounded-xl border border-white/40 bg-white/50 p-2">
                     {images.map((img, i) => (
-                      <div key={i} className="relative w-2/6 shrink-0">
+                      <div key={i} className="relative w-3/12 shrink-0">
                         {/* Remove Button */}
                         <button
                           type="button"
                           onClick={() => handleRemoveImage(i)}
                           className="absolute right-1 top-1 z-10
                           flex h-6 w-6 items-center justify-center
-                          rounded-full bg-black/70 text-white
+                          rounded-full bg-black/40 text-white
                           hover:bg-red-600"
                         >
                           <ImCross size={10} />
@@ -230,7 +240,7 @@ const CreatePostCard = ({ onClose }: CreatePostCardProps) => {
 
                         <img
                           src={URL.createObjectURL(img)}
-                          className="w-full rounded-xl border object-cover"
+                          className="w-full rounded-lg border border-border object-cover aspect-square"
                           alt="preview"
                         />
                       </div>
@@ -240,24 +250,40 @@ const CreatePostCard = ({ onClose }: CreatePostCardProps) => {
 
                 {/* Bottom Controls */}
                 <div className="flex items-center justify-between">
-                  <select
-                    value={privacy}
-                    onChange={(e) =>
-                      setPrivacy(
-                        e.target.value as "public" | "private" | "friends"
-                      )
-                    }
-                    className="w-[45%] rounded-lg border border-border bg-white/70 p-3 text-gray-900"
+                  {/* Modern Image Upload */}
+                  <label
+                    htmlFor="image-upload"
+                    className="flex cursor-pointer  items-center 
+                  gap-2 
+                  "
                   >
-                    <option value="public">🌍 Public</option>
-                    <option value="friends">👥 Friends</option>
-                    <option value="private">🔒 Private</option>
-                  </select>
-
+                    <img
+                      className="w-14 "
+                      src="/images/icon/image.png"
+                      alt=""
+                    />
+                    <div>
+                      {" "}
+                      <p className="text-sm font-medium text-gray-700">
+                        Click to upload images
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        PNG, JPG, JPEG (multiple allowed)
+                      </p>
+                    </div>
+                  </label>
+                  <input
+                    id="image-upload"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageSelect}
+                    className="hidden"
+                  />
                   <button
                     type="submit"
                     disabled={createPostLoading}
-                    className="rounded-lg bg-accent px-8 py-3 text-white hover:scale-105 active:scale-95"
+                    className="rounded-lg bg-accent px-6 py-2 text-white transition-all  cursor-pointer active:scale-95"
                   >
                     {createPostLoading ? "Posting..." : "Share"}
                   </button>
