@@ -41,13 +41,14 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://hiyaboni.vercel.app/",
-      "https://pacezoon.vercel.app/",
+      "https://hiyaboni.vercel.app",
+      "https://pacezoon.vercel.app",
       "http://192.168.31.158:3000",
     ],
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
