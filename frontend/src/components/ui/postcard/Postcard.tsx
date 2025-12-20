@@ -50,7 +50,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
       key={post._id}
       className="bg-background rounded-none sm:rounded-lg list-none  py-2 sm:py-3 pt-4 sm:pt-5 mb-2 sm:mb-4"
     >
-      <div className="flex items-center px-4 sm:px-6 justify-between ">
+      <div className="flex items-center px-4 pb-3 sm:px-6 justify-between border-b border-border ">
         <div className="left   flex items-center justify-start gap-2 overflow-hidden">
           <Link
             href={`/profile/${post.userid?.username}`}
@@ -90,12 +90,14 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
       </div>
 
       {/* Post text content */}
-      <p className="posttext whitespace-pre-wrap text-sm font-medium text-secondary mt-4 px-4 sm:px-6">
-        {post.content.caption}
-      </p>
+      {post.content.caption && (
+        <p className="posttext whitespace-pre-wrap text-sm font-medium text-secondary mt-3 mb-3 lg:mt-3 px-4 sm:px-6">
+          {post.content.caption}
+        </p>
+      )}
 
       {/* Media Section */}
-      <div className="mt-3">{renderPostMedia()}</div>
+      <div className="mt-0 lg:mt-3">{renderPostMedia()}</div>
 
       {/* Engagement section (likes, comments, shares) */}
 

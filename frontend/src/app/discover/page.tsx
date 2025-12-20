@@ -4,15 +4,17 @@ import { useDiscoversPosts } from "@/hook/post/useDiscoversPosts";
 import { on } from "events";
 import Link from "next/link";
 import { GoDotFill } from "react-icons/go";
+import DiscoverSkeleton from "@/components/layouts/discover/DiscoverSkeleton";
 
 const Discover = () => {
   const { data, isLoading, isError } = useDiscoversPosts();
 
-  if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading posts</p>;
 
   return (
     <div className="Pagearea pt-2 lg:pt-4">
+      {isLoading && <DiscoverSkeleton />}
+
       <div className=" px-2 lg:px-0 columns-2 md:columns-3 xl:columns-4 2xl:columns-4 gap-2 lg:gap-4">
         {data?.posts?.map((post) => {
           return (
@@ -22,7 +24,7 @@ const Discover = () => {
             >
               {post.content.type === "image" && (
                 <Link
-                  href={`/post/${post.postid}`}
+                  href={`/post/${post._id}`}
                   className=" relative flex items-center justify-center w-full h-auto"
                 >
                   <img

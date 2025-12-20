@@ -98,7 +98,7 @@ const PostcardVideo: React.FC<Props> = ({ videodata, postid }) => {
 
   return (
     <div className="relative w-full px-0 sm:px-6 ">
-      <div className=" absolute mt-2 right-0 lg:right-8 z-20">
+      <div className=" absolute mt-2 right-2 lg:right-8 z-20">
         <GlobalSoundToggle />
       </div>
       {videodata &&

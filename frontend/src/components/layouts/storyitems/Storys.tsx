@@ -6,8 +6,6 @@ const Storys = async () => {
   // getAllStories() যদি শুধুমাত্র array return করে
   const { stories }: { stories: StoryType[] } = await getAllStories();
 
-  if (!stories || stories.length === 0) return <div></div>;
-
   return (
     <div>
       <Storyitems stories={stories} />
