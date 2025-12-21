@@ -6,14 +6,12 @@ const reactionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true, // Faster filtering by user
     },
 
     postId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Post",
       required: true,
-      index: true, // Faster filtering by post
     },
 
     reaction: {
@@ -23,15 +21,15 @@ const reactionSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // 🔥 Auto-add createdAt & updatedAt
+    timestamps: true,
     versionKey: false,
   }
 );
 
-// 🔥 Prevent same user reacting twice on same post
+// ✅ Prevent duplicate reactions
 reactionSchema.index({ userId: 1, postId: 1 }, { unique: true });
 
-// 🔥 Fast reaction counting per post + type
+// ✅ Fast reaction count & analytics
 reactionSchema.index({ postId: 1, reaction: 1 });
 
 export default mongoose.model("Reaction", reactionSchema);
