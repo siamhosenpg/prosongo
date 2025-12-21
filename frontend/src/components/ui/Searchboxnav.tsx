@@ -28,15 +28,15 @@ const Searchboxnav: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-auto">
       <form
         onSubmit={handleSubmit}
         action=""
-        className="flex items-center justify-between bg-background-secondary rounded-full"
+        className="flex items-center justify-between bg-background lg:bg-background-secondary rounded-full"
       >
         <input
           type="text"
-          className="px-3 py-2 font-semibold w-full rounded-full bg-background-secondary focus:outline-none"
+          className="px-3 hidden lg:block py-2 font-semibold w-full rounded-full bg-background-secondary focus:outline-none"
           placeholder="Search your items here..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -45,7 +45,7 @@ const Searchboxnav: React.FC = () => {
           type="submit"
           className="px-2 py-2 rounded-full flex items-center justify-center"
         >
-          <IoSearch className="text-xl text-gray-500" />
+          <IoSearch className="text-xl text-text lg:text-text-secondary" />
         </button>
       </form>
 

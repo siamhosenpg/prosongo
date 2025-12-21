@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { FaImages } from "react-icons/fa6";
-import { FaRegFaceKissWinkHeart } from "react-icons/fa6";
+import { MdKeyboardVoice } from "react-icons/md";
 import { MdVideoCameraBack } from "react-icons/md";
 import { RiLiveFill } from "react-icons/ri";
 import CreatePostCard from "../createpost/CreatePostCard";
@@ -16,7 +16,7 @@ const UploadBox = ({}) => {
   const [open, setOpen] = useState(false);
   const [openvideo, setOpenvideo] = useState(false);
   return (
-    <div className="w-full bg-background rounded-none sm:rounded-lg px-4 sm:px-6 py-3 sm:py-4 flex flex-col items-center justify-center mb-2 sm:mb-4">
+    <div className="w-full bg-background rounded-none lg:rounded-lg px-4 sm:px-6 py-3 sm:py-4 flex flex-col items-center justify-center mb-2 sm:mb-4">
       <div className="flex items-center justify-between w-full gap-4 mb-2 sm:mb-4 border-b border-border pb-2 sm:pb-4">
         {isLoading && (
           <div className="w-10 h-10 rounded-full bg-background-secondary"></div>
@@ -48,7 +48,7 @@ const UploadBox = ({}) => {
         >
           <FaImages className="text-xl text-blue-600" />
           <span className="overflow-hidden whitespace-nowrap truncate">
-            Upload Image
+            <span className=" hidden sm:inline-block">Upload</span> Image
           </span>
         </button>
 
@@ -60,14 +60,14 @@ const UploadBox = ({}) => {
         >
           <MdVideoCameraBack className="text-xl shrink-0 text-green-700" />{" "}
           <span className=" overflow-hidden whitespace-nowrap text-loose text-ellipsis truncate">
-            Upload Video
+            <span className=" hidden sm:inline-block">Upload</span> Video
           </span>
         </button>
         {openvideo && <CreateVideoBox onClose={() => setOpenvideo(false)} />}
         <button className="w-2/6 flex items-center justify-center gap-2   py-2 rounded-lg hover:bg-background-secondary transition duration-200 ease-in-out">
-          <RiLiveFill className="text-xl text-red-600" />{" "}
+          <MdKeyboardVoice className="text-xl text-red-600" />{" "}
           <span className=" overflow-hidden whitespace-nowrap text-ellipsis text-loose truncate">
-            Memories
+            <span className=" hidden sm:inline-block">Upload</span> Voice
           </span>
         </button>
       </div>

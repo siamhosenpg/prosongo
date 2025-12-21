@@ -30,7 +30,7 @@ const ThreeDotIconButton: React.FC<postpropsdata> = ({ post }) => {
     <div ref={menuRef} className=" static sm:relative inline-block">
       <button
         onClick={toggleDialogue}
-        className="p-2 rounded-full hover:bg-background-secondary transition"
+        className=" rounded-full w-8 h-8 flex items-center justify-center  hover:bg-background-secondary transition"
       >
         <BsThreeDotsVertical className="text-xl text-secondary" />
       </button>

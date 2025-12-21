@@ -160,28 +160,30 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
               {/* Form */}
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-6 px-6"
+                className="flex flex-col gap-4 sm:gap-6 px-4 sm:px-6"
               >
                 <div className="flex items-center gap-2">
-                  <div className="w-12 h-12 rounded-full shrink-0 overflow-hidden ">
+                  <div className="w-11 sm:w-12 h-11 sm:h-12 rounded-full shrink-0 overflow-hidden ">
                     <img
                       className="w-full h-full object-cover bg-background-secondary "
                       src={user.user.profileImage}
                       alt=""
                     />
                   </div>
-                  <div>
+                  <div className="w-full">
                     <div className=" flex items-center justify-center gap-3">
-                      <h3 className="font-bold">{user.user.name}</h3>
+                      <h3 className="font-bold w-fit shrink-0 text-ellipsis whitespace-nowrap overflow-hidden ">
+                        {user.user.name}
+                      </h3>
                       {/* Location */}
-                      <div className="flex items-center justify-center gap-2  ">
+                      <div className="flex items-center   gap-2 w-full ">
                         <MdOutlineEditLocation className="text-xl" />
                         <input
                           type="text"
                           placeholder="Add location (optional)"
                           value={location}
                           onChange={(e) => setLocation(e.target.value)}
-                          className="rounded-lg  bg-white/70 text-gray-900"
+                          className="w-full bg-background text-text-secondary"
                         />
                       </div>
                     </div>
@@ -238,7 +240,7 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
                   "
                   >
                     <img
-                      className="w-14 "
+                      className="w-12 sm:w-14  "
                       src="/images/icon/videography.png"
                       alt=""
                     />

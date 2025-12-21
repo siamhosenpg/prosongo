@@ -64,7 +64,7 @@ const Storyitems: React.FC<StoryAreaProps> = ({ stories }) => {
       {/* Scrollable Area */}
       <div
         ref={scrollRef}
-        className="flex w-full items-center gap-2 mb-2 sm:mb-4 bg-background rounded-lg py-3 sm:py-4 px-6 overflow-x-scroll scroll-smooth ScrollbarHide"
+        className="flex w-full items-center gap-2 mb-2 sm:mb-4 bg-background rounded-lg py-3 sm:py-4 px-4 lg:px-6 overflow-x-scroll scroll-smooth ScrollbarHide"
       >
         <StoryAdd />
         <StoryArea stories={stories} />

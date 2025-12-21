@@ -46,7 +46,7 @@ const StoryAdd = () => {
             </div>
           </div>
         </Link>
-        <span className=" text-loose block text-[11px] sm:text-[12px]  w-full text-center mt-1 whitespace-nowrap overflow-hidden text-ellipsis ">
+        <span className=" text-loose block text-[11px] font-medium md:text-[12px]  w-full text-center mt-1 whitespace-nowrap overflow-hidden text-ellipsis ">
           Create Story
         </span>
       </div>

@@ -19,8 +19,8 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
   if (isError) return <p>Failed to load notifications</p>;
 
   return (
-    <div className="fixed top-19 right-5 h-[calc(100vh-90px)] w-full md:w-[400px] bg-background border-border border rounded-lg">
-      <div className="max-w-xl mx-auto p-4 space-y-3">
+    <div className="fixed top-19 right-5 h-[calc(100vh-90px)] p-4  w-full md:w-[400px] bg-background border-border border rounded-lg">
+      <div className="max-w-xl h-full mx-auto  space-y-3 overflow-y-auto ScrollSystem ">
         {data?.length === 0 && (
           <p className="text-center text-gray-500">No notifications yet</p>
         )}

@@ -36,12 +36,12 @@ const NavRightSide = () => {
   }, []);
 
   return (
-    <div className="w-fit shrink-0 lg:w-3/12 flex items-center justify-end gap-4 lg:gap-5">
+    <div className="w-fit  shrink-0 lg:w-3/12 flex items-center justify-end gap-1 sm:gap-2 lg:gap-5">
       {/* 🔔 Notification Wrapper */}
       <div ref={notificationRef} className="relative">
         <button
           onClick={toggleNotification}
-          className="w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-background-secondary rounded-full"
+          className="w-8 h-8 flex items-center  justify-center cursor-pointer hover:bg-background-secondary rounded-full"
         >
           <FaRegBell className="text-lg" />
         </button>

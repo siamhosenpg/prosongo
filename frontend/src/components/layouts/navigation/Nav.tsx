@@ -31,11 +31,17 @@ const Nav = () => {
   };
 
   return (
-    <nav className="w-full border-b border-border fixed top-0 left-0 bg-background z-50 px-6">
-      <div className="Pagearea flex gap-4 justify-between items-center h-15 lg:h-17">
+    <nav className="w-full  border-b border-border fixed top-0 left-0 bg-background z-50 px-4 lg:px-6 ">
+      <div className="Pagearea flex gap-0 sm:gap-2 lg:gap-4 justify-between items-center h-14 lg:h-17">
         {/* Logo + Search */}
-        <div className="flex items-center gap-4 w-full lg:w-3/12">
-          <h1 className="text-2xl font-bold cursor-pointer">Po</h1>
+        <div className="flex items-center justify-between lg:justify-start gap-4 w-full lg:w-3/12">
+          <h1 className="w-28 h-full flex items-center justify-center overflow-hidden">
+            <img
+              className="w-full h-full object-center "
+              src="/images/hiyaboni.png"
+              alt=""
+            />
+          </h1>
           <Searchboxnav />
         </div>
 

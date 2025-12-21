@@ -66,7 +66,7 @@ const PostcardimageMlt: React.FC<Props> = ({ imagedata, postid }) => {
     <div>
       {/* If only 2 images */}
       {imagedata.length === 2 && (
-        <div className="flex px-4 sm:px-6 gap-2 sm:gap-4">
+        <div className="flex px-2 lg:px-6 gap-2 sm:gap-4">
           {imagedata.map((image, i) => (
             <Link
               href={`/post/${postid}?index=${i}`}
@@ -86,7 +86,7 @@ const PostcardimageMlt: React.FC<Props> = ({ imagedata, postid }) => {
       )}
       {/* If more than 2 images */}
       {imagedata.length > 2 && (
-        <div className="overflow-hidden  px-4 sm:px-6" ref={emblaRef}>
+        <div className="overflow-hidden  px-2 lg:px-6" ref={emblaRef}>
           <div className="flex gap-2 sm:gap-4">
             {imagedata.map((image, i) => (
               <Link

@@ -35,7 +35,7 @@ const PostCardStatus = ({ postId, Commentsposition }: PostCardStatusProps) => {
 
         <span className="block smalltext text-secondary">
           <span className="text-primary font-semibold">{countReaction}</span>{" "}
-          Reacts
+          <span className="text-text-tertiary">Reacts</span>
         </span>
       </div>
 
@@ -43,14 +43,15 @@ const PostCardStatus = ({ postId, Commentsposition }: PostCardStatusProps) => {
       <div className="flex items-center gap-1">
         <span className="block smalltext text-secondary">
           <span className="text-primary font-semibold">{countComments}</span>{" "}
-          Comments
+          <span className="text-text-tertiary">Comments</span>
         </span>
       </div>
 
       {/* Share */}
       <div className="flex items-center gap-1">
         <span className="block smalltext text-secondary">
-          <span className="text-primary font-semibold">0</span> Share
+          <span className="text-primary font-semibold">0</span>{" "}
+          <span className="text-text-tertiary">Share</span>
         </span>
       </div>
     </div>

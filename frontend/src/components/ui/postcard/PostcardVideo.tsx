@@ -114,7 +114,7 @@ const PostcardVideo: React.FC<Props> = ({ videodata, postid }) => {
                 preload="metadata"
                 playsInline
                 loop
-                className="rounded-none sm:rounded-lg overflow-hidden w-full h-auto min-h-[200px] bg-background-secondary max-h-[700px] border-border border-none lg:border"
+                className="rounded-none object-cover sm:rounded-lg overflow-hidden w-full h-auto min-h-[200px] bg-background-secondary max-h-[700px] border-border border-none lg:border"
                 src={video}
               />
             </Link>

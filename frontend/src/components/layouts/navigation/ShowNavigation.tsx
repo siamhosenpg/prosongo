@@ -18,7 +18,7 @@ export default function ShowNavigation() {
     <>
       <Nav />
       <Mobilenav />
-      <div className=" h-15 lg:h-18 bg-background-secondary"></div>
+      <div className=" h-14 lg:h-18 bg-background-secondary"></div>
     </>
   );
 }

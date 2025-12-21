@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 // Importing UserContext to access user data
 import { AiOutlineLike } from "react-icons/ai"; // Icon for like button
 import { LuSendHorizontal } from "react-icons/lu"; // Icon for send button
@@ -45,12 +46,14 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
     }
   };
 
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <li
       key={post._id}
       className="bg-background rounded-none sm:rounded-lg list-none  py-2 sm:py-3 pt-4 sm:pt-5 mb-2 sm:mb-4"
     >
-      <div className="flex items-center px-4 pb-3 lg:pb-0 sm:px-6 justify-between border-b border-border lg:border-none ">
+      <div className="flex items-center px-4 pb-3 lg:pb-0 sm:px-6 justify-between  ">
         <div className="left   flex items-center justify-start gap-2 overflow-hidden">
           <Link
             href={`/profile/${post.userid?.username}`}
@@ -91,7 +94,12 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
 
       {/* Post text content */}
       {post.content.caption && (
-        <p className="posttext whitespace-pre-wrap text-sm font-medium text-secondary mt-3 mb-3 lg:mt-3 px-4 sm:px-6">
+        <p
+          onClick={() => setExpanded(!expanded)}
+          className={`posttext line-clamp-3 whitespace-pre-wrap text-sm font-medium text-secondary mt-0 mb-3 lg:mt-3 px-4 sm:px-6 ${
+            expanded ? "line-clamp-none" : "line-clamp-3"
+          } `}
+        >
           {post.content.caption}
         </p>
       )}
