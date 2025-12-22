@@ -18,7 +18,7 @@ const PeoplesArea = () => {
   if (isError) return <p>Failed to load people</p>;
   return (
     <div>
-      <div className=" w-full lg:w-4/6 m-auto flex flex-col gap-3 pt-4 pb-18">
+      <div className=" w-full lg:w-4/6 m-auto flex flex-col gap-1 lg:gap-3 pt-1 lg:pt-4 pb-18">
         {data?.users.map((user) => {
           return <PeoplesCard key={user._id} user={user} />;
         })}

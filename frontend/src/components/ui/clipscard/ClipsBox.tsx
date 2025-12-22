@@ -126,9 +126,9 @@ const ClipsBox: React.FC<ClipsBoxProps> = ({ post, isPortrait, isLoading }) => {
         })}
 
         {/* 👉 Right Action Buttons */}
-        <div className="absolute right-1 md:right-[-120px] bottom-2 lg:bottom-8 z-20 flex flex-col gap-1 text-white md:text-black">
+        <div className="absolute right-1 md:-right-30 bottom-2 lg:bottom-8 z-20 flex flex-col gap-1 text-white md:text-black">
           <VideoLikeButton postId={post._id} />
-          <VideoCommentsButton postId={post._id} postNumber={post.postid} />
+          <VideoCommentsButton postId={post._id} postNumber={post._id} />
 
           <ActionButton icon={<RiShareForwardLine />} label="Share" />
           <VideoSaveButton postId={post._id} />

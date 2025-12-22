@@ -97,7 +97,7 @@ const PostcardVideo: React.FC<Props> = ({ videodata, postid }) => {
   };
 
   return (
-    <div className="relative w-full px-0 sm:px-6 ">
+    <div className="relative w-full px-0 lg:px-6 ">
       <div className=" absolute mt-2 right-2 lg:right-8 z-20">
         <GlobalSoundToggle />
       </div>
@@ -114,7 +114,7 @@ const PostcardVideo: React.FC<Props> = ({ videodata, postid }) => {
                 preload="metadata"
                 playsInline
                 loop
-                className="rounded-none object-cover sm:rounded-lg overflow-hidden w-full h-auto min-h-[200px] bg-background-secondary max-h-[700px] border-border border-none lg:border"
+                className="rounded-none object-cover md:object-contain lg:rounded-lg overflow-hidden w-full h-auto min-h-[200px] bg-background-secondary max-h-[700px] border-border border-none lg:border"
                 src={video}
               />
             </Link>

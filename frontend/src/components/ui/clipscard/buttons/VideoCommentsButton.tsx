@@ -6,7 +6,7 @@ import Link from "next/link";
 
 interface CommentButtonProps {
   postId: string;
-  postNumber: number;
+  postNumber: string;
 }
 
 const VideoCommentsButton = ({ postId, postNumber }: CommentButtonProps) => {

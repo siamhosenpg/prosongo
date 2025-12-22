@@ -4,6 +4,7 @@ import { useReactions } from "@/hook/useReactions";
 
 import { useAuth } from "@/hook/useAuth";
 import { ReactionItem } from "@/types/reactionTypes";
+import LikeBoxIcon from "../../postcard/LikeBox";
 interface PostCardStatusProps {
   postId: string; // <- TypeScript fix
 }
@@ -67,17 +68,8 @@ const VideoLikeButton = ({ postId }: PostCardStatusProps) => {
       onClick={handleToggleLike}
       className="flex flex-col items-center justify-center cursor-pointer w-16 h-14 rounded-xl hover:bg-background-secondary"
     >
-      <span
-        className={`text-2xl font-black text-shadow-xs ${
-          isMutating ? "opacity-50" : ""
-        }`}
-      >
-        {userReaction === "like" ? (
-          <AiFillLike className="text-2xl text-shadow-2xs " />
-        ) : (
-          <AiOutlineLike className="text-2xl text-shadow-2xs " />
-        )}
-      </span>
+      <LikeBoxIcon liked={userReaction === "like"} variants={"lg"} />
+
       {countReaction !== undefined && (
         <small className="block smalltext opacity-80 mt-1 text-shadow-xs">
           {countReaction}

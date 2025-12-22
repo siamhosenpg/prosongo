@@ -1,5 +1,4 @@
 // hooks/useFollow.ts
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/lib/axios";
 import { AxiosResponse } from "axios";
@@ -9,6 +8,7 @@ import { AxiosResponse } from "axios";
 interface FollowResponse {
   message: string;
 }
+
 interface FollowingApiResponse {
   following: FollowData[];
 }
@@ -27,52 +27,156 @@ export interface FollowData {
   followingId: User;
 }
 
-// ==================== Follow User ====================
+// 🔥 Mutation Context Types
+interface FollowMutationContext {
+  previousFollowing?: FollowData[];
+}
 
-export const useFollowUser = () => {
+interface UnfollowMutationContext {
+  previousFollowing?: FollowData[];
+}
+
+// ==================== Follow User (OPTIMISTIC) ====================
+
+export const useFollowUser = (currentUserId: string) => {
   const queryClient = useQueryClient();
 
-  return useMutation<FollowResponse, any, string>({
-    mutationFn: async (userId: string) => {
+  return useMutation<FollowResponse, Error, string, FollowMutationContext>({
+    mutationFn: async (targetUserId: string) => {
       const res: AxiosResponse<FollowResponse> = await axiosInstance.post(
-        `/follows/follow/${userId}`
+        `/follows/follow/${targetUserId}`
       );
       return res.data;
     },
 
-    onSuccess: (_, userId) => {
-      // Refresh follower/following lists
-      queryClient.invalidateQueries({ queryKey: ["followers", userId] });
-      queryClient.invalidateQueries({ queryKey: ["following"] });
+    onMutate: async (targetUserId) => {
+      await queryClient.cancelQueries({
+        queryKey: ["following", currentUserId],
+      });
 
-      // 🔥 Refresh Counts
-      queryClient.invalidateQueries({ queryKey: ["followersCount", userId] });
-      queryClient.invalidateQueries({ queryKey: ["followingCount"] });
+      const previousFollowing = queryClient.getQueryData<FollowData[]>([
+        "following",
+        currentUserId,
+      ]);
+
+      // Optimistic add
+      queryClient.setQueryData<FollowData[]>(
+        ["following", currentUserId],
+        (old = []) => [
+          ...old,
+          {
+            _id: "optimistic-follow",
+            followerId: { _id: currentUserId } as User,
+            followingId: { _id: targetUserId } as User,
+          },
+        ]
+      );
+
+      // Optimistic counts
+      queryClient.setQueryData<number>(
+        ["followingCount", currentUserId],
+        (old = 0) => old + 1
+      );
+
+      queryClient.setQueryData<number>(
+        ["followersCount", targetUserId],
+        (old = 0) => old + 1
+      );
+
+      return { previousFollowing };
+    },
+
+    onError: (_error, _targetUserId, context) => {
+      if (context?.previousFollowing) {
+        queryClient.setQueryData(
+          ["following", currentUserId],
+          context.previousFollowing
+        );
+      }
+    },
+
+    onSettled: (_data, _error, targetUserId) => {
+      queryClient.invalidateQueries({
+        queryKey: ["following", currentUserId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["followers", targetUserId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["followingCount", currentUserId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["followersCount", targetUserId],
+      });
     },
   });
 };
 
-// ==================== Unfollow User ====================
+// ==================== Unfollow User (OPTIMISTIC) ====================
 
-export const useUnfollowUser = () => {
+export const useUnfollowUser = (currentUserId: string) => {
   const queryClient = useQueryClient();
 
-  return useMutation<FollowResponse, any, string>({
-    mutationFn: async (userId: string) => {
+  return useMutation<FollowResponse, Error, string, UnfollowMutationContext>({
+    mutationFn: async (targetUserId: string) => {
       const res: AxiosResponse<FollowResponse> = await axiosInstance.delete(
-        `/follows/unfollow/${userId}`
+        `/follows/unfollow/${targetUserId}`
       );
       return res.data;
     },
 
-    onSuccess: (_, userId) => {
-      // Refresh lists
-      queryClient.invalidateQueries({ queryKey: ["followers", userId] });
-      queryClient.invalidateQueries({ queryKey: ["following"] });
+    onMutate: async (targetUserId) => {
+      await queryClient.cancelQueries({
+        queryKey: ["following", currentUserId],
+      });
 
-      // 🔥 Refresh Counts
-      queryClient.invalidateQueries({ queryKey: ["followersCount", userId] });
-      queryClient.invalidateQueries({ queryKey: ["followingCount"] });
+      const previousFollowing = queryClient.getQueryData<FollowData[]>([
+        "following",
+        currentUserId,
+      ]);
+
+      // Optimistic remove
+      queryClient.setQueryData<FollowData[]>(
+        ["following", currentUserId],
+        (old = []) => old.filter((f) => f.followingId?._id !== targetUserId)
+      );
+
+      // Optimistic counts
+      queryClient.setQueryData<number>(
+        ["followingCount", currentUserId],
+        (old = 0) => Math.max(old - 1, 0)
+      );
+
+      queryClient.setQueryData<number>(
+        ["followersCount", targetUserId],
+        (old = 0) => Math.max(old - 1, 0)
+      );
+
+      return { previousFollowing };
+    },
+
+    onError: (_error, _targetUserId, context) => {
+      if (context?.previousFollowing) {
+        queryClient.setQueryData(
+          ["following", currentUserId],
+          context.previousFollowing
+        );
+      }
+    },
+
+    onSettled: (_data, _error, targetUserId) => {
+      queryClient.invalidateQueries({
+        queryKey: ["following", currentUserId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["followers", targetUserId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["followingCount", currentUserId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["followersCount", targetUserId],
+      });
     },
   });
 };
@@ -82,17 +186,18 @@ export const useUnfollowUser = () => {
 export const useFollowers = (userId: string) => {
   return useQuery<FollowData[]>({
     queryKey: ["followers", userId],
+    enabled: !!userId,
     queryFn: async () => {
       const res: AxiosResponse<FollowData[]> = await axiosInstance.get(
         `/follows/followers/${userId}`
       );
       return res.data;
     },
-    enabled: !!userId,
   });
 };
 
 // ==================== Get Following ====================
+
 export const useFollowing = (userId: string) => {
   return useQuery<FollowData[]>({
     queryKey: ["following", userId],
@@ -102,42 +207,34 @@ export const useFollowing = (userId: string) => {
         `/follows/following/${userId}`
       );
 
-      // TypeScript-কে explicitly check করতে হবে
-      if (Array.isArray(res.data)) {
-        return res.data;
-      }
-
-      if ("following" in res.data && Array.isArray(res.data.following)) {
-        return res.data.following;
-      }
+      if (Array.isArray(res.data)) return res.data;
+      if ("following" in res.data) return res.data.following;
 
       return [];
     },
   });
 };
 
-// ==================== Get Followers Count ====================
+// ==================== Counts ====================
 
 export const useFollowersCount = (userId: string) => {
   return useQuery<number>({
     queryKey: ["followersCount", userId],
+    enabled: !!userId,
     queryFn: async () => {
       const res = await axiosInstance.get(`/follows/followers/count/${userId}`);
       return res.data.followersCount;
     },
-    enabled: !!userId,
   });
 };
-
-// ==================== Get Following Count ====================
 
 export const useFollowingCount = (userId: string) => {
   return useQuery<number>({
     queryKey: ["followingCount", userId],
+    enabled: !!userId,
     queryFn: async () => {
       const res = await axiosInstance.get(`/follows/following/count/${userId}`);
       return res.data.followingCount;
     },
-    enabled: !!userId,
   });
 };

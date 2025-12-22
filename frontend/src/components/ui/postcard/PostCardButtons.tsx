@@ -8,8 +8,9 @@ import { useReactions } from "@/hook/useReactions";
 import { useAuth } from "@/hook/useAuth";
 import Link from "next/link";
 import { ReactionItem } from "@/types/reactionTypes";
-
+import { motion, AnimatePresence } from "framer-motion";
 import PostCardSavebutton from "./PostCardSavebutton";
+import LikeBoxIcon from "./LikeBox";
 
 interface Props {
   postId: string;
@@ -77,21 +78,15 @@ const PostCardButtons: React.FC<Props> = ({ postId, postNumber, com }) => {
           <button
             onClick={handleToggleLike}
             disabled={isMutating}
-            className={`flex gap-1 items-center transition-opacity cursor-pointer  py-1 ${
-              isMutating ? "text-accent" : ""
-            }`}
+            className={`flex gap-1 items-center transition-opacity cursor-pointer  py-1 `}
           >
-            {userReaction === "like" ? (
-              <AiFillLike className="text-xl text-accent" />
-            ) : (
-              <AiOutlineLike className="text-xl text-primary" />
-            )}
+            <LikeBoxIcon liked={userReaction === "like"} />
             <span
               className={`text-sm font-semibold ${
-                userReaction === "like" ? "text-accent" : "text-primary"
+                userReaction === "like" ? "text-accent" : "text-text"
               }`}
             >
-              {userReaction === "like" ? "Liked" : "Like"}
+              {userReaction === "like" ? "Like" : "Like"}
             </span>
           </button>
 
