@@ -39,7 +39,7 @@ export const NavigationData: NavItem[] = [
 
   {
     name: "Message",
-    href: "/message",
+    href: "/message/null",
     icon: TbMessageCircle,
     activeIcon: TbMessageCircleFilled,
   },

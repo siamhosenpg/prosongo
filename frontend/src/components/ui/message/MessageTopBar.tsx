@@ -18,7 +18,7 @@ const MessageTopBar = ({ conversation, currentUserId }: Props) => {
 
   return (
     <div className="w-full h-[72px] border-b border-border flex items-center justify-between px-5 shrink-0">
-      <div className="flex items-center gap-3 p-4 border-b bg-white shadow-sm">
+      <div className="flex items-center gap-3">
         {otherParticipants.map((user) => (
           <img
             key={user._id}
@@ -28,26 +28,15 @@ const MessageTopBar = ({ conversation, currentUserId }: Props) => {
           />
         ))}
         <div>
-          <p className="font-semibold text-gray-800">
-            {otherParticipants.map((u) => u.username).join(", ")}
-          </p>
-          {/* Optional: online status */}
-          <p className="text-xs text-gray-500">
+          <h4 className="  font-semibold">
+            {" "}
+            {otherParticipants.map((u) => u.name).join(", ")}
+          </h4>
+          <span className="text-[11px] block font-medium ">
             {otherParticipants.length === 1
               ? "Online"
               : `${otherParticipants.length} participants`}
-          </p>
-        </div>
-      </div>
-      <div className="flex items-center gap-3">
-        <img
-          className="block w-10 h-10 rounded-full overflow-hidden object-cover"
-          src="/images/profile.jpg"
-          alt=""
-        />
-        <div>
-          <h4 className="  font-semibold">Siam Hossen</h4>
-          <span className="text-[11px] block font-medium ">Online</span>
+          </span>
         </div>
       </div>
       <div className="buttons flex items-center gap-3">

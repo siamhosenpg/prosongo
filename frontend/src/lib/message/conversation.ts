@@ -15,3 +15,8 @@ export const getOrCreateConversation = async (
   const res = await axiosInstance.post("/conversations", { userId });
   return res.data;
 };
+
+export const getConversationById = async (conversationId: string) => {
+  const res = await axiosInstance.get(`/conversations/${conversationId}`);
+  return res.data;
+};

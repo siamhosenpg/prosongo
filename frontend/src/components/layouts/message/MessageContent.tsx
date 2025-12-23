@@ -6,7 +6,7 @@ import { useMessages } from "@/hook/message/useMessages";
 import { getSocket } from "@/lib/socket";
 import { MessageType } from "@/types/message/Message";
 
-import { useConversations } from "@/hook/message/useConversations";
+import { useConversation } from "@/hook/message/useConversations";
 
 import MessageInputbox from "@/components/ui/message/MessageInputbox";
 import MessageTopBar from "@/components/ui/message/MessageTopBar";
@@ -26,7 +26,7 @@ const MessageContent = ({ conversationId }: Props) => {
     data: conversation,
     isLoading: convLoading,
     isError: convError,
-  } = useConversations(conversationId);
+  } = useConversation(conversationId);
 
   // Fetch messages
   const { messagesQuery } = useMessages(conversationId);

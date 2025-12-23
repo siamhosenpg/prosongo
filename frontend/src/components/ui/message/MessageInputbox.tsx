@@ -2,18 +2,19 @@ import React, { useState } from "react";
 import { useMessages } from "@/hook/message/useMessages";
 import { getSocket } from "@/lib/socket";
 
+import { FaRegFileLines } from "react-icons/fa6";
+import { IoSend } from "react-icons/io5";
+
 type Props = {
   conversationId: string;
 };
-
-import { FaRegFileLines } from "react-icons/fa6";
-import { IoSend } from "react-icons/io5";
 
 const MessageInputbox = ({ conversationId }: Props) => {
   const { sendMessageMutation } = useMessages(conversationId);
   const [text, setText] = useState("");
 
-  const handleSend = () => {
+  const handleSend = (e?: React.FormEvent) => {
+    if (e) e.preventDefault(); // ✅ prevent page reload
     if (!text.trim()) return;
 
     // 1️⃣ Send via API
@@ -25,22 +26,28 @@ const MessageInputbox = ({ conversationId }: Props) => {
 
     setText("");
   };
+
   return (
-    <div className="h-[70px] border-t border-border px-5 flex items-center w-full shrink-0 ">
-      <form className="flex w-full items-center justify-center gap-2" action="">
+    <div className="h-[70px] border-t border-border px-5 flex items-center w-full shrink-0">
+      <form
+        className="flex w-full items-center justify-center gap-2"
+        onSubmit={handleSend} // ✅ use onSubmit instead of action=""
+      >
         <input
           className="px-4 py-3 pl-8 bg-background-secondary rounded-full w-full"
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
           placeholder="Write messages"
         />
-        <button className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full hover:bg-background-secondary cursor-pointer">
+        <button
+          type="button"
+          className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full hover:bg-background-secondary cursor-pointer"
+        >
           <FaRegFileLines className="text-xl" />
         </button>
         <button
-          onClick={handleSend}
+          type="submit" // ✅ submit button
           className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full hover:bg-background-secondary cursor-pointer"
         >
           <IoSend className="text-xl" />

@@ -14,7 +14,7 @@ const Message = () => {
         <div className="w-3/12 h-full">
           <LeftMessageList onSelectConversation={setSelectedConversationId} />
         </div>
-        <div className="w-6/12 h-full bg-white">
+        <div className="w-6/12 h-full rounded-lg overflow-hidden bg-white">
           {selectedConversationId ? (
             <MessageContent conversationId={selectedConversationId} />
           ) : (
@@ -24,7 +24,7 @@ const Message = () => {
           )}
         </div>
         <div className="w-3/12 h-full">
-          <MessageInformation />
+          <MessageInformation conversationId={selectedConversationId} />
         </div>
       </div>
     </div>
