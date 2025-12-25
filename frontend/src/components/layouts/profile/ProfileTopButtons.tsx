@@ -7,6 +7,7 @@ import { useState } from "react";
 import { IoIosAddCircle } from "react-icons/io";
 import { MdModeEdit } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
+import { IoMdImages } from "react-icons/io";
 
 import { useAuth } from "@/hook/useAuth";
 import FollowButton from "@/components/ui/buttons/FollowButton";
@@ -48,18 +49,6 @@ const ProfileTopButtons: React.FC<ProfileTopButtonsProps> = ({ userId }) => {
           </button>
           {open && <CreatePostCard onClose={() => setOpen(false)} />}
           {/* Conditional Render */}
-
-          <Link
-            href="/profile/edit"
-            className="w-5/12 bg-red-100 rounded-md px-4 py-2 font-semibold 
-                       transition duration-200 ease-in-out text-sm text-red-600 
-                       flex items-center justify-center gap-2"
-          >
-            <MdModeEdit className="text-xl text-red-600" />
-            <span className="overflow-hidden whitespace-nowrap text-ellipsis truncate">
-              Edit Profile
-            </span>
-          </Link>
         </>
       ) : (
         <div className="flex items-center mr-3 justify-end w-full">

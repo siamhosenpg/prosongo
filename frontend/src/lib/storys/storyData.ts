@@ -19,7 +19,7 @@ export const createStory = async (
 export const deleteStory = async (
   storyId: string
 ): Promise<{ success: boolean; message: string }> => {
-  const res = await axiosInstance.delete(`/stories${storyId}`);
+  const res = await axiosInstance.delete(`/stories/${storyId}`);
   return res.data;
 };
 

@@ -1,81 +1,119 @@
 "use client";
-import StoryAdd from "@/components/ui/storycard/StoryAdd";
-import StoryArea from "@/components/ui/storycard/StoryArea";
-import React, { useRef, useState, useEffect } from "react";
+
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa6";
-import { StoryType } from "@/types/storyType";
 
-interface StoryAreaProps {
-  stories: StoryType[];
-}
+import StoryAdd from "@/components/ui/storycard/StoryAdd";
+import StoryCard from "@/components/ui/storycard/StoryCard";
+import { useStories } from "@/hook/useStory";
+import StoryCardSkeleton from "@/components/ui/storycard/StoryCardSkeleton";
 
-const Storyitems: React.FC<StoryAreaProps> = ({ stories }) => {
+const CARD_WIDTH = 140;
+const SCROLL_COUNT = 3;
+const SCROLL_AMOUNT = CARD_WIDTH * SCROLL_COUNT;
+const THRESHOLD = 2; // px (floating scroll bug fix)
+
+const Storyitems = () => {
+  const { data: stories = [], isLoading } = useStories();
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
-  const [showRight, setShowRight] = useState(true);
+  const [showRight, setShowRight] = useState(false);
 
-  // প্রতি ক্লিকে ৩টা card করে স্ক্রল হবে
-  const scrollAmount = 3 * 140; // ধরো ১টা কার্ড ১৪০px (তোমার কার্ডের width অনুযায়ী ঠিক করে নিতে পারো)
-
-  // স্ক্রল অবস্থার ওপর ভিত্তি করে বাটন শো/হাইড করবে
-  const updateButtons = () => {
+  // ==========================
+  // Button State Calculation
+  // ==========================
+  const updateButtons = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const { scrollLeft, scrollWidth, clientWidth } = el;
-    setShowLeft(scrollLeft > 0);
-    setShowRight(scrollLeft + clientWidth < scrollWidth - 5);
-  };
 
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+
+    setShowLeft(scrollLeft > THRESHOLD);
+    setShowRight(scrollLeft + clientWidth < scrollWidth - THRESHOLD);
+  }, []);
+
+  // ==========================
+  // Scroll Handlers
+  // ==========================
   const scrollLeftHandler = () => {
     const el = scrollRef.current;
     if (!el) return;
-    el.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+
+    el.scrollBy({ left: -SCROLL_AMOUNT, behavior: "smooth" });
+
+    requestAnimationFrame(updateButtons);
   };
 
   const scrollRightHandler = () => {
     const el = scrollRef.current;
     if (!el) return;
-    el.scrollBy({ left: scrollAmount, behavior: "smooth" });
+
+    el.scrollBy({ left: SCROLL_AMOUNT, behavior: "smooth" });
+
+    requestAnimationFrame(updateButtons);
   };
 
+  // ==========================
+  // Attach Scroll Listener
+  // ==========================
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    el.addEventListener("scroll", updateButtons);
-    updateButtons(); // initial state
-    return () => el.removeEventListener("scroll", updateButtons);
-  }, []);
 
-  if (!stories || stories.length === 0) return null;
+    updateButtons(); // initial
+
+    el.addEventListener("scroll", updateButtons, { passive: true });
+
+    return () => {
+      el.removeEventListener("scroll", updateButtons);
+    };
+  }, [updateButtons, stories.length]);
+
+  if (!stories.length && !isLoading) return null;
+
   return (
     <div className="relative flex items-center">
       {/* Left Button */}
       {showLeft && (
-        <div className="absolute hidden lg:block left-2 z-40 -mt-4">
+        <div className="absolute hidden lg:block left-2 z-40">
           <button
             onClick={scrollLeftHandler}
-            className="h-10 w-10 flex items-center justify-center bg-background rounded-full shadow-xl cursor-pointer"
+            className="h-10 w-10 flex items-center justify-center bg-background rounded-full shadow-xl"
           >
             <FaCaretLeft className="text-lg" />
           </button>
         </div>
       )}
 
-      {/* Scrollable Area */}
+      {/* Scroll Area */}
       <div
         ref={scrollRef}
-        className="flex w-full items-center gap-2 mb-2 sm:mb-4 bg-background rounded-lg py-3 sm:py-4 px-4 lg:px-6 overflow-x-scroll scroll-smooth ScrollbarHide"
+        className="flex w-full items-center gap-2 mb-2 sm:mb-4 bg-background rounded-lg py-3 sm:py-4 px-4 lg:px-6 overflow-x-auto scroll-smooth ScrollbarHide"
       >
         <StoryAdd />
-        <StoryArea stories={stories} />
+
+        <div className="flex items-center gap-2">
+          {isLoading && (
+            <div className="flex items-center gap-2">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <StoryCardSkeleton key={i} />
+              ))}
+            </div>
+          )}
+
+          {stories.map((story) => (
+            <StoryCard key={story._id} stories={story} />
+          ))}
+        </div>
       </div>
 
       {/* Right Button */}
       {showRight && (
-        <div className="absolute hidden lg:block right-2 z-40 -mt-4">
+        <div className="absolute hidden lg:block right-2 z-40">
           <button
             onClick={scrollRightHandler}
-            className="h-10 w-10 flex items-center justify-center bg-background rounded-full shadow-xl cursor-pointer"
+            className="h-10 w-10 flex items-center justify-center bg-background rounded-full shadow-xl"
           >
             <FaCaretRight className="text-lg" />
           </button>
