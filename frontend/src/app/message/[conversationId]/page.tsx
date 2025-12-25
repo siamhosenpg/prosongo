@@ -12,7 +12,7 @@ const Message = () => {
   return (
     <ProtectedRoute>
       <div className="mt-4">
-        <div className="Pagearea flex gap-6 h-[calc(100vh_-_104px)] ">
+        <div className="Pagearea flex gap-6  h-[calc(100vh-104px)] ">
           <div className="w-3/12 h-full">
             <LeftMessageList onSelectConversation={setSelectedConversationId} />
           </div>

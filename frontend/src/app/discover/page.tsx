@@ -32,7 +32,7 @@ const Discover = () => {
                     <img
                       src={post.content.media[0]}
                       alt=""
-                      className=" max-h-[670px] w-full object-cover "
+                      className=" max-h-167.5 w-full object-cover "
                     />
                     {post.content.media.length >= 2 && (
                       <div className=" absolute bottom-3 text-[10px] xl:text-[13px] text-shadow-2xs text-white  flex items-center gap-0.5">

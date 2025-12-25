@@ -5,7 +5,7 @@ import Post from "../models/postmodel.js";
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("userid", "name username profileImage") // populate user info
+      .populate("userid", "name username badges profileImage") // populate user info
       .sort({ createdAt: -1 }) // 🔥 newest posts first
       .exec();
 
@@ -19,7 +19,7 @@ export const getPosts = async (req, res) => {
 export const getPostById = async (req, res) => {
   try {
     const post = await Post.findOne({ postid: req.params.postid })
-      .populate("userid", "name  username bio profileImage")
+      .populate("userid", "name  username badges bio profileImage")
       .exec();
 
     if (!post) return res.status(404).json({ message: "Post not found" });
@@ -36,7 +36,7 @@ export const getPostsByUserId = async (req, res) => {
     const userId = req.params.userid;
 
     const posts = await Post.find({ userid: userId })
-      .populate("userid", "name username bio profileImage")
+      .populate("userid", "name username bio badges profileImage")
       .exec();
 
     return res.status(200).json({
@@ -113,7 +113,7 @@ export const createPost = async (req, res) => {
       privacy: privacy || "public",
     });
 
-    await newPost.populate("userid", "name username profileImage");
+    await newPost.populate("userid", "name badges username profileImage");
 
     res.status(201).json({
       success: true,
@@ -144,7 +144,7 @@ export const updatePost = async (req, res) => {
     Object.assign(post, req.body, { updatedAt: new Date() });
 
     const updatedPost = await post.save();
-    await updatedPost.populate("userid", "name username profileImage");
+    await updatedPost.populate("userid", "name badges username profileImage");
 
     res.json(updatedPost);
   } catch (err) {
@@ -185,7 +185,7 @@ export const getPostByMongoId = async (req, res) => {
     }
 
     const post = await Post.findById(id)
-      .populate("userid", "name username bio profileImage")
+      .populate("userid", "name username badges bio profileImage")
       .exec();
 
     if (!post) {

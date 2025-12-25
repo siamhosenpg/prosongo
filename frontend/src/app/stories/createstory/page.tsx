@@ -2,97 +2,99 @@
 
 import React, { useState } from "react";
 import { useCreateStory } from "@/hook/useStory";
-import { useAuth } from "@/hook/useAuth";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hook/useAuth";
 
 export default function CreateStoryPage() {
   const { user } = useAuth();
-  const userId = user?.user?._id;
+  const router = useRouter();
   const { mutate: createStory, isPending } = useCreateStory();
 
-  const [mediaType, setMediaType] = useState<"image" | "video">("image");
-  const [imageUrl, setImageUrl] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [expiresAt, setExpiresAt] = useState("24");
-  const router = useRouter();
 
+  // -------------------------
+  // File Select Handler
+  // -------------------------
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+    setPreview(URL.createObjectURL(selectedFile));
+  };
+
+  // -------------------------
+  // Submit Story
+  // -------------------------
   const handleSubmit = () => {
-    if (!userId) return alert("User not logged in");
+    if (!user) return alert("User not logged in");
+    if (!file) return alert("Please select an image or video");
 
-    // Validate only 1 URL allowed
-    if (imageUrl && videoUrl) {
-      return alert("Too many URLs — only one is allowed.");
-    }
+    const expireDate = new Date(
+      Date.now() + Number(expiresAt) * 60 * 60 * 1000
+    ).toISOString();
 
-    const selectedUrl = mediaType === "image" ? imageUrl : videoUrl;
-
-    if (!selectedUrl) {
-      return alert(`Please provide a valid ${mediaType} URL`);
-    }
-
-    const storyData = {
-      userId,
-      media: {
-        url: selectedUrl,
-        type: mediaType,
+    createStory(
+      {
+        file,
+        expiresAt: expireDate,
       },
-
-      expiresAt: new Date(Date.now() + Number(expiresAt) * 60 * 60 * 1000),
-    };
-
-    createStory(storyData);
-    router.push("/");
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+      }
+    );
   };
 
   return (
-    <main className="min-h-screen flex justify-center px-4 py-10 bg-gray-100">
-      <div className="w-full max-w-lg bg-white shadow-lg rounded-2xl p-6 space-y-6">
-        <h1 className="text-2xl font-bold text-center">Create New Story</h1>
+    <main className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-100 to-slate-200 px-4">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-6 space-y-6">
+        <h1 className="text-2xl font-bold text-center">Create Story</h1>
 
-        {/* Media Type Select */}
-        <div className="space-y-2">
-          <p className="font-medium">Select Media Type</p>
-          <select
-            className="w-full border px-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-400"
-            value={mediaType}
-            onChange={(e) => setMediaType(e.target.value as "image" | "video")}
-          >
-            <option value="image">Image</option>
-            <option value="video">Video</option>
-          </select>
-        </div>
-
-        {/* Image URL Input */}
-        <div className="space-y-2">
-          <p className="font-medium">Image URL</p>
+        {/* Upload Box */}
+        <label className="relative flex flex-col items-center justify-center w-full h-56 border-2 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
           <input
-            type="text"
-            placeholder="Enter image URL"
-            className="w-full border px-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100"
-            disabled={mediaType !== "image"}
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            type="file"
+            accept="image/*,video/*"
+            className="hidden"
+            onChange={handleFileChange}
           />
-        </div>
 
-        {/* Video URL Input */}
-        <div className="space-y-2">
-          <p className="font-medium">Video URL</p>
-          <input
-            type="text"
-            placeholder="Enter video URL"
-            className="w-full border px-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-400 disabled:bg-gray-100"
-            disabled={mediaType !== "video"}
-            value={videoUrl}
-            onChange={(e) => setVideoUrl(e.target.value)}
-          />
-        </div>
+          {!preview ? (
+            <div className="text-center space-y-2">
+              <div className="text-4xl">📤</div>
+              <p className="font-medium">Upload Image or Video</p>
+              <p className="text-sm text-gray-500">
+                Image (max 10MB) • Video (max 50MB)
+              </p>
+            </div>
+          ) : (
+            <div className="absolute inset-0 rounded-2xl overflow-hidden">
+              {file?.type.startsWith("video") ? (
+                <video
+                  src={preview}
+                  className="w-full h-full object-cover"
+                  controls
+                />
+              ) : (
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </div>
+          )}
+        </label>
 
         {/* Expire Time */}
         <div className="space-y-2">
-          <p className="font-medium">Story Expire Time</p>
+          <label className="font-medium">Story Expire Time</label>
           <select
-            className="w-full border px-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-400"
+            className="w-full border px-4 py-3 rounded-xl focus:ring-2 focus:ring-blue-500"
             value={expiresAt}
             onChange={(e) => setExpiresAt(e.target.value)}
           >
@@ -107,12 +109,12 @@ export default function CreateStoryPage() {
         <button
           onClick={handleSubmit}
           disabled={isPending}
-          className="w-full bg-blue-600 text-white py-4 rounded-xl text-lg font-semibold hover:bg-blue-700 transition disabled:bg-blue-400 flex justify-center"
+          className="w-full bg-blue-600 text-white py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition disabled:bg-blue-400 flex justify-center"
         >
           {isPending ? (
-            <div className="animate-spin w-5 h-5 border-4 border-white border-t-transparent rounded-full"></div>
+            <div className="w-5 h-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
           ) : (
-            "Create Story"
+            "Share Story"
           )}
         </button>
       </div>

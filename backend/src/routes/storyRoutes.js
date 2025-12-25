@@ -6,23 +6,42 @@ import {
   getAllStories,
   getStoryById,
 } from "../controllers/storyController.js";
-import { protect } from "../middleware/auth.js"; // JWT middleware
+
+import { protect } from "../middleware/auth.js";
+import storyUpload from "../middleware/story/storyUpload.js";
+import { validateStorySize } from "../middleware/story/validateStorySize.js";
 
 const router = express.Router();
 
-// Create a new story
-router.post("/", protect, createStory);
+// -------------------
+// Create Story (UPLOAD)
+// -------------------
+router.post(
+  "/",
+  protect,
+  storyUpload.single("story"), // field name = story
+  validateStorySize,
+  createStory
+);
 
-// Delete a story
+// -------------------
+// Delete Story
+// -------------------
 router.delete("/:storyId", protect, deleteStory);
 
-// Get all stories of a user
+// -------------------
+// Get stories by user
+// -------------------
 router.get("/user/:userId", getStoriesByUser);
 
-// Get all stories (public stories or friends stories)
+// -------------------
+// Get all stories
+// -------------------
 router.get("/", getAllStories);
 
+// -------------------
 // Get story by ID
+// -------------------
 router.get("/:id", getStoryById);
 
 export default router;

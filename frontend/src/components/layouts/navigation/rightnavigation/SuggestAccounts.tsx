@@ -5,6 +5,7 @@ import React from "react";
 import { useSuggestedUsers } from "@/hook/useUser";
 import { UserType } from "@/types/userType";
 import Link from "next/link";
+import UserBadge from "@/components/ui/text/UserBadge";
 
 const SuggestAccounts = () => {
   const { data, isLoading, isError } = useSuggestedUsers();
@@ -66,7 +67,10 @@ const SuggestAccounts = () => {
                       href={`/profile/${user.userid}`}
                       className="block w-fit cursor-pointer text-sm font-semibold text-primary"
                     >
-                      {user.name}
+                      <span className="flex items-center gap-1">
+                        {user.name}
+                        <UserBadge badges={user?.badges} />
+                      </span>
                     </Link>
                     <span className="block text-sm text-secondary">
                       @{user.username}

@@ -1,36 +1,47 @@
 import Story from "../models/storyModel.js";
 
 // -------------------
-// Create Story
+// Create Story (File Upload)
 // -------------------
 export const createStory = async (req, res) => {
   try {
-    const { media, textOverlay, expiresAt } = req.body;
-    const userId = req.user.id; // ✔ authenticated user ID
+    const userId = req.user.id; // ✔ authenticated user
+    const { textOverlay, expiresAt } = req.body;
 
-    if (!media?.url || !media?.type) {
-      return res
-        .status(400)
-        .json({ message: "Media URL and type are required" });
+    // ❌ file missing
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Story media file is required",
+      });
     }
 
-    if (!["image", "video"].includes(media.type)) {
-      return res
-        .status(400)
-        .json({ message: "Media type must be image or video" });
-    }
+    // detect media type
+    const isVideo = req.file.mimetype.startsWith("video");
+    const mediaType = isVideo ? "video" : "image";
+
+    const media = {
+      url: req.file.path, // Cloudinary secure URL
+      type: mediaType,
+      publicId: req.file.filename || req.file.public_id, // optional (for delete later)
+    };
 
     const story = await Story.create({
       userId,
       media,
       textOverlay,
-      expiresAt,
+      expiresAt, // optional (can be auto-generated)
     });
 
-    res.status(201).json({ success: true, story });
+    res.status(201).json({
+      success: true,
+      message: "Story created successfully",
+      story,
+    });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Create Story Error:", err);
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 

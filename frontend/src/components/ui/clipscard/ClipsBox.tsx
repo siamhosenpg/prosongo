@@ -10,6 +10,7 @@ import VideoCardFollow from "./buttons/VideoCardFollow";
 import VideoLikeButton from "./buttons/VideoLikeButton";
 import VideoCommentsButton from "./buttons/VideoCommentsButton";
 import VideoSaveButton from "./buttons/VideoSaveButton";
+import UserBadge from "../text/UserBadge";
 
 interface ClipsBoxProps {
   post: PostTypes;
@@ -144,8 +145,9 @@ const ClipsBox: React.FC<ClipsBoxProps> = ({ post, isPortrait, isLoading }) => {
               className="w-8 h-8 rounded-full object-cover"
               alt=""
             />
-            <span className="text-sm font-semibold text-white">
+            <span className="text-sm font-semibold text-white flex items-center gap-1">
               {post.userid.name}
+              <UserBadge badges={post.userid.badges} variants="white" />
             </span>
             <VideoCardFollow targetUserId={post.userid._id} />
           </div>

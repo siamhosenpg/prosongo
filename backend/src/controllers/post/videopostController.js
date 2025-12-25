@@ -7,7 +7,7 @@ export const getVideoPosts = async (req, res) => {
       "content.type": "video", // 🔥 only video posts
       privacy: "public", // চাইলে বাদ দিতে পারো
     })
-      .populate("userid", "name userid profileImage")
+      .populate("userid", "name userid badges profileImage")
       .sort({ createdAt: -1 }) // newest first
       .exec();
 
@@ -31,7 +31,7 @@ export const getVideoPostsByUser = async (req, res) => {
       userid,
       "media.type": "video",
     })
-      .populate("userid", "name userid profileImage")
+      .populate("userid", "name userid badges profileImage")
       .sort({ createdAt: -1 })
       .exec();
 

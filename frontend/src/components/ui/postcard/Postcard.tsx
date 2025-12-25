@@ -14,6 +14,7 @@ import PostcardVideo from "./PostcardVideo";
 
 import PostCardstatus from "./PostCardstatus";
 import DateTime from "../datetime/DateTime";
+import UserBadge from "../text/UserBadge";
 
 interface PostboxProps {
   post: PostTypes;
@@ -68,8 +69,10 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
           </Link>
           <div className="text">
             <div className="flex gap-2  items-center">
-              <div className="font-semibold block text-primary whitespace-nowrap overflow-hidden text-ellipsis">
-                {post.userid?.name}
+              <div className="font-semibold  text-primary whitespace-nowrap overflow-hidden text-ellipsis flex items-center gap-1">
+                <span className=" block">{post.userid?.name}</span>
+
+                <UserBadge badges={post.userid?.badges} />
               </div>{" "}
               {/* Hardcoded user name */}
               {post.content.location && (

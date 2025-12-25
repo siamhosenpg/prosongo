@@ -22,7 +22,7 @@ const LikeBoxIcon = ({ liked, variants }: LikeIconProps) => {
           }}
           exit={{ scale: 0.6, opacity: 0 }}
           transition={{
-            duration: 0.35,
+            duration: 0.25,
             ease: "easeOut",
           }}
         >

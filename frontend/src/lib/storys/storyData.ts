@@ -4,15 +4,33 @@ import axiosInstance from "../axios";
 import { StoryType } from "@/types/storyType";
 
 // -------------------
-// Create Story
+// Create Story (File Upload)
 // -------------------
-export const createStory = async (
-  data: Partial<StoryType>
-): Promise<{ success: boolean; story: StoryType }> => {
-  const res = await axiosInstance.post("/stories", data);
+export const createStory = async (data: {
+  file: File; // image or video
+  textOverlay?: string;
+  expiresAt?: string;
+}): Promise<{ success: boolean; story: StoryType }> => {
+  const formData = new FormData();
+
+  formData.append("story", data.file); // MUST match backend: single("story")
+
+  if (data.textOverlay) {
+    formData.append("textOverlay", data.textOverlay);
+  }
+
+  if (data.expiresAt) {
+    formData.append("expiresAt", data.expiresAt);
+  }
+
+  const res = await axiosInstance.post("/stories", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
   return res.data;
 };
-
 // -------------------
 // Delete Story
 // -------------------

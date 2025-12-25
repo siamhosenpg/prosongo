@@ -5,6 +5,7 @@ import FollowButton from "../buttons/FollowButton";
 import { MdLocationPin } from "react-icons/md";
 import { MdWork } from "react-icons/md";
 import Link from "next/link";
+import UserBadge from "../text/UserBadge";
 
 interface userPorpsdata {
   user: UserType;
@@ -25,7 +26,9 @@ const PeoplesCard = ({ user }: userPorpsdata) => {
             />
           </div>
           <div className="text  w-full">
-            <h3 className="font-bold text-base lg:text-lg ">{user.name}</h3>
+            <h3 className="font-bold text-base lg:text-lg  flex items-center gap-1">
+              {user.name} <UserBadge badges={user.badges} />
+            </h3>
             <h4 className="font-bold text-[12px] lg:text-sm  w-11/12  text-text-tertiary text-ellipsis whitespace-nowrap overflow-hidden ">
               {user.bio}
             </h4>

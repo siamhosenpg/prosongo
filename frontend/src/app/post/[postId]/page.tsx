@@ -9,6 +9,7 @@ import PostCardButtons from "@/components/ui/postcard/PostCardButtons";
 import DateTime from "@/components/ui/datetime/DateTime";
 import ThreeDotIconButton from "@/components/ui/buttons/ThreeDotIconbutton";
 import PrevewVideoSection from "@/components/layouts/postprevew/PostPrevewVideo";
+import UserBadge from "@/components/ui/text/UserBadge";
 interface PageProps {
   params: Promise<{ postId: string }>; // Promise না দেওয়া
   searchParams: { [key: string]: string | undefined };
@@ -60,8 +61,9 @@ const Post = async ({ params, searchParams }: PageProps) => {
                   </Link>
 
                   <div>
-                    <div className="font-semibold text-primary">
+                    <div className="font-semibold text-primary flex items-center gap-1">
                       {post.userid.name}
+                      <UserBadge badges={post.userid.badges} />
                     </div>
                     <div className="smalltext text-secondary line-clamp-1 flex items-center gap-2 w-full">
                       <span className="block capitalize">{post.privacy}</span>

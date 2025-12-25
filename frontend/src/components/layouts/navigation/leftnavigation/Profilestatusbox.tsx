@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import { useAuth } from "@/hook/useAuth";
-import { HiCheckBadge } from "react-icons/hi2";
 import ProfileStatusBoxLoading from "./ProfileStatusBoxLoading";
 import Link from "next/link";
 import { useFollowersCount, useFollowingCount } from "@/hook/useFollow";
+import UserBadge from "@/components/ui/text/UserBadge";
 
 const ProfileStatusBox = () => {
   const { user, isLoading: authLoading } = useAuth();
@@ -31,7 +31,7 @@ const ProfileStatusBox = () => {
         </Link>
         <div className="texts">
           <b className="flex gap-1.5 items-center text-lg text-primary">
-            {user.user.name} <HiCheckBadge className="text-accent" />
+            {user.user.name} <UserBadge badges={user.user.badges} />
           </b>
           <span className="text-sm block text-secondary">
             @{user.user.username}

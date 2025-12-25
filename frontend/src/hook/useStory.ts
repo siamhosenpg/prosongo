@@ -21,24 +21,30 @@ export const storyQueryKeys = {
 };
 
 // ================================
-// Create Story
+// Create Story Hook
 // ================================
-
 export const useCreateStory = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: createStory,
+
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: storyQueryKeys.all });
-      queryClient.invalidateQueries({ queryKey: storyQueryKeys.myStories });
+      // refresh all story lists
+      queryClient.invalidateQueries({
+        queryKey: storyQueryKeys.all,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: storyQueryKeys.myStories,
+      });
     },
-    onError: (err) => {
-      console.error("Create Story Error:", err);
+
+    onError: (error) => {
+      console.error("Create Story Error:", error);
     },
   });
 };
-
 // ================================
 // Delete Story
 // ================================

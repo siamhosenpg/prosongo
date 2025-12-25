@@ -19,14 +19,17 @@ const GlobalSoundToggle = () => {
   return (
     <button
       onClick={toggleSound}
-      className={`absolute top-3 right-3 z-50 w-6 h-6 flex items-center justify-center shadow-2xl text-shadow-2xs rounded-full border text-white border-white 
+      className={`absolute   bg-transparent  top-0 right-0 z-50 w-12 h-12 p-2 flex items-center justify-center  text-shadow-2xs rounded-full cursor-pointer 
        `}
     >
-      {muted ? (
-        <IoVolumeMute className="text-base text-shadow-2xs" />
-      ) : (
-        <FiVolume2 className="text-base text-shadow-2xs" />
-      )}
+      <div className="text-white border rounded-full p-0.5 text-shadow-lg  text-shadow-black  border-white ">
+        {" "}
+        {muted ? (
+          <IoVolumeMute className="text-base text-shadow-2xs" />
+        ) : (
+          <FiVolume2 className="text-base text-shadow-2xs" />
+        )}
+      </div>
     </button>
   );
 };

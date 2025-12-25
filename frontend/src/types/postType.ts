@@ -11,6 +11,7 @@ interface Profiledata {
   name: string;
   userid: number;
   username: string;
+  badges: string[];
   bio: string;
   profileImage: string;
 }
