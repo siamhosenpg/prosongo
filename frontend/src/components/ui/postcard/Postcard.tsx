@@ -114,7 +114,12 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
 
       <div className="  ">
         <PostCardstatus Commentsposition={false} postId={post._id} />
-        <PostCardButtons com={false} postId={post._id} postNumber={post._id} />
+        <PostCardButtons
+          com={false}
+          postId={post._id}
+          postNumber={post._id}
+          shareId={post._id}
+        />
       </div>
     </li>
   );

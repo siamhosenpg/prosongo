@@ -15,7 +15,7 @@ const ProfileTopCountStatus: React.FC<ProfileTopCountStatusProps> = ({
   const { data: followingCount } = useFollowingCount(userId);
 
   return (
-    <div className="w-full lg:w-[50%] text-secondary flex items-center justify-between lg:justify-start mt-3 lg:mt-0 text-sm gap-4 lg:gap-9 font-semibold">
+    <div className="w-full lg:w-[50%] text-secondary flex items-center   justify-between lg:justify-start mt-3 lg:mt-0 text-sm gap-4 lg:gap-9 font-semibold">
       <div>
         <span className="text-primary text-base font-bold">
           {followersCount ?? 0}

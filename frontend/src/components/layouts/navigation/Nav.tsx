@@ -3,7 +3,6 @@
 import React from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-
 import { NavigationData } from "./navigationdata";
 import Searchboxnav from "../../ui/Searchboxnav";
 import NavRightSide from "./NavRightSide";
@@ -51,8 +50,13 @@ const Nav = () => {
           {/* Center Navigation */}
           <ul className="w-6/12 hidden lg:flex items-center justify-center px-2 py-1 gap-2">
             {NavigationData.map((item) => {
-              const Icon = item.icon;
+              const active =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(item.href);
 
+              // 🔥 active হলে activeicon, না হলে icon
+              const Icon = active ? item.activeIcon : item.icon;
               // 🔥 Special logic only for "/"
               if (item.href === "/") {
                 return (
@@ -61,10 +65,10 @@ const Nav = () => {
                     onClick={() => handleRootClick(item.href)}
                     className="flex gap-2 items-center px-4 py-2 hover:bg-background-secondary rounded cursor-pointer"
                   >
-                    <div className="text-[22px] relative">
+                    <div className={`text-[22px] relative `}>
                       {Icon && <Icon />}
                     </div>
-                    <span className="font-semibold">{item.name}</span>
+                    <span className={`font-semibold `}>{item.name}</span>
                   </li>
                 );
               }
@@ -76,8 +80,10 @@ const Nav = () => {
                   key={item.name}
                   className="flex gap-2 items-center px-4 py-2 hover:bg-background-secondary rounded cursor-pointer"
                 >
-                  <div className="text-[22px] relative">{Icon && <Icon />}</div>
-                  <span className="font-semibold">{item.name}</span>
+                  <div className={`text-[22px] relative`}>
+                    {Icon && <Icon />}
+                  </div>
+                  <span className={`font-semibold `}>{item.name}</span>
                 </Link>
               );
             })}

@@ -1,25 +1,33 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { FaRegComments } from "react-icons/fa";
-import { RiShareForwardLine } from "react-icons/ri";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { useReactions } from "@/hook/useReactions";
 import { useAuth } from "@/hook/useAuth";
 import Link from "next/link";
 import { ReactionItem } from "@/types/reactionTypes";
-import { motion, AnimatePresence } from "framer-motion";
 import PostCardSavebutton from "./PostCardSavebutton";
 import LikeBoxIcon from "./LikeBox";
 import ShareButton from "./ShareButton";
 
+import { useIsMobile } from "@/hook/apphook/useIsMobile";
+import { useRouter } from "next/navigation";
+import SuggestAccounts from "@/components/layouts/navigation/rightnavigation/SuggestAccounts";
+import CommentsMobileSection from "./CommentsMobileSection";
+
 interface Props {
   postId: string;
   postNumber: string;
+  shareId: string;
   com: boolean;
 }
 
-const PostCardButtons: React.FC<Props> = ({ postId, postNumber, com }) => {
+const PostCardButtons: React.FC<Props> = ({
+  postId,
+  postNumber,
+  shareId,
+  com,
+}) => {
   const { user, isLoading: authLoading } = useAuth();
   const { data, createMutation, deleteMutation } = useReactions(postId);
 
@@ -31,6 +39,17 @@ const PostCardButtons: React.FC<Props> = ({ postId, postNumber, com }) => {
     (r: ReactionItem) =>
       r?.userId?._id === user?.user?._id || r?.userId?.id === user?.user?._id
   )?.reaction;
+  const router = useRouter();
+  const isMobile = useIsMobile();
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    if (isMobile) {
+      setOpen(true); // component open
+    } else {
+      router.push(`/post/${postNumber}?index=0#comments`); // page navigation
+    }
+  };
 
   if (authLoading) {
     return (
@@ -92,17 +111,23 @@ const PostCardButtons: React.FC<Props> = ({ postId, postNumber, com }) => {
           </button>
 
           {/* Comments */}
-          <Link
-            href={`/post/${postNumber}?index=0#comments`}
+          <button
+            onClick={handleClick}
             className="flex gap-1 items-center cursor-pointer py-1"
           >
             <FaRegComments className="text-xl text-primary" />
             <span className="text-sm text-primary font-semibold">Comments</span>
-          </Link>
+          </button>
+          {open && (
+            <CommentsMobileSection
+              post={postId}
+              onClose={() => setOpen(false)}
+            />
+          )}
 
           {/* Shares */}
           <div className="flex gap-1 items-center cursor-pointer py-1">
-            <ShareButton postId={postId} />
+            <ShareButton postId={shareId} />
           </div>
         </div>
 

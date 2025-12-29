@@ -139,7 +139,12 @@ const SharePostCard: React.FC<PostboxProps> = ({ post }) => {
       {/* Engagement section (likes, comments, shares) */}
       <div className="  ">
         <PostCardstatus Commentsposition={false} postId={post._id} />
-        <PostCardButtons com={false} postId={post._id} postNumber={post._id} />
+        <PostCardButtons
+          com={false}
+          postId={post._id}
+          postNumber={post._id}
+          shareId={post.content.parentPost?._id || ""}
+        />
       </div>
     </li>
   );

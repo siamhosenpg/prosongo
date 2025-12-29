@@ -86,8 +86,10 @@ const Post = async ({ params, searchParams }: PageProps) => {
                   com={true}
                   postId={post._id}
                   postNumber={post._id}
+                  shareId={post._id}
                 />
               </div>
+              {post.content.parentPost?._id}
             </div>
 
             {/* Comments Section */}

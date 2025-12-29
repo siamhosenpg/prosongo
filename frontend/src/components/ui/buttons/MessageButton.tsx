@@ -23,7 +23,7 @@ const MessageButton = ({ userId, onConversationOpen }: Props) => {
     <button
       onClick={handleClick}
       disabled={isPending}
-      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+      className="bg-blue-500 hover:bg-blue-600 py-1.5 border border-blue-600 px-8 text-white  block text-sm font-semibold  rounded-md transition-all"
     >
       {isPending ? "Opening..." : "Message"}
     </button>

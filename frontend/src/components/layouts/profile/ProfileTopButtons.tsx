@@ -33,7 +33,7 @@ const ProfileTopButtons: React.FC<ProfileTopButtonsProps> = ({ userId }) => {
   const isMyProfile = authUserId === userId;
 
   return (
-    <div className="w-full lg:w-7/12 flex justify-between items-center gap-2">
+    <div className="w-full lg:w-7/12 flex justify-start lg:justify-end  items-center gap-2  ">
       {isMyProfile ? (
         <>
           <button
@@ -51,19 +51,19 @@ const ProfileTopButtons: React.FC<ProfileTopButtonsProps> = ({ userId }) => {
           {/* Conditional Render */}
         </>
       ) : (
-        <div className="flex items-center mr-3 justify-end w-full">
+        <div className="flex items-center gap-2 justify-start lg:justify-end w-full">
           <FollowButton targetUserId={userId} variant="lg" />
+          <MessageButton
+            userId={userId}
+            onConversationOpen={(conversation) =>
+              setActiveConversation(conversation)
+            }
+          />
         </div>
       )}
-      <MessageButton
-        userId={userId}
-        onConversationOpen={(conversation) =>
-          setActiveConversation(conversation)
-        }
-      />
 
       <button
-        className="w-1/12 flex items-center justify-center bg-background-secondary 
+        className="w-1/12 hidden lg:flex items-center justify-center bg-background-secondary 
                    rounded-md py-2 transition duration-200 ease-in-out"
       >
         <HiDotsVertical className="text-xl text-loose" />
