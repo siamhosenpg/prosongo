@@ -23,3 +23,11 @@ export const markAllNotificationsAsRead = async () => {
   const res = await axiosInstance.patch("/notifications/read-all");
   return res.data;
 };
+
+// 🔔 Get unread notification count
+export const getUnreadNotificationCount = async () => {
+  const res = await axiosInstance.get<{ success: boolean; count: number }>(
+    "/notifications/unread-count"
+  );
+  return res.data.count;
+};

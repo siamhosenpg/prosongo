@@ -3,6 +3,7 @@ import {
   getMyNotifications,
   markAsRead,
   markAllAsRead,
+  getUnreadNotificationCount,
 } from "../../controllers/notification/notificationcontroller.js";
 import { protect } from "../../middleware/auth.js";
 
@@ -10,6 +11,7 @@ const router = express.Router();
 
 // 🔔 Get my notifications
 router.get("/", protect, getMyNotifications);
+router.get("/unread-count", protect, getUnreadNotificationCount);
 
 // 🔔 Mark single notification read
 router.patch("/:id/read", protect, markAsRead);

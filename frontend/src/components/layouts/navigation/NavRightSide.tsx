@@ -5,9 +5,11 @@ import { FaCaretDown, FaRegBell } from "react-icons/fa";
 import { useAuth } from "@/hook/useAuth";
 import NotificationBox from "../notification/NotificationBox";
 import Link from "next/link";
+import { useUnreadNotificationCount } from "@/hook/notifications/useNotifications";
 
 const NavRightSide = () => {
   const { user, isLoading } = useAuth();
+  const { data: unreadCount } = useUnreadNotificationCount();
   const currentUser = user?.user;
 
   const [open, setOpen] = useState(false);
@@ -41,9 +43,14 @@ const NavRightSide = () => {
       <div ref={notificationRef} className="relative">
         <button
           onClick={toggleNotification}
-          className="w-8 h-8 flex items-center  justify-center cursor-pointer hover:bg-background-secondary rounded-full"
+          className="w-8 h-8 flex items-center relative  justify-center cursor-pointer hover:bg-background-secondary rounded-full"
         >
           <FaRegBell className="text-lg" />
+          {unreadCount === undefined || unreadCount === 0 ? null : (
+            <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-red-500 text-white text-[11px] font-medium flex items-center justify-center">
+              {unreadCount > 99 ? "99+" : unreadCount}
+            </span>
+          )}
         </button>
 
         {/* 🔔 Notification Box */}

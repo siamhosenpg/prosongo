@@ -95,3 +95,27 @@ export const markAllAsRead = async (req, res) => {
     });
   }
 };
+
+/**
+ * 🔔 Count unread notifications
+ * Returns number of notifications with read: false for logged-in user
+ */
+export const getUnreadNotificationCount = async (req, res) => {
+  try {
+    const count = await Notification.countDocuments({
+      userId: req.user.id,
+      read: false,
+    });
+
+    res.status(200).json({
+      success: true,
+      count, // number of unread notifications
+    });
+  } catch (error) {
+    console.error("getUnreadNotificationCount error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

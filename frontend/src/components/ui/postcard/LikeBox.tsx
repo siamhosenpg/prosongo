@@ -1,19 +1,35 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { AiOutlineLike } from "react-icons/ai";
+
+import React from "react";
+
+type ReactionType = "like" | "love" | "care" | "angry" | "wow" | "sad";
 
 interface LikeIconProps {
-  liked: boolean;
+  liked: ReactionType | boolean;
   variants?: string;
 }
 
+const reactionIcons: Record<ReactionType, string> = {
+  like: "/images/icon/reaction/like.png",
+  love: "/images/icon/reaction/love.png",
+  care: "/images/icon/reaction/emoji.png",
+  angry: "/images/icon/reaction/angry.png",
+  wow: "/images/icon/reaction/wow.png",
+  sad: "/images/icon/reaction/sad.png",
+};
+
 const LikeBoxIcon = ({ liked, variants }: LikeIconProps) => {
+  const activeReaction =
+    typeof liked === "string" ? reactionIcons[liked] : null;
+
   return (
     <AnimatePresence mode="wait">
-      {liked ? (
+      {activeReaction ? (
         <motion.div
-          key="liked"
+          key={String(liked)} // ✅ TS-safe key
           initial={{ scale: 0.6, rotate: -15, opacity: 0 }}
           animate={{
             scale: [0.6, 1.4, 1],
@@ -25,14 +41,13 @@ const LikeBoxIcon = ({ liked, variants }: LikeIconProps) => {
             duration: 0.25,
             ease: "easeOut",
           }}
+          className={`drop-shadow-md w-5 ${
+            variants === "lg"
+              ? "text-2xl text-white lg:text-accent"
+              : "text-xl text-accent -mt-0.5"
+          }`}
         >
-          <AiFillLike
-            className={`   drop-shadow-md ${
-              variants === "lg"
-                ? "text-2xl text-white lg:text-accent"
-                : "text-xl text-accent -mt-0.5"
-            }`}
-          />
+          <img className="w-full" src={activeReaction} />
         </motion.div>
       ) : (
         <motion.div
@@ -42,7 +57,7 @@ const LikeBoxIcon = ({ liked, variants }: LikeIconProps) => {
           exit={{ scale: 0.8, opacity: 0 }}
         >
           <AiOutlineLike
-            className={` ${
+            className={`${
               variants === "lg"
                 ? "text-2xl text-white lg:text-text"
                 : "text-xl text-text -mt-0.5"

@@ -47,6 +47,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
+      "http://localhost:8081",
       "https://hiyaboni.vercel.app",
       "https://pacezoon.vercel.app",
       "http://192.168.31.158:3000",

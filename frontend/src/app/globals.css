@@ -81,6 +81,13 @@ button {
   outline: none;
 }
 
+img,
+button,
+a {
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE */
+}
 a {
   color: inherit;
   text-decoration: none;

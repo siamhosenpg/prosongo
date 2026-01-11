@@ -51,7 +51,7 @@ const MessageText = ({ messages }: Props) => {
                   className={`max-w-[96%] px-4 py-3  font-medium w-fit rounded-xl  ${
                     isCurrentUser
                       ? "bg-accent text-white"
-                      : "bg-background-secondary text-gray-900"
+                      : "bg-background-secondary text-text"
                   }`}
                 >
                   {msg.text}
@@ -59,7 +59,7 @@ const MessageText = ({ messages }: Props) => {
 
                 {/* Timestamp */}
                 <div
-                  className={`smalltext mt-1  text-gray-400 flex w-full justify-end gap-1 ${
+                  className={`smalltext mt-1  text-text-tertiary flex w-full justify-end gap-1 ${
                     isCurrentUser ? "justify-end" : "justify-start"
                   }`}
                 >
