@@ -1,25 +1,4 @@
 import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import cloudinary from "../config/cloudinary.js";
-
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "posts",
-    allowed_formats: [
-      "jpg",
-      "png",
-      "jpeg",
-      "webp",
-      "mp4",
-      "mov",
-      "mp3",
-      "mpeg",
-    ],
-    resource_type: "auto",
-    chunk_size: 6000000, // 6MB per chunk
-  },
-});
 
 const fileFilter = (req, file, cb) => {
   const allowedTypes = [
@@ -31,6 +10,7 @@ const fileFilter = (req, file, cb) => {
     "audio/mpeg",
     "audio/mp3",
   ];
+
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
@@ -39,7 +19,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(), // 🔥 REQUIRED for sharp
   limits: { fileSize: 100 * 1024 * 1024 }, // 100MB
   fileFilter,
 });

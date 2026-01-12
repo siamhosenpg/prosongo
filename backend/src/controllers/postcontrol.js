@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Post from "../models/postmodel.js";
+import { uploadMedia } from "../utils/uploadToCloudinary.js";
+
 // GET /api/posts?limit=10&cursor=2025-12-29T17:00:00.000Z
 export const getPosts = async (req, res) => {
   try {
@@ -103,46 +105,44 @@ export const createPost = async (req, res) => {
 
     // 🧠 If media exists
     if (files.length > 0) {
-      const images = files.filter((file) => file.mimetype.startsWith("image"));
-      const videos = files.filter((file) => file.mimetype.startsWith("video"));
-      const audios = files.filter((file) => file.mimetype.startsWith("audio"));
+      const images = files.filter((f) => f.mimetype.startsWith("image"));
+      const videos = files.filter((f) => f.mimetype.startsWith("video"));
+      const audios = files.filter((f) => f.mimetype.startsWith("audio"));
 
-      // ❌ image + video together not allowed
       if (images.length > 0 && videos.length > 0) {
         return res.status(400).json({
           message: "You can upload either images or a video, not both",
         });
       }
 
-      // 🎥 Only one video allowed
       if (videos.length > 1) {
         return res.status(400).json({
           message: "Only one video is allowed",
         });
       }
 
-      // 🎵 Only one audio allowed
       if (audios.length > 1) {
         return res.status(400).json({
           message: "Only one audio is allowed",
         });
       }
 
-      // 🖼 Multiple images allowed
+      // 🖼 Multiple images
       if (images.length > 0) {
         contentType = "image";
-        mediaUrls = images.map((file) => file.path); // Cloudinary URLs
+        mediaUrls = await Promise.all(images.map((file) => uploadMedia(file)));
       }
 
       // 🎥 Single video
       if (videos.length === 1) {
         contentType = "video";
-        mediaUrls = [videos[0].path];
+        mediaUrls = [await uploadMedia(videos[0])];
       }
+
       // 🎵 Single audio
       if (audios.length === 1) {
         contentType = "audio";
-        mediaUrls = [audios[0].path];
+        mediaUrls = [await uploadMedia(audios[0])];
       }
     }
 
