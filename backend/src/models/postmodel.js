@@ -22,7 +22,7 @@ const postSchema = new mongoose.Schema(
       media: [{ type: String }],
       type: {
         type: String,
-        enum: ["image", "video", "text"],
+        enum: ["image", "video", "text", "share", "audio"],
         default: "text",
       },
       location: { type: String },

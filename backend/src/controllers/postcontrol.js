@@ -105,6 +105,7 @@ export const createPost = async (req, res) => {
     if (files.length > 0) {
       const images = files.filter((file) => file.mimetype.startsWith("image"));
       const videos = files.filter((file) => file.mimetype.startsWith("video"));
+      const audios = files.filter((file) => file.mimetype.startsWith("audio"));
 
       // ❌ image + video together not allowed
       if (images.length > 0 && videos.length > 0) {
@@ -120,6 +121,13 @@ export const createPost = async (req, res) => {
         });
       }
 
+      // 🎵 Only one audio allowed
+      if (audios.length > 1) {
+        return res.status(400).json({
+          message: "Only one audio is allowed",
+        });
+      }
+
       // 🖼 Multiple images allowed
       if (images.length > 0) {
         contentType = "image";
@@ -130,6 +138,11 @@ export const createPost = async (req, res) => {
       if (videos.length === 1) {
         contentType = "video";
         mediaUrls = [videos[0].path];
+      }
+      // 🎵 Single audio
+      if (audios.length === 1) {
+        contentType = "audio";
+        mediaUrls = [audios[0].path];
       }
     }
 

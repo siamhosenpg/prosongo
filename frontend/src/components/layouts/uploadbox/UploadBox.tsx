@@ -10,11 +10,13 @@ import { useState } from "react";
 import { useAuth } from "@/hook/useAuth";
 import Link from "next/link";
 import CreateVideoBox from "../createpost/CreateVideoBox";
+import CreateVoiceCard from "../createpost/CreateVoiceCard";
 
 const UploadBox = ({}) => {
   const { user, isLoading } = useAuth();
   const [open, setOpen] = useState(false);
   const [openvideo, setOpenvideo] = useState(false);
+  const [openvoice, setOpenvoice] = useState(false);
   return (
     <div className="w-full bg-background  rounded-none lg:rounded-lg px-4 sm:px-6 py-3 sm:py-4 flex flex-col items-center justify-center mb-2 sm:mb-4">
       <div className="flex items-center justify-between w-full gap-4 mb-2 sm:mb-4 border-b border-border pb-2 sm:pb-4">
@@ -64,12 +66,16 @@ const UploadBox = ({}) => {
           </span>
         </button>
         {openvideo && <CreateVideoBox onClose={() => setOpenvideo(false)} />}
-        <button className="w-2/6 flex items-center justify-center gap-2   py-2 rounded-lg hover:bg-background-secondary transition duration-200 ease-in-out">
+        <button
+          onClick={() => setOpenvoice(true)}
+          className="w-2/6 flex items-center justify-center gap-2   py-2 rounded-lg hover:bg-background-secondary transition duration-200 ease-in-out"
+        >
           <MdKeyboardVoice className="text-xl text-red-600" />{" "}
           <span className=" overflow-hidden whitespace-nowrap text-ellipsis text-loose truncate">
             <span className=" hidden sm:inline-block">Upload</span> Voice
           </span>
         </button>
+        {openvoice && <CreateVoiceCard onClose={() => setOpenvoice(false)} />}
       </div>
     </div>
   );

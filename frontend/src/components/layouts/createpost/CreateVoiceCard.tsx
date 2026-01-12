@@ -1,16 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImCross } from "react-icons/im";
 import { MdOutlineEditLocation } from "react-icons/md";
+import { FaPlay, FaPause } from "react-icons/fa";
+import WaveSurfer from "wavesurfer.js";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { useAuth } from "@/hook/useAuth";
 import { usePost } from "@/hook/usePost";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 import ModalPortal from "../ModalPortal";
-
-import { motion, AnimatePresence } from "framer-motion";
 
 /* 🧼 Sanitize */
 const sanitizeCaption = (text: string) =>
@@ -20,41 +21,87 @@ interface CreateVideoBoxProps {
   onClose: () => void;
 }
 
-const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
+const CreateVoiceCard = ({ onClose }: CreateVideoBoxProps) => {
   const { user, isLoading } = useAuth();
-
   const router = useRouter();
   const { createPost, createPostLoading } = usePost();
 
   /* 🧠 States */
   const [caption, setCaption] = useState("");
-  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [audioFile, setAudioFile] = useState<File | null>(null);
   const [location, setLocation] = useState("");
   const [privacy, setPrivacy] = useState<"public" | "private" | "friends">(
     "public"
   );
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  /* 🎧 WaveSurfer refs */
+  const waveformRef = useRef<HTMLDivElement | null>(null);
+  const waveSurferRef = useRef<WaveSurfer | null>(null);
 
   // ----------------------------
-  // 🎥 Handle Video Select
+  // 🎵 Handle Audio Select
   // ----------------------------
   const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
 
     const file = e.target.files[0];
 
-    if (!file.type.startsWith("video")) {
-      alert("Only video files are allowed");
+    if (!file.type.startsWith("audio")) {
+      alert("Only audio files are allowed");
       return;
     }
 
-    setVideoFile(file); // ✅ single video
+    setAudioFile(file);
   };
 
   // ----------------------------
-  // ❌ Remove Video
+  // 🎧 WaveSurfer Init / Destroy
   // ----------------------------
-  const handleRemoveVideo = () => {
-    setVideoFile(null);
+  useEffect(() => {
+    if (!audioFile || !waveformRef.current) return;
+
+    // 🔐 Clean previous instance (StrictMode safe)
+    if (waveSurferRef.current) {
+      waveSurferRef.current.destroy();
+      waveSurferRef.current = null;
+    }
+
+    const ws = WaveSurfer.create({
+      container: waveformRef.current,
+      waveColor: "#d1d5db",
+      progressColor: "#16CC06",
+      cursorColor: "transparent",
+      barWidth: 2,
+      barRadius: 3,
+      height: 40,
+      normalize: true,
+    });
+
+    waveSurferRef.current = ws;
+
+    // ✅ Create local preview URL
+    const audioUrl = URL.createObjectURL(audioFile);
+    ws.load(audioUrl);
+
+    ws.on("finish", () => {
+      setIsPlaying(false);
+    });
+
+    return () => {
+      ws.destroy();
+      URL.revokeObjectURL(audioUrl);
+      waveSurferRef.current = null;
+    };
+  }, [audioFile]);
+
+  // ----------------------------
+  // ▶️ Play / Pause
+  // ----------------------------
+  const togglePlay = () => {
+    if (!waveSurferRef.current) return;
+    waveSurferRef.current.playPause();
+    setIsPlaying((prev) => !prev);
   };
 
   // ----------------------------
@@ -63,29 +110,27 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!videoFile) {
-      alert("Video file is required!");
+    if (!audioFile) {
+      alert("Audio file is required!");
       return;
     }
 
-    const finalCaption = sanitizeCaption(caption);
-
     const formData = new FormData();
-    formData.append("caption", finalCaption);
+    formData.append("caption", sanitizeCaption(caption));
     formData.append("privacy", privacy);
     formData.append("location", location);
-    formData.append("media", videoFile); // 👈 single video
+    formData.append("media", audioFile);
 
     createPost(formData, {
       onSuccess: () => {
         setCaption("");
-        setVideoFile(null);
+        setAudioFile(null);
         setLocation("");
         onClose();
         router.push("/");
       },
       onError: (err: any) => {
-        alert(err?.message || "Failed to upload video");
+        alert(err?.message || "Failed to upload voice");
       },
     });
   };
@@ -93,17 +138,14 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
   // ----------------------------
   // Auth Handling
   // ----------------------------
-  if (isLoading) {
-    return <div className="p-4 text-center">Loading...</div>;
-  }
+  if (isLoading) return <div className="p-4 text-center">Loading...</div>;
 
-  if (!user) {
+  if (!user)
     return (
       <div className="p-4 text-center text-red-500 font-semibold">
-        Please login to upload a video.
+        Please login to upload a voice.
       </div>
     );
-  }
 
   /* 🎞️ Animations */
   const overlayVariants = {
@@ -117,12 +159,12 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.35, ease: "easeOut" as any },
+      transition: { duration: 0.35, ease: "easeOut" },
     },
     exit: {
       y: 80,
       opacity: 0,
-      transition: { duration: 0.25, ease: "easeIn" as any },
+      transition: { duration: 0.25, ease: "easeIn" },
     },
   };
 
@@ -146,12 +188,10 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
             >
               {/* Header */}
               <div className="mb-4 flex items-center justify-between border-b border-border px-6 py-2">
-                <h2 className="text-base font-bold flex items-center gap-2">
-                  Upload a Video
-                </h2>
+                <h2 className="text-base font-bold">Upload Voice</h2>
                 <button
                   onClick={onClose}
-                  className="flex cursor-pointer h-10 w-10 items-center justify-center rounded-full bg-background-secondary"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-background-secondary"
                 >
                   <ImCross />
                 </button>
@@ -160,7 +200,7 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
               {/* Form */}
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-4 sm:gap-6 px-4 sm:px-6"
+                className="flex flex-col gap-4 px-4 sm:px-6"
               >
                 <div className="flex items-center gap-2">
                   <div className="w-11 sm:w-12 h-11 sm:h-12 rounded-full shrink-0 overflow-hidden ">
@@ -171,21 +211,10 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
                     />
                   </div>
                   <div className="w-full">
-                    <div className=" flex items-center justify-center gap-3">
+                    <div className=" flex items-center justify-start gap-3">
                       <h3 className="font-bold w-fit shrink-0 text-ellipsis whitespace-nowrap overflow-hidden ">
                         {user.user.name}
                       </h3>
-                      {/* Location */}
-                      <div className="flex items-center   gap-2 w-full ">
-                        <MdOutlineEditLocation className="text-xl" />
-                        <input
-                          type="text"
-                          placeholder="Add location (optional)"
-                          value={location}
-                          onChange={(e) => setLocation(e.target.value)}
-                          className="w-full bg-background text-text-secondary"
-                        />
-                      </div>
                     </div>
                     <select
                       value={privacy}
@@ -211,67 +240,63 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
                 {/* Caption */}
                 <textarea
                   rows={4}
-                  placeholder={`Say something about your video, ${user.user.name}?`}
+                  placeholder={`Say something about your voice, ${user.user.name}?`}
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
-                  className=" resize-none "
+                  className="resize-none"
                 />
-                {/* Video Preview */}
-                {videoFile && (
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={handleRemoveVideo}
-                      className="absolute right-2 top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full border-border bg-background-secondary text-white hover:bg-red-600"
-                    >
-                      <ImCross size={12} />
-                    </button>
-                    <video
-                      autoPlay
-                      muted
-                      loop
-                      src={URL.createObjectURL(videoFile)}
-                      className="w-full max-h-75 bg-background-secondary rounded-xl border border-border"
-                    />
+
+                {/* Audio Preview */}
+                {audioFile && (
+                  <div className="w-full px-4 rounded-xl border border-border bg-background-secondary py-3">
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={togglePlay}
+                        className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white"
+                      >
+                        {isPlaying ? (
+                          <FaPause size={14} />
+                        ) : (
+                          <FaPlay size={14} />
+                        )}
+                      </button>
+                      <div className="flex-1">
+                        <div ref={waveformRef} />
+                      </div>
+                    </div>
                   </div>
                 )}
 
                 {/* Bottom */}
                 <div className="flex items-center justify-between">
-                  {/* Modern Video Upload */}
                   <label
-                    htmlFor="video-upload"
-                    className="flex cursor-pointer  items-center 
-                  gap-2 
-                  "
+                    htmlFor="audio-upload"
+                    className="flex cursor-pointer items-center gap-2"
                   >
-                    <img
-                      className="w-12 sm:w-14  "
-                      src="/images/icon/videography.png"
-                      alt=""
-                    />
+                    <img className="w-12" src="/images/icon/audio.png" alt="" />
                     <div>
-                      {" "}
                       <p className="text-sm font-medium text-text-secondary">
-                        Click to upload video
+                        Click to upload voice
                       </p>
-                      <p className="text-xs mt-0.5 text-text-tertiary">
-                        MP4, MOV, MKV
+                      <p className="text-xs text-text-tertiary">
+                        (mp3, wav, ogg)
                       </p>
                     </div>
                   </label>
 
                   <input
-                    id="video-upload"
+                    id="audio-upload"
                     type="file"
-                    accept="video/*"
+                    accept="audio/*"
                     onChange={handleVideoSelect}
                     className="hidden"
                   />
+
                   <button
                     type="submit"
                     disabled={createPostLoading}
-                    className="rounded-lg bg-accent px-6 py-2 text-white transition-all  cursor-pointer active:scale-95"
+                    className="rounded-lg bg-accent px-6 py-2 text-white active:scale-95"
                   >
                     {createPostLoading ? "Posting..." : "Upload"}
                   </button>
@@ -285,4 +310,4 @@ const CreateVideoBox = ({ onClose }: CreateVideoBoxProps) => {
   );
 };
 
-export default CreateVideoBox;
+export default CreateVoiceCard;

@@ -15,6 +15,7 @@ import PostcardVideo from "./PostcardVideo";
 import PostCardstatus from "./PostCardstatus";
 import DateTime from "../datetime/DateTime";
 import UserBadge from "../text/UserBadge";
+import PostMediaAudio from "./audio/PostMediaAudio";
 
 interface PostboxProps {
   post: PostTypes;
@@ -37,7 +38,11 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
         );
 
       case "audio":
-        return null;
+        return (
+          <div className="px-4 lg:px-6 max-w-130">
+            <PostMediaAudio audio={post.content.media} />
+          </div>
+        );
 
       case "text":
         return null;
@@ -78,7 +83,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
               {post.content?.location && (
                 <span className="text-sm flex items-center w-fit text-gray-600">
                   <MdOutlineLocationOn className="text-tertiary" />
-                  <span className="max-w-[130px] text-text-secondary font-medium text-[12px] sm:text-[13px] sm:max-w-fit text-ellipsis whitespace-nowrap overflow-hidden">
+                  <span className="max-w-32.5 text-text-secondary font-medium text-[12px] sm:text-[13px] sm:max-w-fit text-ellipsis whitespace-nowrap overflow-hidden">
                     {post.content?.location}
                   </span>{" "}
                   {/* Post location */}
