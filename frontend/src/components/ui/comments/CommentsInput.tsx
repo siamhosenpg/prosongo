@@ -37,7 +37,7 @@ const CommentsInput: React.FC<CommentsInputProps> = ({
   return (
     <div className="shrink-0 bg-background pt-2 border-t border-border">
       {parentComment && (
-        <div className="flex items-center gap-1.5 pb-2">
+        <div className="flex items-center gap-1.5 pb-2 px-4 lg:px-0 ">
           <button
             onClick={() => setparentComment(null)}
             className="flex items-center justify-center shrink-0 cursor-pointer"

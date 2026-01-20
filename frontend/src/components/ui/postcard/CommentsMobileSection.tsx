@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CommentsSection from "@/components/layouts/postprevew/CommentsSection";
 import CommentsInput from "../comments/CommentsInput";
 
@@ -6,6 +6,7 @@ import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 import ModalPortal from "@/components/layouts/ModalPortal";
 import { ImCross } from "react-icons/im";
 import { motion, AnimatePresence } from "framer-motion";
+import { CommentType } from "@/types/commentType";
 
 interface CommentsMobileSectionProps {
   post: string;
@@ -15,6 +16,8 @@ const CommentsMobileSection: React.FC<CommentsMobileSectionProps> = ({
   post,
   onClose,
 }) => {
+  const [parentComment, setparentComment] = useState<CommentType | null>(null);
+
   // ----------------------------
   // Animations
   // ----------------------------
@@ -70,12 +73,19 @@ const CommentsMobileSection: React.FC<CommentsMobileSectionProps> = ({
                 </div>
                 {/* Comments Section */}
                 <div className="w-full h-full overflow-y-auto px-4 sm:px-6">
-                  <CommentsSection postId={post} />
+                  <CommentsSection
+                    postId={post}
+                    setparentComment={setparentComment}
+                  />
                 </div>
 
                 <div className="h-fit shrink-0">
                   {/* Input Box */}
-                  <CommentsInput postId={post} />
+                  <CommentsInput
+                    postId={post}
+                    setparentComment={setparentComment}
+                    parentComment={parentComment}
+                  />
                 </div>
               </div>
             </motion.div>
