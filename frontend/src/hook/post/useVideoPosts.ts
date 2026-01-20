@@ -6,12 +6,18 @@ import { getVideoPostsByUserApi } from "@/lib/post/videosapi";
 export const useVideoPosts = () => {
   return useInfiniteQuery({
     queryKey: ["video-posts"],
+
     queryFn: ({ pageParam }) =>
-      getVideoPostsApi({ pageParam: pageParam ?? undefined }),
-    getNextPageParam: (lastPage) =>
-      lastPage.hasMore ? lastPage.nextCursor : undefined,
-    staleTime: 1000 * 60, // 1 min
+      getVideoPostsApi({
+        pageParam: pageParam ?? null,
+      }),
+
     initialPageParam: null,
+
+    getNextPageParam: (lastPage) =>
+      lastPage?.hasMore ? lastPage.nextCursor : undefined,
+
+    staleTime: 1000 * 60, // 1 minute
   });
 };
 

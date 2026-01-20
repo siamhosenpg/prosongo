@@ -18,10 +18,11 @@ export const getVideoPostsApi = async ({
     {
       params: {
         limit: 6,
-        cursor: pageParam,
+        cursor: pageParam ?? undefined,
       },
-    }
+    },
   );
+
   return data;
 };
 
@@ -40,7 +41,7 @@ export const getVideoPostsByUserApi = async ({
         limit: 6,
         cursor: pageParam,
       },
-    }
+    },
   );
   return data;
 };

@@ -23,20 +23,23 @@ export default function ReelsPage() {
 
   const [posts, setPosts] = useState<PostWithRatio[]>([]);
 
-  const observerRef = useRef<HTMLDivElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  /* Merge new pages + check ratio */
+  /* Merge new pages safely */
   useEffect(() => {
     if (!data?.pages?.length) return;
 
-    const newPosts = data.pages
-      .flatMap((page) => page.posts)
-      .filter((p) => !posts.find((old) => old.post._id === p._id));
+    const allPosts = data.pages.flatMap((page) => page.posts);
+
+    const newPosts = allPosts.filter(
+      (p) => !posts.some((old) => old.post._id === p._id),
+    );
 
     if (!newPosts.length) return;
 
-    const loadRatios = async () => {
+    (async () => {
       const results: PostWithRatio[] = [];
 
       for (const post of newPosts) {
@@ -45,51 +48,50 @@ export default function ReelsPage() {
       }
 
       setPosts((prev) => [...prev, ...results]);
-    };
+    })();
+  }, [data, posts]);
 
-    loadRatios();
-  }, [data]);
+  /* Stable Intersection Observer */
+  const observeLast = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (isFetchingNextPage) return;
 
-  /* Infinite Scroll Observer */
-  useEffect(() => {
-    if (!observerRef.current || !scrollRef.current) return;
+      if (observerRef.current) observerRef.current.disconnect();
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      {
-        root: scrollRef.current, // ✅ FIX
-        threshold: 0.6,
-      },
-    );
+      observerRef.current = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && hasNextPage) {
+            fetchNextPage();
+          }
+        },
+        {
+          root: scrollRef.current,
+          threshold: 0.6,
+        },
+      );
 
-    observer.observe(observerRef.current);
-
-    return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+      if (node) observerRef.current.observe(node);
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage],
+  );
 
   if (isLoading) return <ClipsBoxSkeleton />;
   if (error) return <p>Something went wrong</p>;
 
   return (
     <div>
-      {posts.length === 0 && "No Video Available"}
-
       <main
         ref={scrollRef}
         className="h-[calc(100vh-104px)] lg:h-[calc(100vh-72px)]
         overflow-y-scroll snap-y snap-mandatory scroll-smooth"
       >
         {posts.map(({ post, isPortrait }, index) => {
-          const triggerIndex = posts.length - 2; // 👈 ৫ নম্বর ভিডিও
+          const triggerIndex = posts.length - 2;
 
           return (
             <ClipsBox
               key={post._id}
-              ref={index === triggerIndex ? observerRef : null} // ✅ FIX
+              ref={index === triggerIndex ? observeLast : null}
               post={post}
               isLoading={isLoading}
               isPortrait={isPortrait}
