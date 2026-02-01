@@ -27,52 +27,50 @@ export default function ReelsPage() {
   const triggerRef = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  /* Merge new pages safely */
   useEffect(() => {
     if (!data?.pages?.length) return;
 
+    const map = new Map<string, PostWithRatio>();
+
+    posts.forEach((p) => map.set(p.post._id, p));
+
     const allPosts = data.pages.flatMap((page) => page.posts);
 
-    const newPosts = allPosts.filter(
-      (p) => !posts.some((old) => old.post._id === p._id),
-    );
-
-    if (!newPosts.length) return;
-
     (async () => {
-      const results: PostWithRatio[] = [];
+      for (const post of allPosts) {
+        if (map.has(post._id)) continue;
 
-      for (const post of newPosts) {
         const isPortrait = await checkVideoRatio(post.content.media);
-        results.push({ post, isPortrait });
+        map.set(post._id, { post, isPortrait });
       }
 
-      setPosts((prev) => [...prev, ...results]);
+      setPosts(Array.from(map.values()));
     })();
-  }, [data, posts]);
+  }, [data]); // ✅ posts dependency removed
 
   /* Stable Intersection Observer */
   const observeLast = useCallback(
     (node: HTMLDivElement | null) => {
-      if (isFetchingNextPage) return;
+      if (!node || !hasNextPage) return;
 
       if (observerRef.current) observerRef.current.disconnect();
 
       observerRef.current = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting && hasNextPage) {
+          if (entry.isIntersecting) {
             fetchNextPage();
           }
         },
         {
           root: scrollRef.current,
-          threshold: 0.6,
+          rootMargin: "200px",
+          threshold: 0.1,
         },
       );
 
-      if (node) observerRef.current.observe(node);
+      observerRef.current.observe(node);
     },
-    [fetchNextPage, hasNextPage, isFetchingNextPage],
+    [fetchNextPage, hasNextPage],
   );
 
   if (isLoading) return <ClipsBoxSkeleton />;
@@ -86,7 +84,7 @@ export default function ReelsPage() {
         overflow-y-scroll snap-y snap-mandatory scroll-smooth"
       >
         {posts.map(({ post, isPortrait }, index) => {
-          const triggerIndex = posts.length - 2;
+          const triggerIndex = posts.length - 1;
 
           return (
             <ClipsBox
