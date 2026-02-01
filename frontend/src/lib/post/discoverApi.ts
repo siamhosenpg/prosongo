@@ -20,7 +20,7 @@ export const getDiscoversPostsApi = async ({
   limit?: number;
 }): Promise<DiscoverPostResponse> => {
   const res = await axiosInstance.get<DiscoverPostResponse>(
-    `/posts/media?skip=${skip}&limit=${limit}`,
+    `/discovers/media?skip=${skip}&limit=${limit}`,
   );
   return res.data;
 };

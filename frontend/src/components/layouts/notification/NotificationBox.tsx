@@ -40,8 +40,14 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
             }`}
           >
             <img
-              src={noti.actorId.profileImage || "/avatar.png"}
-              alt={noti.actorId.name}
+              src={
+                noti.actorId?.profileImage
+                  ? noti.actorId.profileImage
+                  : noti.actorId.gender === "female"
+                    ? "/images/femaleprofile.jpg"
+                    : "/images/profile.jpg"
+              }
+              alt={noti.actorId?.name}
               className="rounded-full w-10 h-10 object-cover"
             />
 

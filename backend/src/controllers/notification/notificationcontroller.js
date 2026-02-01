@@ -33,8 +33,8 @@ export const getMyNotifications = async (req, res) => {
     const notifications = await Notification.find({
       userId: req.user.id,
     })
-      .populate("actorId", "name username profileImage userid ")
-      .populate("userId", "name username profileImage userid ")
+      .populate("actorId", "name username profileImage userid gender ")
+      .populate("userId", "name username profileImage userid  gender")
       .sort({ createdAt: -1 })
       .limit(30);
 
@@ -59,7 +59,7 @@ export const markAsRead = async (req, res) => {
 
     await Notification.findOneAndUpdate(
       { _id: id, userId: req.user.id },
-      { read: true }
+      { read: true },
     );
 
     res.status(200).json({
@@ -81,7 +81,7 @@ export const markAllAsRead = async (req, res) => {
   try {
     await Notification.updateMany(
       { userId: req.user.id, read: false },
-      { read: true }
+      { read: true },
     );
 
     res.status(200).json({

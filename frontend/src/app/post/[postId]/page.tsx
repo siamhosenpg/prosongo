@@ -2,6 +2,7 @@ import ImageSection from "@/components/layouts/postprevew/ImageSection";
 import { getSinglePost } from "@/lib/post/feedPosts";
 import PrevewVideoSection from "@/components/layouts/postprevew/PostPrevewVideo";
 import PostPrevewRight from "@/components/layouts/postprevew/PostPrevewRight";
+import PostMediaAudio from "@/components/ui/postcard/audio/PostMediaAudio";
 interface PageProps {
   params: Promise<{ postId: string }>; // Promise না দেওয়া
   searchParams: { [key: string]: string | undefined };
@@ -29,9 +30,17 @@ const Post = async ({ params, searchParams }: PageProps) => {
           <ImageSection media={post.content.media} index={index} />
         ) : post.content.type === "video" ? (
           <PrevewVideoSection media={post.content.media} />
-        ) : (
-          ""
-        )}
+        ) : post.content.type === "text" ? (
+          <div className="leftArea w-full md:w-8/12 h-[calc(100vh-110px)] relative p-6 bg-background border-border border-none lg:border rounded-none sm:rounded-lg overflow-y-auto">
+            <p className="posttext  whitespace-pre-wrap font-medium">
+              {post.content.caption}
+            </p>
+          </div>
+        ) : post.content.type === "audio" ? (
+          <div className="leftArea w-full md:w-8/12 h-[calc(100vh-110px)] relative p-6 bg-background border-border border-none lg:border rounded-none sm:rounded-lg overflow-y-auto">
+            <PostMediaAudio audio={post.content.media} />
+          </div>
+        ) : null}
 
         {/* Right: Details */}
         <PostPrevewRight post={post} />

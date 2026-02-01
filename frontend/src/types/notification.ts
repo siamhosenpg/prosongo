@@ -4,6 +4,7 @@ export interface UserMini {
   username?: string;
   profileImage?: string;
   userid?: number;
+  gender?: string;
 }
 
 export interface NotificationTarget {

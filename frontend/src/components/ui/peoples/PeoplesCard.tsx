@@ -18,8 +18,14 @@ const PeoplesCard = ({ user }: userPorpsdata) => {
           <div className="w-12 lg:w-20 h-12 lg:h-20 rounded-full border border-border overflow-hidden shrink-0 ">
             <img
               className="w-full h-full object-cover "
-              src={user.profileImage}
-              alt=""
+              src={
+                user.profileImage
+                  ? user.profileImage
+                  : user.gender === "female"
+                    ? "/images/femaleprofile.jpg"
+                    : "/images/profile.jpg"
+              }
+              alt={user.name}
             />
           </div>
           <div className="text  w-full">

@@ -77,8 +77,6 @@ const UserSchema = new Schema(
       type: String,
       trim: true,
       maxlength: 500,
-      default:
-        "An ordinary person with a desire to learn, striving to improve myself and view life positively.",
     },
     gender: {
       type: String,

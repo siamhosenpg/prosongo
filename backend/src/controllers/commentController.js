@@ -57,7 +57,7 @@ export const getCommentsByPost = async (req, res) => {
 
     // 🔹 Only main comments (parentCommentId = null)
     const comments = await Comment.find({ postId, parentCommentId: null })
-      .populate("commentUserId", "name userid profileImage gender")
+      .populate("commentUserId", "name userid profileImage gender username")
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
@@ -157,7 +157,7 @@ export const getRepliesByComment = async (req, res) => {
 
     // Replies query
     const replies = await Comment.find({ parentCommentId: commentId })
-      .populate("commentUserId", "name userid profileImage gender")
+      .populate("commentUserId", "name userid profileImage gender username")
       .sort({ createdAt: 1 }) // oldest first
       .skip(skip)
       .limit(limit);

@@ -8,6 +8,7 @@ export interface CommentUser {
   name: string;
   email: string;
   userid: number;
+  username: string;
   avatar?: string;
   profileImage: string;
   gender: "male" | "female" | "other";

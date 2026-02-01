@@ -5,7 +5,9 @@ import { GoDotFill } from "react-icons/go";
 import Masonry from "react-masonry-css";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 import DiscoverSkeleton from "@/components/layouts/discover/DiscoverSkeleton";
+
 import { useDiscoversPosts } from "@/hook/post/useDiscoversPosts";
+import MasonrySkeleton from "@/components/layouts/profile/MasonrySkeleton";
 
 const Discover = () => {
   const limit = 8;
@@ -52,7 +54,6 @@ const Discover = () => {
     <ProtectedRoute>
       <div className="Pagearea pt-2 lg:pt-4 pb-18">
         {/* Show skeleton if loading first page */}
-        {allPosts.length === 0 && isLoading && <DiscoverSkeleton />}
 
         <Masonry
           breakpointCols={breakpointColumnsObj}
@@ -91,14 +92,19 @@ const Discover = () => {
               )}
             </div>
           ))}
+          {allPosts.length === 0 && isLoading && <MasonrySkeleton />}
+          {/* Loader for infinite scroll */}
+          {hasNextPage && (
+            <div ref={loaderRef} className="text-center ">
+              <MasonrySkeleton />
+            </div>
+          )}
+          {hasNextPage && (
+            <div className="text-center ">
+              <MasonrySkeleton />
+            </div>
+          )}
         </Masonry>
-
-        {/* Loader for infinite scroll */}
-        {hasNextPage && (
-          <div ref={loaderRef} className="text-center py-6">
-            <DiscoverSkeleton />
-          </div>
-        )}
       </div>
     </ProtectedRoute>
   );

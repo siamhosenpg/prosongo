@@ -4,6 +4,7 @@ import { useLastActivities } from "@/hook/activitys/useActivities";
 import Link from "next/link";
 import { GiSoundWaves } from "react-icons/gi";
 import { FaPlay } from "react-icons/fa6";
+import { BsBodyText } from "react-icons/bs";
 const ShortcutActivity = () => {
   const { data, isLoading, isError } = useLastActivities();
 
@@ -48,7 +49,10 @@ const ShortcutActivity = () => {
                 )}
 
                 {activity.target.postId.content?.type === "audio" && (
-                  <GiSoundWaves className="w-12 h-12 bg-background-secondary rounded-lg" />
+                  <GiSoundWaves className="w-12 h-12 bg-background-secondary rounded-lg shrink-0" />
+                )}
+                {activity.target.postId.content?.type === "text" && (
+                  <BsBodyText className="w-12 h-12 p-3 bg-background-secondary rounded-lg shrink-0" />
                 )}
 
                 <div className="flex flex-col gap-0.5">

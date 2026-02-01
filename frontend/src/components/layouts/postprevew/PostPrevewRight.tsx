@@ -60,9 +60,11 @@ const PostPrevewRight: React.FC<PostPorps> = ({ post }) => {
           </div>
 
           {/* Caption */}
-          <p className="text-sm font-medium mt-4 px-2 text-secondary line-clamp-3">
-            {post.content.caption}
-          </p>
+          {post.content.type === "text" ? null : (
+            <p className="text-sm font-medium mt-4 px-2 text-secondary line-clamp-3">
+              {post.content.caption}
+            </p>
+          )}
 
           <PostCardStatus Commentsposition={true} postId={post._id} />
           <div className="border-t border-border">

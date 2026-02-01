@@ -39,7 +39,7 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
         ([entry]) => {
           setIsVisible(entry.isIntersecting);
         },
-        { threshold: 0.6 }
+        { threshold: 0.6 },
       );
 
       observer.observe(video);
@@ -78,13 +78,13 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
 
       window.addEventListener(
         "reels-sound-toggle",
-        handleSoundToggle as EventListener
+        handleSoundToggle as EventListener,
       );
 
       return () => {
         window.removeEventListener(
           "reels-sound-toggle",
-          handleSoundToggle as EventListener
+          handleSoundToggle as EventListener,
         );
       };
     }, []);
@@ -110,10 +110,11 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
 
     return (
       <section
+        key={post._id}
         ref={ref} // ✅ Forwarded ref for observer
         className="snap-center flex items-center justify-center w-full h-full px-0 md:px-4"
       >
-        <div className="relative flex items-center justify-center w-full sm:w-fit ">
+        <div className="relative flex items-center justify-center w-full sm:w-fit border-border border rounded-xl ">
           <GlobalSoundToggle />
           {/* 🎬 Video */}
           {post.content.media.map((videourl, i) => (
@@ -125,7 +126,7 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
               loop
               playsInline
               preload="metadata"
-              className={`bg-black border-none lg:border border-border rounded-none lg:rounded-xl overflow-hidden max-h-[90vh] w-full lg:w-[calc(90vh*9/16)] h-[calc(100vh-104px)] lg:h-[90vh] 
+              className={`bg-black  border-0 rounded-none lg:rounded-xl overflow-hidden max-h-[90vh] w-full lg:w-[calc(90vh*9/16)] h-[calc(100vh-104px)] lg:h-[90vh] 
             ${bgClass}`}
             />
           ))}
@@ -167,7 +168,7 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
         </div>
       </section>
     );
-  }
+  },
 );
 
 ClipsBox.displayName = "ClipsBox";

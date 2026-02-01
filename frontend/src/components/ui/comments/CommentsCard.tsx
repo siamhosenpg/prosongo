@@ -36,7 +36,7 @@ const CommentsCard: React.FC<CommentsCardProps> = ({
         <Link
           href={`/profile/${
             comment.commentUserId && typeof comment.commentUserId !== "string"
-              ? comment.commentUserId.userid
+              ? comment.commentUserId.username
               : ""
           }`}
           className="image w-10 h-10 rounded-full shrink-0 bg-background-secondary"
