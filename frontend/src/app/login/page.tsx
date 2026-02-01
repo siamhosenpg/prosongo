@@ -3,6 +3,7 @@
 
 import { GuestRoute } from "@/components/Protected/GuestRoute";
 import { useAuth } from "@/hook/useAuth";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -71,21 +72,18 @@ export default function LoginPage() {
               ${
                 login.isPending
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700 active:scale-[0.98]"
+                  : "bg-accent cursor-pointer active:scale-[0.98]"
               }`}
           >
             {login.isPending ? "Logging in..." : "Login"}
           </button>
 
-          <p className="text-center text-gray-500 text-sm mt-6">
+          <div className="text-center  text-text-tertiary flex items-center justify-center gap-1 text-sm mt-6">
             Don't have an account?{" "}
-            <a
-              href="/register"
-              className="text-blue-600 font-medium hover:underline"
-            >
-              Create one
-            </a>
-          </p>
+            <Link href="/register" className=" text-accent font-medium">
+              <p className="text-accent"> Create one</p>
+            </Link>
+          </div>
         </div>
       </div>
     </GuestRoute>

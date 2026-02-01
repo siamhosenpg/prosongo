@@ -10,6 +10,7 @@ interface ImageSectionProps {
 
 const PrevewVideoSection: React.FC<ImageSectionProps> = ({ media }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const animationRef = useRef<number | null>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -18,28 +19,44 @@ const PrevewVideoSection: React.FC<ImageSectionProps> = ({ media }) => {
 
   const handelBack = () => window.history.back();
 
+  // 🎯 Smooth progress updater (60fps)
+  const updateProgressSmooth = () => {
+    if (!videoRef.current) return;
+    setProgress(videoRef.current.currentTime);
+    animationRef.current = requestAnimationFrame(updateProgressSmooth);
+  };
+
   // ▶️ Play / Pause
   const togglePlay = () => {
     if (!videoRef.current) return;
+
     if (isPlaying) {
       videoRef.current.pause();
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     } else {
       videoRef.current.play();
+      animationRef.current = requestAnimationFrame(updateProgressSmooth);
     }
-    setIsPlaying(!isPlaying);
-  };
 
-  // ⏱ Update progress
-  const handleTimeUpdate = () => {
-    if (!videoRef.current) return;
-    setProgress(videoRef.current.currentTime);
+    setIsPlaying(!isPlaying);
   };
 
   // ⏱ Seek video
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!videoRef.current) return;
-    videoRef.current.currentTime = Number(e.target.value);
-    setProgress(Number(e.target.value));
+
+    const time = Number(e.target.value);
+    videoRef.current.currentTime = time;
+    setProgress(time);
+
+    if (isPlaying) {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      animationRef.current = requestAnimationFrame(updateProgressSmooth);
+    }
   };
 
   // 🔊 Volume
@@ -63,6 +80,15 @@ const PrevewVideoSection: React.FC<ImageSectionProps> = ({ media }) => {
     return `${min}:${sec < 10 ? "0" : ""}${sec}`;
   };
 
+  // 🧹 Cleanup
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
   return (
     <div className="leftArea w-full md:w-8/12 h-[calc(100vh-110px)] relative flex items-center bg-background-tertiary border-border border-none lg:border rounded-none sm:rounded-lg overflow-hidden justify-center">
       {/* Back Button */}
@@ -80,7 +106,6 @@ const PrevewVideoSection: React.FC<ImageSectionProps> = ({ media }) => {
         ref={videoRef}
         className="max-w-full max-h-full z-20 object-contain"
         src={media[0]}
-        onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onClick={togglePlay}
       />

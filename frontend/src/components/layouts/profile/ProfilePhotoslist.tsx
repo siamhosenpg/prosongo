@@ -3,7 +3,6 @@ import React from "react";
 import { FaCirclePlay } from "react-icons/fa6";
 import { useUserMediaPosts } from "@/hook/post/useDiscoversPosts";
 
-import Masonry from "react-masonry-css";
 import MasonrySkeleton from "./MasonrySkeleton";
 import Link from "next/link";
 interface useridporps {
@@ -16,20 +15,11 @@ const ProfilePhotoslist: React.FC<useridporps> = ({ userId }) => {
     return <p>Loading...</p>;
   }
 
-  const breakpointColumnsObj = {
-    default: 4, // desktop
-    1024: 3, // tablet
-    640: 2, // mobile
-  };
   return (
     <div>
-      <div className=" px-6 lg:px-12 py-4 bg-background rounded-lg w-full mb-4 gap-8">
+      <div className=" px-6 lg:px-12 py-4 lg:py-6 bg-background rounded-lg w-full mb-4 gap-8">
         <h2 className="text-lg font-bold text-loose">Photos</h2>
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="flex gap-4"
-          columnClassName="flex flex-col gap-4"
-        >
+        <div className="grid grid-cols-4 gap-4">
           {!data || (data.posts.length === 0 && <div>No media Post</div>)}
           {isLoading && <MasonrySkeleton />}
           {isLoading && <MasonrySkeleton />}
@@ -43,11 +33,11 @@ const ProfilePhotoslist: React.FC<useridporps> = ({ userId }) => {
                 <Link
                   href={`/post/${post._id}`}
                   key={post._id}
-                  className="w-full h-auto rounded-md overflow-hidden border-border border"
+                  className="w-full aspect-square rounded-md overflow-hidden border-border border"
                 >
                   <img
                     src={post.content.media[0]}
-                    className="w-full h-auto rounded-md object-cover"
+                    className="w-full h-full rounded-md object-cover"
                     alt=""
                   />
                 </Link>
@@ -60,12 +50,12 @@ const ProfilePhotoslist: React.FC<useridporps> = ({ userId }) => {
                 <Link
                   href={`/post/${post._id}`}
                   key={post._id}
-                  className="w-full h-auto rounded-md overflow-hidden border-border border relative flex items-center justify-center"
+                  className="w-full aspect-square rounded-md overflow-hidden border-border border relative flex items-center justify-center"
                 >
                   <video
                     src={post.content.media[0]}
                     muted
-                    className="w-full h-auto object-cover"
+                    className="w-full h-full object-cover"
                   />
                   <div className="absolute flex items-center justify-center shadow-2xl z-10  text-white text-3xl rounded-full">
                     <FaCirclePlay />
@@ -79,11 +69,7 @@ const ProfilePhotoslist: React.FC<useridporps> = ({ userId }) => {
 
             return null;
           })}
-          <MasonrySkeleton />
-          <MasonrySkeleton />
-          <MasonrySkeleton />
-          <MasonrySkeleton />
-        </Masonry>
+        </div>
       </div>
     </div>
   );

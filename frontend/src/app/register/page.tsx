@@ -113,7 +113,7 @@ export default function RegisterPage() {
               href="/login"
               className="text-emerald-600 font-medium hover:underline"
             >
-              Login here
+              <b className="text-accent font-medium"> Login here</b>
             </a>
           </p>
         </div>
