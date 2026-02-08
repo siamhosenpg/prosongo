@@ -8,6 +8,26 @@ interface PageProps {
   searchParams: { [key: string]: string | undefined };
 }
 
+// ✅ Dynamic metadata
+export async function generateMetadata({ params }: PageProps) {
+  const { postId } = await params;
+  const post = await getSinglePost(postId);
+
+  if (!post) {
+    return {
+      title: "Post Not Found - Prosongo",
+      description: "This post does not exist on Prosongo.",
+    };
+  }
+
+  return {
+    title: post.content.caption
+      ? `${post.content.caption} - Prosongo`
+      : "Post Preview - Prosongo",
+    description: `Preview of a single post on Prosongo social media platform.`,
+  };
+}
+
 const Post = async ({ params, searchParams }: PageProps) => {
   // Convert ID safely
   const { postId } = await params;

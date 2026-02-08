@@ -9,7 +9,10 @@ import UploadBox from "@/components/layouts/uploadbox/UploadBox";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 
 export const metadata = {
-  title: "Hiyaboni - Modern social media app",
+  title:
+    "Prosongo – A Full-Stack Social Media Web App Inspired by Facebook & Instagram",
+  description:
+    "Prosongo is a professional full-stack social media app built with Next.js, Node.js, Express.js, and MongoDB. Users can signup/login, create and manage posts, react with multiple emojis, comment, reply, and share content. The app features a responsive, modern UI inspired by Facebook and Instagram, ensuring smooth user experience across devices. All data is securely stored in MongoDB for scalability and reliability. Prosongo showcases modern frontend and backend development practices, making it an ideal reference for developers or a foundation for production-ready social platforms.",
 };
 
 export default function Home() {

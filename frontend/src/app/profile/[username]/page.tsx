@@ -2,9 +2,7 @@ import ProfileFeed from "@/components/layouts/feed/ProfileFeed";
 import ProfileAbout from "@/components/layouts/profile/ProfileAbout";
 import ProfileFollower from "@/components/layouts/profile/ProfileFollower";
 import ProfilePhotoslist from "@/components/layouts/profile/ProfilePhotoslist";
-import ProfileSectionlist from "@/components/layouts/profile/ProfileSectionlist";
 import ProfileTopimage from "@/components/layouts/profile/ProfileTopimage";
-import ProfileVideos from "@/components/layouts/profile/ProfileVideos";
 import UploadBox from "@/components/layouts/uploadbox/UploadBox";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 
@@ -15,6 +13,22 @@ interface PageProps {
     username: string;
   }>;
 }
+export async function generateMetadata({ params }: PageProps) {
+  const { username } = await params;
+  const user = await getUserByUsername(username);
+
+  if (!user) {
+    return {
+      title: "User Not Found - Prosongo",
+      description: "This user does not exist on Prosongo.",
+    };
+  }
+  return {
+    title: `${user.name} (@${user.username}) - Prosongo Profile`,
+    description: `View the profile of ${user.name} (@${user.username}) on Prosongo, a full-stack social media platform. Explore their posts, followers, and photos.`,
+  };
+}
+
 const Profile = async ({ params }: PageProps) => {
   const { username } = await params;
 
