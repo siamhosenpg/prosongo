@@ -68,9 +68,9 @@ const HoverReactions: React.FC<HoverReactionsProps> = ({
           key={reaction.type}
         >
           <Image
-            width={60}
-            height={60}
-            className={`w-7.5 h-7.5 ${
+            width={70}
+            height={70}
+            className={`w-8 h-8 ${
               userReaction === reaction.type ? "scale-125" : "scale-100"
             } transition-transform`}
             src={reaction.icon}

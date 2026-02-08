@@ -1,8 +1,4 @@
 "use client";
-import React from "react";
-import { FcLike } from "react-icons/fc";
-import { AiFillLike } from "react-icons/ai";
-
 import { useCommentCount } from "@/hook/useComments";
 import { useReactions } from "@/hook/useReactions";
 
@@ -14,7 +10,7 @@ interface PostCardStatusProps {
 const reactionImageMap: Record<string, string> = {
   like: "/images/icon/reaction/like.png",
   love: "/images/icon/reaction/love.png",
-  care: "/images/icon/reaction/emoji.png",
+  care: "/images/icon/reaction/care.png",
   angry: "/images/icon/reaction/angry.png",
   wow: "/images/icon/reaction/wow.png",
   sad: "/images/icon/reaction/sad.png",
