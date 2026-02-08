@@ -50,11 +50,11 @@ app.use(
       "http://localhost:3000",
       "http://localhost:8081",
       "https://hiyaboni.vercel.app",
-      "https://pacezoon.vercel.app",
+      "https://prosongomedia.vercel.app",
       "http://192.168.31.158:3000",
     ],
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json());
@@ -109,6 +109,6 @@ app.get("/maybe", optionalAuth, (req, res) => {
   initSocket(server);
 
   server.listen(port, () =>
-    console.log(`Server running http://localhost:${port}`)
+    console.log(`Server running http://localhost:${port}`),
   );
 })();
