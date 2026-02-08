@@ -6,6 +6,7 @@ import { useAuth } from "@/hook/useAuth";
 import NotificationBox from "../notification/NotificationBox";
 import Link from "next/link";
 import { useUnreadNotificationCount } from "@/hook/notifications/useNotifications";
+import Image from "next/image";
 
 const NavRightSide = () => {
   const { user, isLoading } = useAuth();
@@ -66,8 +67,11 @@ const NavRightSide = () => {
         {!isLoading && currentUser && (
           <>
             <Link href={`/profile/${currentUser.username}`}>
-              <img
-                className="w-[34px] h-[34px] rounded-full border border-border object-cover"
+              <Image
+                width={50}
+                height={50}
+                loading="lazy"
+                className="w-8.5 h-8.5 rounded-full border border-border object-cover"
                 src={
                   currentUser?.profileImage
                     ? currentUser?.profileImage

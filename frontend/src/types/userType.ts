@@ -64,8 +64,8 @@ export interface UserType {
   educations?: string;
   aboutText?: string;
   // 👇 important for TS
-  profileImage?: string | File;
-  coverImage?: string | File;
+  profileImage?: string;
+  coverImage?: string;
 
   blockedUsers: string[]; // array of Mongo ObjectId strings
 

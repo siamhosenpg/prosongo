@@ -6,6 +6,7 @@ import { useSuggestedUsers } from "@/hook/useUser";
 import { UserType } from "@/types/userType";
 import Link from "next/link";
 import UserBadge from "@/components/ui/text/UserBadge";
+import Image from "next/image";
 
 const SuggestAccounts = () => {
   const { data, isLoading, isError } = useSuggestedUsers();
@@ -56,7 +57,9 @@ const SuggestAccounts = () => {
                     href={`/profile/${user.username}`}
                     className=" flex items-center justify-center w-10 h-10 rounded-full border border-border overflow-hidden"
                   >
-                    <img
+                    <Image
+                      width={40}
+                      height={40}
                       className=" object-cover w-full h-full rounded-full"
                       src={
                         user?.profileImage

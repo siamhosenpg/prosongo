@@ -16,6 +16,7 @@ import PostCardstatus from "./PostCardstatus";
 import DateTime from "../datetime/DateTime";
 import UserBadge from "../text/UserBadge";
 import PostMediaAudio from "./audio/PostMediaAudio";
+import Image from "next/image";
 
 interface PostboxProps {
   post: PostTypes;
@@ -65,7 +66,9 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
             href={`/profile/${post.userid?.username}`}
             className="w-10 h-10 bg-gray-300 sm:w-12 sm:h-12 border-border border shrink-0  rounded-full overflow-hidden "
           >
-            <img
+            <Image
+              width={80}
+              height={80}
               loading="lazy"
               className=" block w-full  h-full object-cover   "
               src={

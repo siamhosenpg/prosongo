@@ -12,6 +12,7 @@ import { TbPhotoEdit } from "react-icons/tb";
 import EditProfileImages from "../updateprofile/EditProfileImages";
 import { useAuth } from "@/hook/useAuth";
 import UserBadge from "@/components/ui/text/UserBadge";
+import Image from "next/image";
 
 interface ProfileTopimageProps {
   user: UserType;
@@ -30,7 +31,9 @@ const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
       <div className="profiletopimage relative p-2 lg:p-6 overflow-hidden w-full">
         <div className="rounded-lg overflow-hidden">
           {user?.coverImage ? (
-            <img
+            <Image
+              width={1000}
+              height={400}
               loading="lazy"
               src={user?.coverImage}
               alt=""
@@ -42,9 +45,11 @@ const ProfileTopimage: React.FC<ProfileTopimageProps> = ({ user }) => {
         </div>
       </div>
 
-      <div className="profiletopimagedescrition relative z-30  flex flex-col lg:flex-row items-start lg:items-center justify-start gap-4 px-6 lg:px-10  py-2 mt-[-60px]  rounded-lg">
-        <div className="pfimage relative  w-[110px] lg:w-[140px] shrink-0 h-[110px] lg:h-[140px] rounded-full  p-[5px] bg-background ">
-          <img
+      <div className="profiletopimagedescrition relative z-30  flex flex-col lg:flex-row items-start lg:items-center justify-start gap-4 px-6 lg:px-10  py-2 -mt-15  rounded-lg">
+        <div className="pfimage relative  w-27.5 lg:w-35 shrink-0 h-27.5 lg:h-35 rounded-full  p-1.25 bg-background ">
+          <Image
+            width={140}
+            height={140}
             loading="lazy"
             src={
               user?.profileImage

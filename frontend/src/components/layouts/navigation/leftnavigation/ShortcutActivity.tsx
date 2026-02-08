@@ -5,6 +5,7 @@ import Link from "next/link";
 import { GiSoundWaves } from "react-icons/gi";
 import { FaPlay } from "react-icons/fa6";
 import { BsBodyText } from "react-icons/bs";
+import Image from "next/image";
 const ShortcutActivity = () => {
   const { data, isLoading, isError } = useLastActivities();
 
@@ -28,7 +29,9 @@ const ShortcutActivity = () => {
                 className="flex items-center  items-top gap-3 rounded-md hover:bg-background-secondary p-2 "
               >
                 {activity.target.postId.content?.type === "image" && (
-                  <img
+                  <Image
+                    width={80}
+                    height={80}
                     className="h-12 w-12 rounded-md object-cover shrink-0"
                     src={
                       activity.target.postId.content.media[0] ||

@@ -8,6 +8,7 @@ import DiscoverSkeleton from "@/components/layouts/discover/DiscoverSkeleton";
 
 import { useDiscoversPosts } from "@/hook/post/useDiscoversPosts";
 import MasonrySkeleton from "@/components/layouts/profile/MasonrySkeleton";
+import Image from "next/image";
 
 const Discover = () => {
   const limit = 8;
@@ -52,13 +53,13 @@ const Discover = () => {
 
   return (
     <ProtectedRoute>
-      <div className="Pagearea pt-2 lg:pt-4 pb-18">
+      <div className="Pagearea pt-4 lg:pt-4 pb-18">
         {/* Show skeleton if loading first page */}
 
         <Masonry
           breakpointCols={breakpointColumnsObj}
-          columnClassName="flex flex-col gap-4"
-          className="flex gap-4"
+          columnClassName="flex flex-col gap-4 "
+          className="flex gap-3 lg:gap-4 px-3 lg:px-0"
         >
           {allPosts.map((post) => (
             <div
@@ -70,7 +71,9 @@ const Discover = () => {
                   href={`/post/${post._id}`}
                   className="relative flex items-center justify-center w-full h-auto"
                 >
-                  <img
+                  <Image
+                    width={300}
+                    height={500}
                     src={post.content.media[0]}
                     alt=""
                     className="max-h-167.5 w-full object-cover"

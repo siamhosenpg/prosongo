@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useFollowersCount, useFollowingCount } from "@/hook/useFollow";
 import UserBadge from "@/components/ui/text/UserBadge";
 import { useUserPostCount } from "@/hook/usePost";
+import Image from "next/image";
 
 const ProfileStatusBox = () => {
   const { user, isLoading: authLoading } = useAuth();
@@ -26,8 +27,10 @@ const ProfileStatusBox = () => {
     <div className="px-8 py-6 bg-background rounded-lg">
       <div className="top flex gap-3 items-center">
         <Link href={`/profile/${user.user.username}`} className="shrink-0">
-          <img
-            className="w-[50px] border border-border object-cover h-[50px] rounded-full"
+          <Image
+            width={80}
+            height={80}
+            className="w-12.5 border border-border object-cover h-12.5 rounded-full"
             src={
               user.user?.profileImage
                 ? user.user?.profileImage

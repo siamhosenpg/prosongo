@@ -11,6 +11,7 @@ import { useAuth } from "@/hook/useAuth";
 import Link from "next/link";
 import CreateVideoBox from "../createpost/CreateVideoBox";
 import CreateVoiceCard from "../createpost/CreateVoiceCard";
+import Image from "next/image";
 
 const UploadBox = ({}) => {
   const { user, isLoading } = useAuth();
@@ -27,7 +28,9 @@ const UploadBox = ({}) => {
           href={`/profile/${user?.user?.username}`}
           className="image w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full overflow-hidden border border-border"
         >
-          <img
+          <Image
+            width={60}
+            height={60}
             loading="lazy"
             src={
               user?.user?.profileImage

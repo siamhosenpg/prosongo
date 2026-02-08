@@ -3,6 +3,7 @@ import { UserType } from "@/types/userType";
 import FollowButton from "../buttons/FollowButton";
 import Link from "next/link";
 import UserBadge from "../text/UserBadge";
+import Image from "next/image";
 
 interface userPorpsdata {
   user: UserType;
@@ -16,7 +17,9 @@ const PeoplesCard = ({ user }: userPorpsdata) => {
           className=" flex   items-center w-7/10  gap-3"
         >
           <div className="w-12 lg:w-20 h-12 lg:h-20 rounded-full border border-border overflow-hidden shrink-0 ">
-            <img
+            <Image
+              width={120}
+              height={120}
               className="w-full h-full object-cover "
               src={
                 user.profileImage
