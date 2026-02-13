@@ -12,6 +12,7 @@ export interface CommentUser {
   avatar?: string;
   profileImage: string;
   gender: "male" | "female" | "other";
+  badges?: string[]; // e.g., ["verified", "pro"]
 }
 
 export interface CommentType {

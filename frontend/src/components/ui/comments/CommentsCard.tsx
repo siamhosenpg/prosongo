@@ -10,6 +10,7 @@ import { useDeleteComment } from "@/hook/useComments";
 import { useAuth } from "@/hook/useAuth";
 import Link from "next/link";
 import CommentsReply from "./CommentsReply";
+import UserBadge from "../text/UserBadge";
 
 interface CommentsCardProps {
   comment: CommentType;
@@ -58,10 +59,11 @@ const CommentsCard: React.FC<CommentsCardProps> = ({
         {/* Comment Body */}
         <div className="texts max-w-92.5 bg-background-secondary px-2 py-2 rounded-xl rounded-tl-none">
           <div className="font-semibold text-sm flex items-center gap-2 justify-between">
-            <h4 className="pl-2">
+            <h4 className="pl-2 flex items-center gap-1">
               {typeof comment?.commentUserId !== "string"
                 ? comment?.commentUserId?.name || "Prosongo User"
                 : "Unknown User"}
+              <UserBadge badges={comment.commentUserId?.badges} />
             </h4>
           </div>
 
