@@ -28,7 +28,7 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
 
         {data?.map((noti) => (
           <Link
-            href={`/profile/${noti.actorId.username}`}
+            href={`/profile/${noti.actorId?.username}`}
             key={noti._id}
             onClick={() => {
               if (!noti.read) {
@@ -46,23 +46,23 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
               loading="lazy"
               src={
                 noti.actorId?.profileImage
-                  ? noti.actorId.profileImage
-                  : noti.actorId.gender === "female"
+                  ? noti.actorId?.profileImage
+                  : noti.actorId?.gender === "female"
                     ? "/images/femaleprofile.jpg"
                     : "/images/profile.jpg"
               }
-              alt={noti.actorId?.name}
+              alt={noti.actorId?.name + " profile image"}
               className="rounded-full w-10 h-10 object-cover"
             />
 
             <div className="flex-1 text-sm">
               <p>
-                <span className="font-semibold">{noti.actorId.name}</span>{" "}
-                {getNotificationText(noti.type)}
+                <span className="font-semibold">{noti.actorId?.name}</span>{" "}
+                {getNotificationText(noti?.type)}
               </p>
 
               <p className="text-xs text-gray-500">
-                <DateTime date={noti.createdAt} />
+                <DateTime date={noti?.createdAt} />
               </p>
             </div>
           </Link>
