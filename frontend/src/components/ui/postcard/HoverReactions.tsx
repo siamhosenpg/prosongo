@@ -25,12 +25,14 @@ const reactions = [
 
 interface HoverReactionsProps {
   postId: string;
+  design?: "video" | "post";
   currentUserId: string | undefined;
 }
 
 const HoverReactions: React.FC<HoverReactionsProps> = ({
   postId,
   currentUserId,
+  design,
 }) => {
   const { data, createMutation, updateMutation } = useReactions(postId);
   const isMutating = createMutation.isPending || updateMutation.isPending;
@@ -60,7 +62,9 @@ const HoverReactions: React.FC<HoverReactionsProps> = ({
   };
 
   return (
-    <div className="flex gap-2 p-2">
+    <div
+      className={`flex  gap-2 p-2 ${design === "video" ? " flex-col " : "bg-background"}`}
+    >
       {reactions.map((reaction) => (
         <button
           onClick={() => handleReaction(reaction.type)}
@@ -70,9 +74,7 @@ const HoverReactions: React.FC<HoverReactionsProps> = ({
           <Image
             width={70}
             height={70}
-            className={`w-8 h-8 ${
-              userReaction === reaction.type ? "scale-125" : "scale-100"
-            } transition-transform`}
+            className={`w-8 h-8 transition-transform`}
             src={reaction.icon}
             alt={reaction.type}
           />

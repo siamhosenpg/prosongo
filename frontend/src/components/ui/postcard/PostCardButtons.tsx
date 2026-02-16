@@ -37,7 +37,7 @@ const PostCardButtons: React.FC<Props> = ({
 
   const userReaction = data?.reactions?.find(
     (r: ReactionItem) =>
-      r?.userId?._id === user?.user?._id || r?.userId?.id === user?.user?._id
+      r?.userId?._id === user?.user?._id || r?.userId?.id === user?.user?._id,
   )?.reaction;
   const router = useRouter();
   const isMobile = useIsMobile();
@@ -77,7 +77,7 @@ const PostCardButtons: React.FC<Props> = ({
             console.error("Create reaction error:", err);
             setError(err?.response?.data?.message || "Failed to add like");
           },
-        }
+        },
       );
     }
   };
@@ -222,7 +222,7 @@ const PostCardButtons: React.FC<Props> = ({
               ref={hoverRef}
               onMouseEnter={handleChildMouseEnter}
               onMouseLeave={handleChildMouseLeave}
-              className="absolute  -mt-20 bg-background border border-border  rounded-full z-40"
+              className="absolute  -mt-20 bg-background border border-border overflow-hidden  rounded-full z-40"
             >
               <HoverReactions postId={postId} currentUserId={user.user._id} />
             </div>

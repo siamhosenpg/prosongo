@@ -7,6 +7,7 @@ type ReactionType = "like" | "love" | "care" | "angry" | "wow" | "sad";
 
 interface LikeIconProps {
   liked: ReactionType | boolean;
+  design?: "video" | "post";
   variants?: string;
 }
 
@@ -19,7 +20,7 @@ const reactionIcons: Record<ReactionType, string> = {
   sad: "/images/icon/reaction/sad.png",
 };
 
-const LikeBoxIcon = ({ liked, variants }: LikeIconProps) => {
+const LikeBoxIcon = ({ liked, variants, design }: LikeIconProps) => {
   const activeReaction =
     typeof liked === "string" ? reactionIcons[liked] : null;
 
@@ -39,13 +40,15 @@ const LikeBoxIcon = ({ liked, variants }: LikeIconProps) => {
             duration: 0.25,
             ease: "easeOut",
           }}
-          className={`drop-shadow-md w-5 ${
-            variants === "lg"
-              ? "text-2xl text-white lg:text-accent"
-              : "text-xl text-accent -mt-0.5"
+          className={`drop-shadow-md   ${
+            variants === "video" || design === "video"
+              ? "w-7"
+              : variants === "lg"
+                ? "w-5 text-white lg:text-text"
+                : "w-5 -mt-0.5"
           }`}
         >
-          <img className="w-full" src={activeReaction} />
+          <img className="w-full h-full" src={activeReaction} />
         </motion.div>
       ) : (
         <motion.div
@@ -53,12 +56,15 @@ const LikeBoxIcon = ({ liked, variants }: LikeIconProps) => {
           initial={{ scale: 1 }}
           animate={{ scale: 1 }}
           exit={{ scale: 0.8, opacity: 0 }}
+          className="w-full h-full flex items-center justify-center transition-opacity cursor-pointer  py-1 select-none"
         >
           <AiOutlineLike
-            className={`${
-              variants === "lg"
-                ? "text-2xl text-white lg:text-text"
-                : "text-xl text-text -mt-0.5"
+            className={` ${
+              variants === "video" || design === "video"
+                ? "text-2xl"
+                : variants === "lg"
+                  ? "text-2xl text-white lg:text-text"
+                  : "text-xl -mt-0.5"
             }`}
           />
         </motion.div>

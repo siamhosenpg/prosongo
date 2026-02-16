@@ -27,6 +27,13 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
     const [isVisible, setIsVisible] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const [isPaused, setIsPaused] = useState(false);
+    const [lineClamped, setLineClamped] = useState("line-clamp-1");
+
+    const LineClump = () => {
+      setLineClamped((prev) =>
+        prev === "line-clamp-1" ? "line-clamp-none" : "line-clamp-1",
+      );
+    };
 
     /* 👁️ Intersection Observer for play/pause */
     useEffect(() => {
@@ -132,7 +139,7 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
           ))}
 
           {/* 👉 Right Action Buttons */}
-          <div className="absolute right-1 md:-right-30 bottom-2 lg:bottom-8 z-20 flex flex-col gap-1 text-white md:text-black ">
+          <div className="absolute right-1 md:-right-30 bottom-2 lg:bottom-8 z-30 flex flex-col gap-1 text-white md:text-black ">
             <VideoLikeButton postId={post._id} />
             <VideoCommentsButton postId={post._id} postNumber={post._id} />
             <ActionButton icon={<RiShareForwardLine />} label="Share" />
@@ -141,7 +148,7 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
           </div>
 
           {/* 📝 Caption */}
-          <div className="absolute left-4 bottom-5 z-20 max-w-[80%]">
+          <div className="absolute left-4 bottom-5 z-20 max-w-[86%]">
             <div className="flex items-center gap-2">
               <img
                 src={
@@ -154,7 +161,7 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
                 className="w-8 h-8 rounded-full object-cover"
                 alt=""
               />
-              <span className="text-sm font-semibold text-white flex items-center gap-1">
+              <span className=" font-semibold text-white flex items-center gap-1">
                 {post.userid?.name || "Prosongo User"}
                 <UserBadge badges={post.userid?.badges} variants="white" />
               </span>
@@ -163,12 +170,15 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
             {post.content.location && (
               <span className="smalltext mt-1 text-white text-shadow-2xs flex items-center gap-0.5">
                 <MdOutlineLocationOn className="text-lg" />
-                {post.content.location}
+                {post.content?.location}
               </span>
             )}
 
-            <p className="mt-1 text-[13px] font-semibold text-white text-shadow-2xs line-clamp-2">
-              {post.content.caption}
+            <p
+              onClick={LineClump}
+              className={`mt-1  font-medium text-white  whitespace-pre-wrap text-shadow-2xs ${lineClamped}`}
+            >
+              {post.content?.caption}
             </p>
           </div>
         </div>
