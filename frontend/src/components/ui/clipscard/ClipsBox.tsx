@@ -144,15 +144,21 @@ const ClipsBox = forwardRef<HTMLDivElement, ClipsBoxProps>(
           <div className="absolute left-4 bottom-5 z-20 max-w-[80%]">
             <div className="flex items-center gap-2">
               <img
-                src={post.userid.profileImage}
+                src={
+                  post.userid?.profileImage
+                    ? post.userid?.profileImage
+                    : post.userid?.gender === "female"
+                      ? "/images/femaleprofile.jpg"
+                      : "/images/profile.jpg" // male or default
+                }
                 className="w-8 h-8 rounded-full object-cover"
                 alt=""
               />
               <span className="text-sm font-semibold text-white flex items-center gap-1">
-                {post.userid.name}
-                <UserBadge badges={post.userid.badges} variants="white" />
+                {post.userid?.name || "Prosongo User"}
+                <UserBadge badges={post.userid?.badges} variants="white" />
               </span>
-              <VideoCardFollow targetUserId={post.userid._id} />
+              <VideoCardFollow targetUserId={post.userid?._id} />
             </div>
             {post.content.location && (
               <span className="smalltext mt-1 text-white text-shadow-2xs flex items-center gap-0.5">
