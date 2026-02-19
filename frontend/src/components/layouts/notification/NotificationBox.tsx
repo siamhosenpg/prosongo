@@ -16,7 +16,6 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
   const { data, isLoading, isError } = useNotifications();
   const { mutate: markAsRead } = useMarkNotificationRead();
 
-  if (isLoading) return <p>Loading notifications...</p>;
   if (isError) return <p>Failed to load notifications</p>;
 
   return (
@@ -24,6 +23,22 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
       <div className="max-w-xl h-full mx-auto  space-y-3 overflow-y-auto ScrollSystem ">
         {data?.length === 0 && (
           <p className="text-center text-gray-500">No notifications yet</p>
+        )}
+        {isLoading && (
+          <div className="animate-pulse space-y-3">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-3 p-3 rounded-lg bg-background"
+              >
+                <div className="rounded-full bg-background-secondary w-10 h-10" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 bg-background-secondary rounded w-3/4"></div>
+                  <div className="h-3 bg-background-secondary rounded w-1/2"></div>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
 
         {data &&

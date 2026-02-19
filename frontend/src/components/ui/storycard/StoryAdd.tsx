@@ -3,6 +3,7 @@ import React from "react";
 import { useAuth } from "@/hook/useAuth";
 
 import { MdOutlineAddAPhoto } from "react-icons/md";
+import Image from "next/image";
 
 const StoryAdd = () => {
   const { user, isLoading, error } = useAuth();
@@ -35,7 +36,9 @@ const StoryAdd = () => {
           className="w-14 h-14 bg-linear-to-r from-[#06af3e] via-[#01b88a] to-[#8bd401] rounded-full overflow-hidden p-0.75"
         >
           <div className=" relative flex items-center justify-center p-0.75 bg-background rounded-full  ">
-            <img
+            <Image
+              width={80}
+              height={80}
               loading="lazy"
               className=" aspect-square w-full h-full block rounded-full bg-background-secondary  object-cover"
               src={
