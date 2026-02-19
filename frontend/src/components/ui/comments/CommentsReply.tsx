@@ -3,9 +3,8 @@ import { useCommentsReplies } from "@/hook/useComments";
 
 const CommentsReply = ({ commentId }: { commentId: string }) => {
   const [page, setPage] = useState(1);
-  const { data, isLoading, isError } = useCommentsReplies({ commentId, page });
+  const { data, isError } = useCommentsReplies({ commentId, page });
 
-  if (isLoading) return <p>Loading replies...</p>;
   if (isError) return <p>Error loading replies!</p>;
   if (data?.totalReplies === 0) return null;
 
@@ -15,6 +14,7 @@ const CommentsReply = ({ commentId }: { commentId: string }) => {
         <h5 className="smalltext text-text-tertiary pb-1 pl-3">
           Replies ({data?.totalReplies})
         </h5>
+
         {data?.data.map((reply) => (
           <div
             key={reply._id}
