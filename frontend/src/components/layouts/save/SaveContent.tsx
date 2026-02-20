@@ -4,36 +4,67 @@ import React from "react";
 import { useSavedItems } from "@/hook/save/useSavedItems";
 import { useDefaultCollection } from "@/hook/save/useCollections";
 import Postbox from "@/components/ui/postcard/Postcard";
+import PostcardLoading from "@/components/ui/postcard/PostcardLoading";
 
-const SaveContent = () => {
+/* =======================
+   ✅ Type Definitions
+======================= */
+
+interface DefaultCollection {
+  collectionId: string;
+}
+
+interface SavedItem {
+  _id: string;
+  postId: any; // যদি Post এর আলাদা টাইপ থাকে তাহলে সেটা বসাবে
+}
+
+/* =======================
+   ✅ Component
+======================= */
+
+const SaveContent: React.FC = () => {
   const {
     data: defaultCol,
     isLoading: colLoading,
     isError: colError,
-  } = useDefaultCollection();
+  } = useDefaultCollection() as {
+    data: DefaultCollection | undefined;
+    isLoading: boolean;
+    isError: boolean;
+  };
 
-  const collectionId = defaultCol?.collectionId;
+  const collectionId: string | undefined = defaultCol?.collectionId;
 
   const {
     data: savedItems,
     isLoading: savedLoading,
     isError: savedError,
-  } = useSavedItems(collectionId); // enabled auto handled
+  } = useSavedItems(collectionId!) as {
+    data: SavedItem[] | undefined;
+    isLoading: boolean;
+    isError: boolean;
+  };
 
   if (colLoading) return <div>Loading collection...</div>;
   if (colError) return <div>Error loading collection</div>;
 
-  if (savedLoading) return <div>Loading saved posts...</div>;
   if (savedError) return <div>Error loading saved posts</div>;
 
   return (
     <div className="w-full">
       <div className="grid grid-cols-1">
-        {savedItems?.map((item) => (
-          <div key={item._id}>
-            <Postbox post={item.postId} />
-          </div>
-        ))}
+        {savedLoading &&
+          Array.from({ length: 2 }).map((_, index) => (
+            <PostcardLoading key={index} />
+          ))}
+        {savedItems?.map((item: SavedItem) => {
+          return (
+            <div key={item._id}>
+              <Postbox post={item.postId} />
+            </div>
+          );
+        })}
       </div>
     </div>
   );

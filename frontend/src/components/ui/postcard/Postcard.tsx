@@ -30,12 +30,12 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
     switch (post.content.type) {
       case "image":
         return (
-          <PostcardMedia imagedata={post.content.media} postid={post._id} />
+          <PostcardMedia imagedata={post.content.media} postid={post?._id} />
         );
 
       case "video":
         return (
-          <PostcardVideo videodata={post.content.media} postid={post._id} />
+          <PostcardVideo videodata={post.content.media} postid={post?._id} />
         );
 
       case "audio":
@@ -54,6 +54,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
   };
 
   const [expanded, setExpanded] = useState(false);
+  if (!post) return null; // Handle case when post data is not available
 
   return (
     <li
@@ -63,7 +64,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
       <div className="flex items-center px-4 pb-3 lg:pb-0 sm:px-6 justify-between  ">
         <div className="left   flex items-center justify-start gap-2 overflow-hidden">
           <Link
-            href={`/profile/${post.userid?.username}`}
+            href={`/profile/${post?.userid?.username}`}
             className="w-10 h-10 bg-gray-300 sm:w-12 sm:h-12 border-border border shrink-0  rounded-full overflow-hidden "
           >
             <Image
@@ -72,7 +73,7 @@ const Postbox: React.FC<PostboxProps> = ({ post }) => {
               loading="lazy"
               className=" block w-full  h-full object-cover   "
               src={
-                post.userid?.profileImage
+                post?.userid?.profileImage
                   ? post.userid?.profileImage
                   : post.userid?.gender === "female"
                     ? "/images/femaleprofile.jpg"

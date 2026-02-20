@@ -9,7 +9,7 @@ const page = () => {
     <ProtectedRoute>
       <div className="pt-4">
         <div className="w-full Pagearea flex   gap-16">
-          <div className="left h-[calc(100vh-106px)] w-[370px] shrink-0  max-h-full flex flex-col gap-4  sticky top-[90px]">
+          <div className="left h-[calc(100vh-106px)] w-92.5 shrink-0  max-h-full flex flex-col gap-4  sticky top-22.5">
             <CreateCollectionForm />
             <SaveLeft />
           </div>
