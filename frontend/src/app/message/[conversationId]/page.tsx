@@ -3,6 +3,7 @@ import LeftMessageList from "@/components/layouts/message/LeftMessageList";
 import MessageContent from "@/components/layouts/message/MessageContent";
 import MessageInformation from "@/components/layouts/message/MessageInformation";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
+import { SocketProvider } from "@/context/SocketProvider";
 import React, { useState } from "react";
 
 const Message = () => {

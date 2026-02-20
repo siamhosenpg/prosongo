@@ -1,8 +1,7 @@
-// src/context/SocketProvider.tsx
 "use client";
 
 import { ReactNode, useEffect } from "react";
-import { initSocket } from "../lib/socket";
+import { getSocket } from "../lib/socket";
 
 type Props = {
   children: ReactNode;
@@ -10,10 +9,9 @@ type Props = {
 
 export const SocketProvider = ({ children }: Props) => {
   useEffect(() => {
-    const socket = initSocket();
-    return () => {
-      socket.disconnect();
-    };
+    getSocket(); // শুধু connect করবে
+
+    // ⚠️ এখানে disconnect করবে না
   }, []);
 
   return <>{children}</>;
