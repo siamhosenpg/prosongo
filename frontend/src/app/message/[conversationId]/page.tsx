@@ -10,6 +10,20 @@ const Message = () => {
   const [selectedConversationId, setSelectedConversationId] = useState<
     string | null
   >(null);
+  const isMobile = window.innerWidth < 768;
+
+  if (isMobile) {
+    return (
+      <ProtectedRoute>
+        <div className="Pagearea h-[calc(100vh-104px)]">
+          <LeftMessageList onSelectConversation={setSelectedConversationId} />
+          {selectedConversationId && (
+            <MessageContent conversationId={selectedConversationId} />
+          )}
+        </div>
+      </ProtectedRoute>
+    );
+  }
   return (
     <ProtectedRoute>
       <div className="mt-4">
