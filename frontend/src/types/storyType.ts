@@ -3,6 +3,8 @@ interface User {
   userid: number;
   name: string;
   profileImage: string;
+  gender: string;
+  badges?: string[]; // Optional badges array
 }
 
 export interface StoryType {

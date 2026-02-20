@@ -46,18 +46,18 @@ const CommentsInput: React.FC<CommentsInputProps> = ({
           </button>
           <div className="flex items-center gap-1.5 ">
             <img
-              className="w-6 h-6 rounded-full overflow-hidden object-cover"
+              className="w-6 h-6 rounded-full overflow-hidden object-cover border border-border"
               src={
-                parentComment?.commentUserId.profileImage
-                  ? parentComment?.commentUserId.profileImage
-                  : parentComment?.commentUserId.gender === "female"
+                parentComment?.commentUserId?.profileImage
+                  ? parentComment?.commentUserId?.profileImage
+                  : parentComment?.commentUserId?.gender === "female"
                     ? "/images/femaleprofile.jpg"
                     : "/images/profile.jpg" // male or default
               }
               alt=""
             />
             <h5 className="font-semibold">
-              {parentComment?.commentUserId.name}
+              {parentComment?.commentUserId?.name || "Prosongo User"}
             </h5>
             <p className="line-clamp-1">{parentComment?.text}</p>
           </div>

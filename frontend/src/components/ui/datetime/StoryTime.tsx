@@ -36,8 +36,21 @@ const StoryTime: React.FC<StoryTimeProps> = ({ date }) => {
       </span>
     );
 
-  // 5️⃣ Above 7 days (nothing show)
-  return null;
+  if (days < 30) {
+    const weeks = Math.floor(days / 7);
+    return (
+      <span>
+        {weeks} {weeks === 1 ? "week" : "weeks"} ago
+      </span>
+    );
+  }
+
+  const months = Math.floor(days / 30);
+  return (
+    <span>
+      {months} {months === 1 ? "month" : "months"} ago
+    </span>
+  );
 };
 
 export default StoryTime;

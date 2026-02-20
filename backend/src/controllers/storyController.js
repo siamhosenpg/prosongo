@@ -91,7 +91,7 @@ export const getStoriesByUser = async (req, res) => {
 export const getAllStories = async (req, res) => {
   try {
     const stories = await Story.find()
-      .populate("userId", "name userid profileImage")
+      .populate("userId", "name userid profileImage gender badges")
       .sort({ createdAt: -1 });
 
     res.json({
@@ -112,7 +112,7 @@ export const getStoryById = async (req, res) => {
   try {
     const story = await Story.findById(req.params.id).populate(
       "userId",
-      "name userid profileImage"
+      "name userid profileImage gender badges",
     );
 
     if (!story) {

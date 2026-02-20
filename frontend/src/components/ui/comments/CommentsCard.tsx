@@ -40,7 +40,7 @@ const CommentsCard: React.FC<CommentsCardProps> = ({
               ? comment?.commentUserId?.username
               : ""
           }`}
-          className="image w-10 h-10 rounded-full shrink-0 bg-background-secondary"
+          className="image w-10 h-10 rounded-full border border-border shrink-0 bg-background-secondary"
         >
           <img
             loading="lazy"

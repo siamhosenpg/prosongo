@@ -46,7 +46,7 @@ const SaveContent: React.FC = () => {
     isError: boolean;
   };
 
-  if (colLoading) return <div>Loading collection...</div>;
+  const isLoading = colLoading || savedLoading;
   if (colError) return <div>Error loading collection</div>;
 
   if (savedError) return <div>Error loading saved posts</div>;
@@ -54,10 +54,7 @@ const SaveContent: React.FC = () => {
   return (
     <div className="w-full">
       <div className="grid grid-cols-1">
-        {savedLoading &&
-          Array.from({ length: 2 }).map((_, index) => (
-            <PostcardLoading key={index} />
-          ))}
+        {isLoading && <PostcardLoading />}
         {savedItems?.map((item: SavedItem) => {
           return (
             <div key={item._id}>

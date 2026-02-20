@@ -4,6 +4,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa6";
 import { StoryType } from "@/types/storyType";
 import StoryTime from "../datetime/StoryTime";
+import Image from "next/image";
 
 interface StoryPageContentProps {
   story: StoryType;
@@ -24,13 +25,23 @@ const StoryPrevewCard: React.FC<StoryPageContentProps> = ({ story }) => {
         {/* Profile Section */}
         <div className="  mt-3 flex items-center justify-between w-full px-4">
           <div className="LeftPf flex items-center   text-white gap-2">
-            <img
+            <Image
+              width={60}
+              height={60}
               className="w-9 h-9 rounded-full border border-border overflow-hidden object-cover"
-              src={story.userId?.profileImage}
-              alt=""
+              src={
+                story.userId?.profileImage
+                  ? story.userId.profileImage
+                  : story.userId?.gender === "female"
+                    ? "/images/femaleprofile.jpg"
+                    : "/images/profile.jpg" // male or default
+              }
+              alt={story.userId?.name || "Prosongo User"}
             />
             <div className=" font-semibold text-shadow-xs block">
-              <span className="block">{story.userId?.name}</span>
+              <span className="block">
+                {story.userId?.name || "Prosongo User"}
+              </span>
               <span className="smalltext block">
                 <StoryTime date={story.createdAt} />
               </span>
@@ -46,11 +57,19 @@ const StoryPrevewCard: React.FC<StoryPageContentProps> = ({ story }) => {
 
       {/* Content Section */}
       <div className="w-full relative h-full flex items-center justify-center">
-        <img className="w-full relative z-30 " src={story.media.url} alt="" />
-        <img
+        <Image
+          width={500}
+          height={800}
+          className="w-full relative z-30 "
+          src={story.media.url}
+          alt={story.userId?.name || "Prosongo User"}
+        />
+        <Image
+          width={500}
+          height={800}
           className="w-full h-full absolute z-10 top-3 blur-2xl object-cover "
           src={story.media.url}
-          alt=""
+          alt={story.userId?.name || "Prosongo User"}
         />
       </div>
 
