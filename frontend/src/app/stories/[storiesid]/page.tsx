@@ -1,11 +1,13 @@
+"use client";
 import StoryPageContent from "@/components/layouts/storypage/StoryPageContent";
 import StoryPageCreateBox from "@/components/layouts/storypage/StoryPageCreateBox";
 import StoryPageLeft from "@/components/layouts/storypage/StoryPageLeft";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
 
-import { getStoryById } from "@/lib/storys/storyData";
+import { useStories } from "@/hook/useStory";
+import { useStoryViewer } from "@/store/useStoryViewer";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 interface StoryProps {
   params: Promise<{
@@ -13,10 +15,17 @@ interface StoryProps {
   }>;
 }
 
-const StoryPage = async ({ params }: StoryProps) => {
-  const { storiesid } = await params;
-  const story = await getStoryById(storiesid);
-  // Fetch the story data
+const StoryPage = () => {
+  const { data: stories = [], isLoading } = useStories();
+  const { setStories } = useStoryViewer();
+
+  useEffect(() => {
+    if (stories.length) {
+      setStories(stories);
+    }
+  }, [stories]);
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <ProtectedRoute>
@@ -27,7 +36,7 @@ const StoryPage = async ({ params }: StoryProps) => {
             <StoryPageLeft />
           </div>
           <div className="right w-full h-full">
-            <StoryPageContent story={story} />
+            <StoryPageContent />
           </div>
         </div>
       </div>

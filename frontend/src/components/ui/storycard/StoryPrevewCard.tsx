@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FaRegHeart } from "react-icons/fa6";
@@ -11,15 +11,31 @@ interface StoryPageContentProps {
 }
 
 const StoryPrevewCard: React.FC<StoryPageContentProps> = ({ story }) => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    setProgress(0);
+
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) return 100;
+        return prev + 100 / 150;
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [story]);
+
   if (!story) return null;
   return (
     <div className="h-full  aspect-9/16 bg-background-tertiary rounded-lg overflow-hidden relative">
       {/* Top progress Bar */}
       <div className="absolute z-40 py-4 bg-linear-to-b from-[#000000a2] to-[#00000000] w-full">
-        <div className="topbar  flex gap-1 w-full  px-4 ">
-          <div className="bg-background-transparent w-full h-px rounded-lg">
-            <div className=" progress w-5/12 h-full bg-background-tertiary"></div>
-          </div>
+        <div className="bg-white/50 h-1 rounded-full mx-4 overflow-hidden">
+          <div
+            style={{ width: `${progress}%` }}
+            className="h-full bg-white transition-all"
+          />
         </div>
 
         {/* Profile Section */}
