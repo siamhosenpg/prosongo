@@ -2,11 +2,11 @@ import React from "react";
 
 import DateTime from "@/components/ui/datetime/DateTime";
 import { HiDotsHorizontal } from "react-icons/hi";
-import Link from "next/link";
 import UserBadge from "@/components/ui/text/UserBadge";
 import Image from "next/image";
 
 import { useStoryViewer } from "@/store/useStoryViewer";
+import StoryTime from "@/components/ui/datetime/StoryTime";
 
 const StoryPageLeft = () => {
   const { stories, setCurrentIndex } = useStoryViewer();
@@ -46,7 +46,7 @@ const StoryPageLeft = () => {
                 <UserBadge badges={story.userId?.badges} />
               </span>
               <div className="smalltext">
-                <DateTime date={story.expiresAt} />
+                <StoryTime date={story.createdAt} />
               </div>
             </div>
             <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-background cursor-pointer">

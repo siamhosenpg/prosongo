@@ -28,7 +28,7 @@ const StoryPrevewCard: React.FC<StoryPageContentProps> = ({ story }) => {
 
   if (!story) return null;
   return (
-    <div className="h-full  aspect-9/16 bg-background-tertiary rounded-lg overflow-hidden relative">
+    <div className="h-full  aspect-9/16 bg-background-tertiary rounded-lg border border-border overflow-hidden relative">
       {/* Top progress Bar */}
       <div className="absolute z-40 py-4 bg-linear-to-b from-[#000000a2] to-[#00000000] w-full">
         <div className="bg-white/50 h-1 rounded-full mx-4 overflow-hidden">
