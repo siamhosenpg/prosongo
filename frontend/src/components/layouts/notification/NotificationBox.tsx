@@ -10,7 +10,7 @@ import {
 import { NotificationType } from "@/types/notification"; // ✅ যোগ করো
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 type NotificationBoxProps = {
   onClose: () => void;
@@ -38,8 +38,10 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
   const { mutate: markAsRead } = useMarkNotificationRead();
   const { mutate: markAllAsRead, isPending: isMarkingAllAsRead } =
     useMarkAllNotificationsRead();
-  const { mutate: deleteNotification, isPending: isDeletingNotification } =
-    useDeleteNotification();
+
+  // এটা বসাও:
+  const { mutate: deleteNotification } = useDeleteNotification();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -95,9 +97,9 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
         {notifications.map((noti) => (
           <div
             key={noti._id}
-            className={`flex items-center gap-3 p-3 rounded-lg ${isDeletingNotification ? "opacity-50 animate-pulse" : ""} ${
-              noti.read ? "bg-background" : "bg-accent/6"
-            }`}
+            className={`flex items-center gap-3 p-3 rounded-lg ${
+              deletingId === noti._id ? "opacity-50 animate-pulse" : ""
+            } ${noti.read ? "bg-background" : "bg-accent/6"}`}
           >
             <Link
               href={`/profile/${noti.actorId?.username}`}
@@ -136,9 +138,13 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
               </div>
             </Link>
             <button
+              // delete button onClick:
               onClick={(e) => {
                 e.preventDefault();
-                deleteNotification(noti._id);
+                setDeletingId(noti._id);
+                deleteNotification(noti._id, {
+                  onSettled: () => setDeletingId(null),
+                });
               }}
               className="text-gray-400 text-xl bg-background-secondary w-7 h-7 shrink-0 rounded-full border-border border hover:text-gray-600 transition-colors"
             >
