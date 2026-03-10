@@ -32,6 +32,11 @@ const ShortcutActivity = () => {
           ))}
 
         {isError && <p className="text-red-500">Error loading activities!</p>}
+        {data?.data.length === 0 && (
+          <p className="text-center text-secondary py-16">
+            No recent activities.
+          </p>
+        )}
 
         {data?.data.map((activity) => {
           if (activity.type === "react" && activity.target.postId) {

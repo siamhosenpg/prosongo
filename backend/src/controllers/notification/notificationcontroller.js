@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Notification } from "../../models/notification/notificationmodel.js";
 
 /**
@@ -30,17 +31,33 @@ export const createNotification = async ({
  */
 export const getMyNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({
-      userId: req.user.id,
-    })
-      .populate("actorId", "name username profileImage userid gender ")
-      .populate("userId", "name username profileImage userid  gender")
-      .sort({ createdAt: -1 })
-      .limit(30);
+    const { cursor, limit = 10 } = req.query;
+
+    const query = { userId: req.user.id };
+
+    if (cursor) {
+      // ✅ string কে ObjectId এ convert করতে হবে
+      query._id = { $lt: new mongoose.Types.ObjectId(cursor) };
+    }
+
+    const notifications = await Notification.find(query)
+      .populate("actorId", "name username profileImage userid gender")
+      .populate("userId", "name username profileImage userid gender")
+      .sort({ _id: -1 })
+      .limit(Number(limit) + 1);
+
+    const hasMore = notifications.length > Number(limit);
+    if (hasMore) notifications.pop();
+
+    const nextCursor = hasMore
+      ? notifications[notifications.length - 1]._id
+      : null;
 
     res.status(200).json({
       success: true,
       notifications,
+      nextCursor,
+      hasMore,
     });
   } catch (error) {
     res.status(500).json({
@@ -49,7 +66,6 @@ export const getMyNotifications = async (req, res) => {
     });
   }
 };
-
 /**
  * 🔔 Mark single notification as read
  */
@@ -113,6 +129,25 @@ export const getUnreadNotificationCount = async (req, res) => {
     });
   } catch (error) {
     console.error("getUnreadNotificationCount error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+/**
+ * 🔔 Delete a notification
+ */
+export const deleteNotification = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Notification.findByIdAndDelete(id);
+    res.status(200).json({
+      success: true,
+      message: "Notification deleted successfully",
+    });
+  } catch (error) {
     res.status(500).json({
       success: false,
       message: error.message,
