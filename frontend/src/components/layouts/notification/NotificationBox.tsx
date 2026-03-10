@@ -38,7 +38,8 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
   const { mutate: markAsRead } = useMarkNotificationRead();
   const { mutate: markAllAsRead, isPending: isMarkingAllAsRead } =
     useMarkAllNotificationsRead();
-  const { mutate: deleteNotification } = useDeleteNotification();
+  const { mutate: deleteNotification, isPending: isDeletingNotification } =
+    useDeleteNotification();
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -60,7 +61,7 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
 
   return (
     <div className="fixed top-19 right-5 h-[calc(100vh-90px)] p-4  w-full md:w-100 bg-background border-border border rounded-lg">
-      <div className="max-w-xl h-full mx-auto  space-y-2 overflow-y-auto ScrollSystem ">
+      <div className="max-w-xl h-full pb-28 mx-auto  space-y-2 overflow-y-auto ScrollSystem ">
         <div className="flex items-center justify-between border-b-border border-b pb-3 pr-2">
           <h3 className=" font-semibold">Notifications</h3>
           <button
@@ -94,7 +95,7 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
         {notifications.map((noti) => (
           <div
             key={noti._id}
-            className={`flex items-center gap-3 p-3 rounded-lg ${
+            className={`flex items-center gap-3 p-3 rounded-lg ${isDeletingNotification ? "opacity-50 animate-pulse" : ""} ${
               noti.read ? "bg-background" : "bg-accent/6"
             }`}
           >
@@ -166,7 +167,7 @@ const NotificationBox = ({ onClose }: NotificationBoxProps) => {
         )}
 
         {!hasNextPage && notifications.length > 0 && (
-          <p className="text-center text-xs text-gray-500 py-2">
+          <p className="text-center text-xs text-gray-500 py-2 mt-12">
             No more notifications
           </p>
         )}
