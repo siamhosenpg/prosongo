@@ -1,6 +1,7 @@
 import ProfileFeed from "@/components/layouts/feed/ProfileFeed";
 import ProfileAbout from "@/components/layouts/profile/ProfileAbout";
 import ProfileFollower from "@/components/layouts/profile/ProfileFollower";
+import ProfileLeftProvider from "@/components/layouts/profile/ProfileLeftProvider";
 import ProfilePhotoslist from "@/components/layouts/profile/ProfilePhotoslist";
 import ProfileTopimage from "@/components/layouts/profile/ProfileTopimage";
 import UploadBox from "@/components/layouts/uploadbox/UploadBox";
@@ -44,13 +45,14 @@ const Profile = async ({ params }: PageProps) => {
         <div className="Pagearea">
           <div className="pt-0 md:pt-4 flex flex-col lg:flex-row gap-6 items-start justify-between overflow-visible">
             {/* LEFT SIDE */}
-            <div className="w-full lg:w-7/12 static lg:sticky space-y-4">
+
+            <ProfileLeftProvider>
               <ProfileTopimage user={user} />
 
               <ProfileAbout user={user} />
               <ProfileFollower userId={user._id} />
               <ProfilePhotoslist userId={user._id} />
-            </div>
+            </ProfileLeftProvider>
 
             {/* RIGHT SIDE */}
             <div className="flex-1 w-full lg:w-5/12">
