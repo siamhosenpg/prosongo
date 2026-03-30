@@ -19,7 +19,7 @@ const ProfilePhotoslist: React.FC<useridporps> = ({ userId }) => {
     <div>
       <div className=" px-6 lg:px-12 py-4 lg:py-6 bg-background rounded-lg w-full mb-4 gap-8">
         <h2 className="text-lg font-bold text-loose">Photos</h2>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-5 gap-4">
           {!data || (data.posts.length === 0 && <div>No media Post</div>)}
           {isLoading && <MasonrySkeleton />}
           {isLoading && <MasonrySkeleton />}

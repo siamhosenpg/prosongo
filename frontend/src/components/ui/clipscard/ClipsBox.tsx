@@ -15,7 +15,7 @@ import UserBadge from "../text/UserBadge";
 interface ClipsBoxProps {
   post: PostTypes;
   isPortrait: boolean;
-  isLoading: any;
+  isLoading?: any;
 }
 
 // ✅ ForwardRef added
