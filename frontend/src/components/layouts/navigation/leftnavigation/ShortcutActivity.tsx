@@ -6,6 +6,7 @@ import { GiSoundWaves } from "react-icons/gi";
 import { FaPlay } from "react-icons/fa6";
 import { BsBodyText } from "react-icons/bs";
 import Image from "next/image";
+import ShortcutActivityLoading from "./ShortcutActivityLoading";
 const ShortcutActivity = () => {
   const { data, isLoading, isError } = useLastActivities();
 
@@ -17,19 +18,7 @@ const ShortcutActivity = () => {
       </div>
 
       <div className="grid grid-cols-1  py-2">
-        {isLoading &&
-          Array.from({ length: 5 }).map((_, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-3 rounded-md p-2 animate-pulse bg-background-secondary"
-            >
-              <div className="h-12 w-12 rounded-md bg-gray-300"></div>
-              <div className="flex flex-col gap-1 w-full">
-                <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-                <div className="h-3 bg-gray-300 rounded w-1/2"></div>
-              </div>
-            </div>
-          ))}
+        {isLoading && <ShortcutActivityLoading />}
 
         {isError && <p className="text-red-500">Error loading activities!</p>}
         {data?.data.length === 0 && (

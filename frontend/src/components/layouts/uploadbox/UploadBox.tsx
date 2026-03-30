@@ -3,7 +3,6 @@ import React from "react";
 import { FaImages } from "react-icons/fa6";
 import { MdKeyboardVoice } from "react-icons/md";
 import { MdVideoCameraBack } from "react-icons/md";
-import { RiLiveFill } from "react-icons/ri";
 import CreatePostCard from "../createpost/CreatePostCard";
 
 import { useState } from "react";

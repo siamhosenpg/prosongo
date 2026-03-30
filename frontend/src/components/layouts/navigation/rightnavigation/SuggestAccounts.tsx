@@ -7,6 +7,7 @@ import { UserType } from "@/types/userType";
 import Link from "next/link";
 import UserBadge from "@/components/ui/text/UserBadge";
 import Image from "next/image";
+import SuggestAccountLoading from "./SuggestAccountLoading";
 
 const SuggestAccounts = () => {
   const { data, isLoading, isError } = useSuggestedUsers();
@@ -20,31 +21,7 @@ const SuggestAccounts = () => {
         <button className="text-sm text-secondary">See all</button>
       </div>
       <ul className="mt-3">
-        {isLoading && (
-          <div className="space-y-2">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between mb-1 px-3 py-2 rounded-lg animate-pulse bg-background/50"
-              >
-                <div className="flex items-center gap-2">
-                  {/* Profile Image Skeleton */}
-                  <div className="w-10 h-10 rounded-full bg-background-secondary border border-border" />
-
-                  <div className="flex flex-col gap-1">
-                    {/* Name Skeleton */}
-                    <div className="w-24 h-4 bg-background-secondary rounded-md" />
-                    {/* Username Skeleton */}
-                    <div className="w-16 h-3 bg-background-secondary rounded-md" />
-                  </div>
-                </div>
-
-                {/* Follow Button Skeleton */}
-                <div className="w-16 h-8 bg-background-secondary rounded-md" />
-              </div>
-            ))}
-          </div>
-        )}
+        {isLoading && <SuggestAccountLoading />}
         {data &&
           data.map((user, index) => {
             return (

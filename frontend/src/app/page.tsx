@@ -9,6 +9,12 @@ import SuggestAccounts from "@/components/layouts/navigation/rightnavigation/Sug
 import Storys from "@/components/layouts/storyitems/Storys";
 import UploadBox from "@/components/layouts/uploadbox/UploadBox";
 import { ProtectedRoute } from "@/components/Protected/ProtectedRoute";
+import ProfileStatusBoxLoading from "@/components/layouts/navigation/leftnavigation/ProfileStatusBoxLoading";
+import ShortcutActivityLoading from "@/components/layouts/navigation/leftnavigation/ShortcutActivityLoading";
+import StoryCardSkeleton from "@/components/ui/storycard/StoryCardSkeleton";
+import UploadBoxSkeleton from "@/components/layouts/uploadbox/UploadBoxSkeleton";
+import PostcardLoading from "@/components/ui/postcard/PostcardLoading";
+import SuggestAccountLoading from "@/components/layouts/navigation/rightnavigation/SuggestAccountLoading";
 
 export const metadata = {
   title:
@@ -25,24 +31,46 @@ export default function Home() {
           {/* Left Sidebar */}
           <nav className=" w-[40%] xl:w-[27%] hidden lg:block  sticky top-22.5  h-[calc(100vh-90px)] rounded-t-lg  ">
             <div className="w-full  overflow-y-hidden hover:overflow-y-scroll h-full  ScrollSystem  ">
-              <ProfileStatusBox />
+              <Suspense fallback={<ProfileStatusBoxLoading />}>
+                <ProfileStatusBox />
+              </Suspense>
+
               <Submeunssection />
-              <ShortcutActivity />
+
+              <Suspense fallback={<ShortcutActivityLoading />}>
+                <ShortcutActivity />
+              </Suspense>
             </div>
           </nav>
 
           {/* Main Content */}
           <div className="flex-1 w-full lg:w-[44%] mt-2 md:mt-4  ">
-            <Storys />
-            <UploadBox />
-            <Feed />
+            <Suspense
+              fallback={
+                <div className="flex items-center gap-2 bg-background rounded-lg p-4 mb-4">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <StoryCardSkeleton key={i} />
+                  ))}
+                </div>
+              }
+            >
+              <Storys />
+            </Suspense>
+            <Suspense fallback={<UploadBoxSkeleton />}>
+              <UploadBox />
+            </Suspense>
+            <Suspense fallback={<PostcardLoading />}>
+              <Feed />
+            </Suspense>
           </div>
 
           {/* Right Sidebar */}
           <nav className="w-[27%]  hidden xl:block    sticky  top-22.5  h-[calc(100vh-90px)] rounded-t-lg  ">
             <div className="  overflow-y-hidden hover:overflow-y-scroll ScrollSystem w-full h-full  ">
-              <SuggestAccounts />
-              <NewsShortBox />
+              <Suspense fallback={<SuggestAccountLoading />}>
+                <SuggestAccounts />
+                <NewsShortBox />
+              </Suspense>
             </div>
           </nav>
         </div>

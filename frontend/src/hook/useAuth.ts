@@ -23,47 +23,39 @@ interface AuthResponse {
 export const useAuth = (options?: UseAuthOptions) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-
-  // default true (protected pages), login/register page-এ false দিবি
   const fetchUser = options?.fetchUser ?? true;
-
   const [error, setError] = useState<string | null>(null);
 
-  // ===================== Current User =====================
+  // useQuery রাখতে হবে — enabled:false আর null return
+  // দুটোই useSuspenseQuery-তে সমস্যা করে
   const { data: user, isLoading } = useQuery<AuthResponse | null>({
     queryKey: ["currentUser"],
     enabled: fetchUser,
     retry: false,
+    staleTime: 1000 * 60 * 5, // ✅ 5 min — বারবার fetch বন্ধ করো
     queryFn: async () => {
       try {
         return await getCurrentUser();
       } catch (err: any) {
-        // 401 হলে silently null return (NO throw → NO loop)
-        if (err.response?.status === 401) {
-          return null;
-        }
-
-        // অন্য unexpected error হলে throw
+        if (err.response?.status === 401) return null;
         throw err;
       }
     },
   });
 
-  // ===================== Login =====================
+  // Login
   const login = useMutation({
     mutationFn: loginUser,
     onSuccess: () => {
-      // login সফল হলে currentUser refetch
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       router.push("/");
     },
     onError: (err: any) => {
-      const msg = err.response?.data?.message || "Login failed";
-      setError(msg);
+      setError(err.response?.data?.message || "Login failed");
     },
   });
 
-  // ===================== Register =====================
+  // Register
   const register = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
@@ -71,16 +63,14 @@ export const useAuth = (options?: UseAuthOptions) => {
       router.push("/");
     },
     onError: (err: any) => {
-      const msg = err.response?.data?.message || "Registration failed";
-      setError(msg);
+      setError(err.response?.data?.message || "Registration failed");
     },
   });
 
-  // ===================== Logout =====================
+  // Logout
   const logout = useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
-      // শুধু auth query clear, পুরো cache না
       queryClient.setQueryData(["currentUser"], null);
       router.push("/login");
     },

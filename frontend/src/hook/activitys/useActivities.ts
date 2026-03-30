@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   getUserActivitiesApi,
   getLastFourUserActivitiesApi,
@@ -14,19 +14,17 @@ export const useActivities = ({
   limit = 4,
   skip = 0,
 }: UseActivitiesOptions) => {
-  return useQuery<ActivityResponse>({
+  return useSuspenseQuery<ActivityResponse>({
     queryKey: ["activities", limit, skip],
     queryFn: () => getUserActivitiesApi({ limit, skip }),
-    staleTime: 1000 * 60, // 1 min
+    staleTime: 1000 * 60,
   });
 };
-/**
- * ⚡ Get last 4 activities (shortcut / navbar)
- */
+
 export const useLastActivities = () => {
-  return useQuery<ActivityResponse>({
+  return useSuspenseQuery<ActivityResponse>({
     queryKey: ["activities", "last"],
     queryFn: getLastFourUserActivitiesApi,
-    staleTime: 1000 * 60, // 1 min
+    staleTime: 1000 * 60,
   });
 };

@@ -1,4 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import {
   createStory,
   deleteStory,
@@ -10,9 +14,8 @@ import {
 import { StoryType } from "@/types/storyType";
 
 // ================================
-// Query Keys (Professional way)
+// Query Keys
 // ================================
-
 export const storyQueryKeys = {
   all: ["stories"] as const,
   myStories: ["myStories"] as const,
@@ -21,34 +24,26 @@ export const storyQueryKeys = {
 };
 
 // ================================
-// Create Story Hook
+// Create Story
 // ================================
 export const useCreateStory = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: createStory,
-
     onSuccess: () => {
-      // refresh all story lists
-      queryClient.invalidateQueries({
-        queryKey: storyQueryKeys.all,
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: storyQueryKeys.myStories,
-      });
+      queryClient.invalidateQueries({ queryKey: storyQueryKeys.all });
+      queryClient.invalidateQueries({ queryKey: storyQueryKeys.myStories });
     },
-
     onError: (error) => {
       console.error("Create Story Error:", error);
     },
   });
 };
+
 // ================================
 // Delete Story
 // ================================
-
 export const useDeleteStory = () => {
   const queryClient = useQueryClient();
 
@@ -57,11 +52,7 @@ export const useDeleteStory = () => {
     onSuccess: (_, storyId) => {
       queryClient.invalidateQueries({ queryKey: storyQueryKeys.all });
       queryClient.invalidateQueries({ queryKey: storyQueryKeys.myStories });
-
-      // single story cache remove
-      queryClient.removeQueries({
-        queryKey: storyQueryKeys.story(storyId),
-      });
+      queryClient.removeQueries({ queryKey: storyQueryKeys.story(storyId) });
     },
     onError: (err) => {
       console.error("Delete Story Error:", err);
@@ -70,47 +61,40 @@ export const useDeleteStory = () => {
 };
 
 // ================================
-// Get All Stories (Public Feed)
+// Get All Stories — Suspense-compatible
 // ================================
-
 export const useStories = () => {
-  return useQuery<StoryType[]>({
+  return useSuspenseQuery<StoryType[]>({
     queryKey: storyQueryKeys.all,
     queryFn: async () => {
       const res = await getAllStories();
       return res.stories;
     },
-    staleTime: 1000 * 60, // 1 min cache
+    staleTime: 1000 * 60,
   });
 };
 
 // ================================
-// Get Stories By User
+// Get Stories By User — Suspense-compatible
 // ================================
-
-export const useStoriesByUser = (userId?: string) => {
-  return useQuery<StoryType[]>({
-    queryKey: userId ? storyQueryKeys.userStories(userId) : [],
+export const useStoriesByUser = (userId: string) => {
+  return useSuspenseQuery<StoryType[]>({
+    queryKey: storyQueryKeys.userStories(userId),
     queryFn: async () => {
-      if (!userId) return [];
       const res = await getStoriesByUser(userId);
       return res.stories;
     },
-    enabled: !!userId,
+    staleTime: 1000 * 60,
   });
 };
 
 // ================================
-// Get Single Story By ID
+// Get Single Story By ID — Suspense-compatible
 // ================================
-
-export const useStoryById = (storyId?: string) => {
-  return useQuery<StoryType>({
-    queryKey: storyId ? storyQueryKeys.story(storyId) : [],
-    queryFn: async () => {
-      if (!storyId) throw new Error("Story ID is required");
-      return await getStoryById(storyId);
-    },
-    enabled: !!storyId,
+export const useStoryById = (storyId: string) => {
+  return useSuspenseQuery<StoryType>({
+    queryKey: storyQueryKeys.story(storyId),
+    queryFn: () => getStoryById(storyId),
+    staleTime: 1000 * 60,
   });
 };
